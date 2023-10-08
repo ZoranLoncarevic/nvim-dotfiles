@@ -71,6 +71,9 @@ if dein#load_state(s:dein_base)
 
 endif
 
+" No status line if there's just one window
+set laststatus=1
+
 " Gitgutter plugin configuration
 highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
