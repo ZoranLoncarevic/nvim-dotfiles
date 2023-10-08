@@ -83,6 +83,11 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
 
+" Allways start terminal in insert mode
+autocmd BufEnter term://* startinsert
+autocmd TermOpen * startinsert
+tnoremap <Esc><Esc> <C-\><C-N>
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
