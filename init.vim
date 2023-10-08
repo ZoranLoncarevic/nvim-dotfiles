@@ -82,3 +82,11 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
+
+" Utility functions
+function! MyError(msg)
+	echohl ErrorMsg
+	echomsg a:msg
+	echohl NONE
+	let v:errmsg = a:msg
+endfunction
