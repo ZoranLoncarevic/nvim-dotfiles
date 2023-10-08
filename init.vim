@@ -128,3 +128,67 @@ tnoremap <silent> <C-Space>h <C-\><C-N>:call MyNavigateWindows('h')<cr>
 tnoremap <silent> <C-Space>j <C-\><C-N>:call MyNavigateWindows('j')<cr>
 tnoremap <silent> <C-Space>k <C-\><C-N>:call MyNavigateWindows('k')<cr>
 tnoremap <silent> <C-Space>l <C-\><C-N>:call MyNavigateWindows('l')<cr>
+
+" Delete buffer without closing any windows
+" Taken from https://github.com/moll/vim-bbye
+function! s:mystr2bufnr(buffer)
+	if empty(a:buffer)
+		return bufnr("%")
+	elseif a:buffer =~# '^\d\+$'
+		return bufnr(str2nr(a:buffer))
+	else
+		return bufnr(a:buffer)
+	endif
+endfunction
+
+function! s:bdelete(bang, buffer_name)
+
+	let buffer = s:mystr2bufnr(a:buffer_name)
+	let w:bbye_back = 1
+
+	if buffer < 0
+		return s:error("E516: No match for ".a:buffer_name)
+	endif
+
+	if getbufvar(buffer, "&modified") && empty(a:bang)
+		let error = "E89: No write since last change for buffer "
+		return s:error(error . buffer . " (add ! to override)")
+	endif
+
+	" If the buffer contains changes, we can't switch away from it.
+	" Thus hide it before we eventually delete it.
+	if getbufvar(buffer, "&modified") && !empty(a:bang)
+		call setbufvar(buffer, "&bufhidden", "hide")
+	endif
+
+	" Since adding or hiding buffers might cause new windows to
+	" appear or old windows to disappear thus decrementing total
+	" number of windows, we loop backwards.
+	for window in reverse(range(1, winnr("$")))
+		" For invalid window numbers, winbufnr returns -1.
+		if winbufnr(window) != buffer | continue | endif
+		execute window . "wincmd w"
+
+		" Bprevious also wraps around the buffer list, if necessary:
+		try | exe bufnr("#") > 0 && buflisted(bufnr("#")) ? "buffer #" : "bprevious"
+		catch /^Vim([^)]*):E85:/ " E85: There is no listed buffer
+		endtry
+
+		if bufnr("%") != buffer | continue | endif
+		call MyNewScratchBuffer()
+	endfor
+
+	" Since tabbars and other appearing/disappearing windows change
+	" window numbers, we find where we were manually:
+	let back = filter(range(1, winnr("$")), "getwinvar(v:val, 'bbye_back')")[0]
+	if back | exe back . "wincmd w" | unlet w:bbye_back | endif
+
+	if buflisted(buffer) && buffer != bufnr("%")
+		exe "bdelete" . a:bang . " " . buffer
+	endif
+endfunction
+
+command! -bang -complete=buffer -nargs=? Bdelete
+	\ :call s:bdelete(<q-bang>, <q-args>)
+
+cabbr zb Bdelete
