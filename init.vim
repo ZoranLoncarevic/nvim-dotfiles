@@ -90,3 +90,36 @@ function! MyError(msg)
 	echohl NONE
 	let v:errmsg = a:msg
 endfunction
+
+" Navigation between windows
+" Taken from https://github.com/AnotherProksY/ez-window
+function! MyNewScratchBuffer()
+	enew
+	setl noswapfile
+	setl bufhidden=wipe
+	setl buftype=
+	setl nobuflisted
+endfunction
+
+function! MyNavigateWindows(key)
+	let cur_win = winnr()
+	exec "wincmd " . a:key
+	if (cur_win == winnr())
+		if (match(a:key,'[jk]'))
+			wincmd v
+		else
+			wincmd s
+		endif
+		exec "wincmd " . a:key | call MyNewScratchBuffer()
+	endif
+endfunc
+
+nnoremap <silent> <Space>h :call MyNavigateWindows('h')<cr>
+nnoremap <silent> <Space>j :call MyNavigateWindows('j')<cr>
+nnoremap <silent> <Space>k :call MyNavigateWindows('k')<cr>
+nnoremap <silent> <Space>l :call MyNavigateWindows('l')<cr>
+" Terminal mode
+tnoremap <silent> <C-Space>h <C-\><C-N>:call MyNavigateWindows('h')<cr>
+tnoremap <silent> <C-Space>j <C-\><C-N>:call MyNavigateWindows('j')<cr>
+tnoremap <silent> <C-Space>k <C-\><C-N>:call MyNavigateWindows('k')<cr>
+tnoremap <silent> <C-Space>l <C-\><C-N>:call MyNavigateWindows('l')<cr>
