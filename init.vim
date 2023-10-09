@@ -208,3 +208,31 @@ command! -bang -complete=buffer -nargs=? Bdelete
 	\ :call s:bdelete(<q-bang>, <q-args>)
 
 cabbr zb Bdelete
+
+" Leave insert mode with jk
+" Taken from https://jdhao.github.io/2020/11/23/neovim_better_mapping_for_leaving_insert_mode/
+inoremap <expr> k EscapeInsertOrNot()
+
+function! EscapeInsertOrNot() abort
+  " If k is preceded by j, then remove j and go to normal mode.
+  let line_text = getline('.')
+  let cur_ch_idx = CursorCharIdx()
+  let pre_char = strcharpart(line_text, cur_ch_idx-1,1)
+  echom 'pre_char is:' pre_char
+  if pre_char ==# 'j'
+    return "\b\e"
+  else
+    return 'k'
+  endif
+endfunction
+
+function! CursorCharIdx() abort
+  " A more concise way to get character index under cursor.
+  let cursor_byte_idx = col('.')
+  if cursor_byte_idx == 1
+    return 0
+  endif
+
+  let pre_cursor_text = getline('.')[:col('.')-2]
+  return strchars(pre_cursor_text)
+endfunction
