@@ -168,7 +168,7 @@ function! s:bdelete(bang, buffer_name)
 
 	if getbufvar(buffer, "&modified") && empty(a:bang)
 		let error = "E89: No write since last change for buffer "
-		return s:error(error . buffer . " (add ! to override)")
+		return MyError(error . buffer . " (add ! to override)")
 	endif
 
 	" If the buffer contains changes, we can't switch away from it.
