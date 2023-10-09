@@ -76,6 +76,8 @@ set laststatus=1
 
 " Colorscheme
 highlight CursorLine ctermbg=239 cterm=NONE
+highlight VertSplit ctermfg=7
+highlight StatusLineNC ctermfg=7
 
 " Gitgutter plugin configuration
 highlight! link SignColumn LineNr
