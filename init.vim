@@ -90,6 +90,10 @@ let NERDTreeMinimalUI=1
 " Close NERDTree if it's the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" DelimitMate (autoclosing) plugin configuration
+let delimitMate_expand_space = 1
+let delimitMate_expand_cr = 1
+
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
 
