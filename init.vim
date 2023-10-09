@@ -46,7 +46,7 @@ if dein#load_state(s:dein_base)
 
 " User Interface
   call dein#add('simeji/winresizer')
-  call dein#add('regedarek/ZoomWin')
+  call dein#add('dhruvasagar/vim-zoom')
   call dein#add('terryma/vim-expand-region')
   call dein#add('matze/vim-move')
 
