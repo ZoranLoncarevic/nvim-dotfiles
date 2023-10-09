@@ -74,11 +74,21 @@ endif
 " No status line if there's just one window
 set laststatus=1
 
+" Colorscheme
+highlight CursorLine ctermbg=239 cterm=NONE
+
 " Gitgutter plugin configuration
 highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" NerdTree plugin configuration
+nnoremap <silent> <A-f> :NERDTreeToggle<cr>
+let NERDTreeMinimalUI=1
+
+" Close NERDTree if it's the only window left
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
