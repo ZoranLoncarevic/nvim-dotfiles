@@ -254,11 +254,11 @@ endfunction
 function! MySmartBackspace_terminal()
 	if has_key(b:,'SmartBackspaceInitialTime')
 		let elapsed_time = reltimefloat(reltime(b:SmartBackspaceInitialTime))
-		if elapsed_time > 2
-			return "\b"
+		if elapsed_time < 2
+			return ':call MySmartBackspace_normal()'
 		endif
 	endif
-	return ':call MySmartBackspace_normal()'
+	return "\b"
 endfunction
 
 nnoremap <Backspace> :call MySmartBackspace_normal()<cr>
