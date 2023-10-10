@@ -237,3 +237,26 @@ function! CursorCharIdx() abort
   let pre_cursor_text = getline('.')[:col('.')-2]
   return strchars(pre_cursor_text)
 endfunction
+
+" Use Backspace to cycle through buffers *smartly*
+" including not stalling on terminal buffers
+"
+function! MySmartBackspace_normal()
+	bprev
+	if &buftype ==# 'terminal'
+		let b:SmartBackspaceInitialTime = reltime()
+	endif
+endfunction
+
+function! MySmartBackspace_terminal()
+	if has_key(b:,'SmartBackspaceInitialTime')
+		let elapsed_time = reltimefloat(reltime(b:SmartBackspaceInitialTime))
+		if elapsed_time > 2
+			return "\b"
+		endif
+	endif
+	return ':call MySmartBackspace_normal()'
+endfunction
+
+nnoremap <Backspace> :call MySmartBackspace_normal()<cr>
+tnoremap <expr> <Backspace> MySmartBackspace_terminal()
