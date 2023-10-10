@@ -72,6 +72,9 @@ if dein#load_state(s:dein_base)
 
 endif
 
+" Open new vertical window to the right
+set splitright
+
 " No status line if there's just one window
 set laststatus=1
 
