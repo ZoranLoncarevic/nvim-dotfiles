@@ -31,6 +31,7 @@ if dein#load_state(s:dein_base)
   call dein#add('vim-scripts/taglist.vim', {'on_cmd': [ 'TlistToggle', 'TlistOpen' ]})
   call dein#add('scrooloose/nerdtree', {'on_cmd': 'NERDTreeToggle'})
   call dein#add('chrisbra/NrrwRgn', {'on_cmd': 'NR'})
+  call dein#add('HiPhish/info.vim', {'on_cmd': 'Info'})
 
 " Shells and REPLs
   call dein#add('metakirby5/codi.vim', {'on_cmd': 'Codi' }) 
