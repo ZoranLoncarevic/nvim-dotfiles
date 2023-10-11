@@ -263,3 +263,42 @@ endfunction
 
 nnoremap <Backspace> :call MySmartBackspace_normal()<cr>
 tnoremap <expr> <Backspace> MySmartBackspace_terminal()
+
+" My terminal wrapper
+function! MySwitchToWindowByBuffer(bufn)
+	let this_win=winnr()
+	while 1
+		wincmd w
+		if bufnr('%') == a:bufn
+			return 1
+		elseif this_win == winnr()
+			return 0
+		endif
+	endwhile
+endfunction
+
+function! MyCreateTerminalWrapper()
+	terminal
+endfunction
+
+function! MyTerminalWrapper()
+	if has_key(b:,"MyLinkedTerminalWrapper") && bufexists(b:MyLinkedTerminalWrapper)
+		if MySwitchToWindowByBuffer(b:MyLinkedTerminalWrapper)
+			return 1
+		else
+			vertical split
+			exe 'buffer ' . b:MyLinkedTerminalWrapper
+		endif
+	else
+		let source_buffer=bufnr('%')
+		vertical split
+		call MyCreateTerminalWrapper()
+		let target_buffer=bufnr('%')
+		let b:MyLinkedSourceBuffer=source_buffer
+		exe 'buffer ' . source_buffer
+		let b:MyLinkedTerminalWrapper=target_buffer
+		exe 'buffer' . target_buffer
+	endif
+endfunction
+
+nnoremap <C-C><C-C> :call MyTerminalWrapper()<cr>
