@@ -143,6 +143,7 @@ nnoremap <silent> <Space>h :call MyNavigateWindows('h')<cr>
 nnoremap <silent> <Space>j :call MyNavigateWindows('j')<cr>
 nnoremap <silent> <Space>k :call MyNavigateWindows('k')<cr>
 nnoremap <silent> <Space>l :call MyNavigateWindows('l')<cr>
+    nmap <silent> <Space>m <C-w>m
 " Terminal mode
 tnoremap <silent> <C-Space>h <C-\><C-N>:call MyNavigateWindows('h')<cr>
 tnoremap <silent> <C-Space>j <C-\><C-N>:call MyNavigateWindows('j')<cr>
