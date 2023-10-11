@@ -111,6 +111,10 @@ tnoremap <Esc><Esc> <C-\><C-N>
 " Insert date&time stamp
 iabbrev <expr> ttime strftime("%m/%d/%Y %H:%M")
 
+" Keep visual selection after indenting
+vnoremap > >gv
+vnoremap < <gv
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
