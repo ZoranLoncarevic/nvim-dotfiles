@@ -108,6 +108,9 @@ autocmd BufEnter term://* startinsert
 autocmd TermOpen * startinsert
 tnoremap <Esc><Esc> <C-\><C-N>
 
+" Insert date&time stamp
+iabbrev <expr> ttime strftime("%m/%d/%Y %H:%M")
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
