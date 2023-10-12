@@ -289,14 +289,22 @@ function! MyCreateTerminalWrapper()
 	terminal
 endfunction
 
+function! MyTerminalPostAction(action)
+	if has_key(b:,"MyLinkedSourceBuffer")
+		if type(a:action) == type("string")
+			exe a:action
+		endif
+	endif
+endfunction
+
 function! MyTerminalWrapper()
+	let post_action=get(b:,'MyLinkedPostAction')
 	if has_key(b:,"MyLinkedTerminalWrapper") && bufexists(b:MyLinkedTerminalWrapper)
-		if MySwitchToWindowByBuffer(b:MyLinkedTerminalWrapper)
-			return 1
-		else
+		if !MySwitchToWindowByBuffer(b:MyLinkedTerminalWrapper)
 			vertical split
 			exe 'buffer ' . b:MyLinkedTerminalWrapper
 		endif
+		call MyTerminalPostAction(post_action)
 	else
 		let source_buffer=bufnr('%')
 		vertical split
@@ -309,4 +317,17 @@ function! MyTerminalWrapper()
 	endif
 endfunction
 
+function! SetTerminalWrapperMode(mode)
+	if a:mode == "repeat"
+		let b:MyLinkedPostAction="call MyTerminalWrapperRepeat()"
+	elseif a:mode == "off"
+		let b:MyLinkedPostAction=0
+	endif
+endfunction
+
+function! MyTerminalWrapperRepeat()
+	call feedkeys("\<C-P>\<CR>\<C-\>\<C-N>\<C-W>w")
+endfunction
+
+command! -nargs=1 TerminalWrapperMode call SetTerminalWrapperMode('<args>')
 nnoremap <C-C><C-C> :call MyTerminalWrapper()<cr>
