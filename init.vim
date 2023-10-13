@@ -100,6 +100,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
 
+" Enable folding for markdown filetype
+let g:markdown_folding = 1
+
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
 
