@@ -118,6 +118,9 @@ iabbrev <expr> ttime strftime("%m/%d/%Y %H:%M")
 vnoremap > >gv
 vnoremap < <gv
 
+" Clear search highlighting
+nnoremap <silent> \\ :nohlsearch<CR>
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
