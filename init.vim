@@ -100,6 +100,10 @@ highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 " Load telescope-fzf-native extension
 lua require('telescope').load_extension('fzf')
 
+" Vim-move plugin configuration
+let g:move_key_modifier = 'C'
+let g:move_key_modifier_visualmode = 'C'
+
 " NerdTree plugin configuration
 nnoremap <silent> <A-f> :NERDTreeToggle<cr>
 let NERDTreeMinimalUI=1
