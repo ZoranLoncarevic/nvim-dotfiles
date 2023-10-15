@@ -61,6 +61,13 @@ if dein#load_state(s:dein_base)
   call dein#add('kana/vim-textobj-user')
   call dein#add('kana/vim-textobj-function')
 
+" Nvim only plugins
+  if has('nvim')
+	call dein#add('nvim-lua/plenary.nvim')
+	call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.4' })
+	call dein#add('nvim-telescope/telescope-fzf-native.nvim', { 'build': 'make' })
+  endif
+
 " Add Hoc Plugins
   call dein#add('tyru/capture.vim')
   call dein#add('tpope/vim-commentary')
@@ -89,6 +96,9 @@ highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" Load telescope-fzf-native extension
+lua require('telescope').load_extension('fzf')
 
 " NerdTree plugin configuration
 nnoremap <silent> <A-f> :NERDTreeToggle<cr>
