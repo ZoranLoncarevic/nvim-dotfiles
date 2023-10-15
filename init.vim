@@ -290,8 +290,8 @@ function! MySmartBackspace_terminal()
 	return "\b"
 endfunction
 
-nnoremap <Backspace> :call MySmartBackspace_normal()<cr>
-tnoremap <expr> <Backspace> MySmartBackspace_terminal()
+nnoremap <silent> <Backspace> :call MySmartBackspace_normal()<cr>
+tnoremap <silent> <expr> <Backspace> MySmartBackspace_terminal()
 
 " My terminal wrapper
 function! MySwitchToWindowByBuffer(bufn)
