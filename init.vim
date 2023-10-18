@@ -352,3 +352,33 @@ endfunction
 
 command! -nargs=1 TerminalWrapperMode call SetTerminalWrapperMode('<args>')
 nnoremap <C-C><C-C> :call MyTerminalWrapper()<cr>
+
+" Codi configuration
+function! s:codi_guile_preprocess(line)
+	return substitute(a:line, "^$[0-9]\\+ = ", "", "")
+endfunction
+
+function! s:codi_guile_rephrase(buffer)
+	let buffer="\n".a:buffer
+	while match(buffer,"\n[^\t ][^\n]*\n[\t ]\\+") != -1
+		let buffer=substitute(buffer,"\n\\([^\t ][^\n]\\+\\)\n[\t ]\\+\\([^\n]*\\)","\n;;\n\\1 \\2","")
+	endwhile
+	let buffer=substitute(buffer,"\n\n","\n;;\n","g")
+	return buffer[1:]
+endfunction
+
+let g:codi#interpreters = {
+\      'python': {
+\         'bin': 'python3',
+\      },
+\      'scheme': {
+\         'bin': 'guile-expect',
+\         'prompt': '^scheme@(guile-user)[^>]*> ',
+\         'preprocess': function('s:codi_guile_preprocess'),
+\         'rephrase': function('s:codi_guile_rephrase'),
+\      },
+\      'javascript.gjs': {
+\         'bin': 'gjs-expect',
+\         'prompt': '^gjs> \|\.\.\.\. ',
+\      }
+\}
