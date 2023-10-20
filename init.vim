@@ -382,3 +382,44 @@ let g:codi#interpreters = {
 \         'prompt': '^gjs> \|\.\.\.\. ',
 \      }
 \}
+
+" Scheme support
+
+autocmd FileType scheme setl tags+=$HOME/.config/nvim/ctags/guile
+autocmd FileType scheme setl keywordprg=:GuileHelp
+
+command! -nargs=1 GuileHelp :call MyGuileHelp(<q-args>)
+function! MyGuileHelp(word)
+	let l:word = substitute(a:word, "\\\\\\\*", "*", "g")
+	let l:xRefString = system(['fgrep', '-m1', '* '.l:word.':', '/home/ivan/export-p.txt'])
+	let l:xRefString = trim(l:xRefString)
+	if l:xRefString == ""
+		call MyError("Sorry, no entry for ".l:word)
+	else
+		let l:xRef = info#reference#decode(l:xRefString, {'File': 'guile.info'})
+		let l:uri = info#uri#encode(l:xRef)
+		if s:my_find_inf_window()
+			execute 'silent edit' info#uri#exescape(l:uri)
+		else
+			execute 'silent split' info#uri#exescape(l:uri)
+		endif
+	endif
+endfunction
+
+function! s:my_find_inf_window() abort
+     if &filetype ==# 'info'
+          return 1
+      elseif winnr('$') ==# 1
+          return 0
+      endif                                                                              
+
+      let l:thiswin = winnr()
+      while 1 
+          wincmd w
+          if &filetype ==# 'info'
+              return 1
+          elseif l:thiswin ==# winnr()
+              return 0
+          endif
+       endwhile
+endfunction
