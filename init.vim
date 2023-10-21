@@ -388,10 +388,11 @@ let g:codi#interpreters = {
 autocmd FileType scheme setl tags+=$HOME/.config/nvim/ctags/guile
 autocmd FileType scheme setl keywordprg=:GuileHelp
 
+let g:guile_info_index_file = $HOME . '/.config/nvim/data/guile-info.index'
 command! -nargs=1 GuileHelp :call MyGuileHelp(<q-args>)
 function! MyGuileHelp(word)
 	let l:word = substitute(a:word, "\\\\\\\*", "*", "g")
-	let l:xRefString = system(['fgrep', '-m1', '* '.l:word.':', '/home/ivan/export-p.txt'])
+	let l:xRefString = system(['fgrep', '-m1', '* '.l:word.':', g:guile_info_index_file])
 	let l:xRefString = trim(l:xRefString)
 	if l:xRefString == ""
 		call MyError("Sorry, no entry for ".l:word)
