@@ -423,3 +423,30 @@ function! s:my_find_inf_window() abort
           endif
        endwhile
 endfunction
+
+" DFS traversal of Info pages
+function! MyInfoDFSTraverse()
+	if has_key(b:info,'Menu')
+		call MyInfoGoto(b:info.Menu[0])
+	elseif has_key(b:info,'Next')
+		call MyInfoGoto(b:info.Next)
+	else
+		while has_key(b:info,'Up')
+			call MyInfoGoto(b:info.Up)
+			if has_key(b:info,'Next')
+				call MyInfoGoto(b:info.Next)
+				return(1)
+			endif
+		endwhile
+	endif
+endfunction
+
+function! MyInfoGoto(reference)
+	execute 'silent edit' info#uri#exescape(info#uri#encode(a:reference))
+endfunction
+
+autocmd FileType info nnoremap <Space><Space> :call MyInfoDFSTraverse()<cr>
+autocmd FileType info nnoremap <A-Left>  :InfoPrev<cr>
+autocmd FileType info nnoremap <A-Right> :InfoNext<cr>
+autocmd FileType info nnoremap <A-Up>    :InfoUp<cr>
+
