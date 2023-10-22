@@ -129,6 +129,11 @@ tnoremap <Esc><Esc> <C-\><C-N>
 " Insert date&time stamp
 iabbrev <expr> ttime strftime("%m/%d/%Y %H:%M")
 
+" Diff unsaved changes in the buffer as edited by the user
+" against the file on disk. From :help :DiffOrig
+command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
+                \ | diffthis | wincmd p | diffthis
+
 " Keep visual selection after indenting
 vnoremap > >gv
 vnoremap < <gv
