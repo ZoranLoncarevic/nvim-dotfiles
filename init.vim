@@ -451,3 +451,137 @@ autocmd FileType info nnoremap <A-Left>  :InfoPrev<cr>
 autocmd FileType info nnoremap <A-Right> :InfoNext<cr>
 autocmd FileType info nnoremap <A-Up>    :InfoUp<cr>
 
+" Personal implementation of orgmode
+" See https://github.com/albfan/ag.vim/commit/bdccf94877401035377aafdcf45cd44b46a50fb5
+autocmd BufNewFile,BufRead *.org setfiletype org
+autocmd Filetype org setl conceallevel=2
+autocmd Filetype org setl concealcursor=nc
+autocmd Filetype org setl nowrap
+
+function! MyOrgModeForwardSkipConceal(count)
+  let cnt=a:count
+  let mvcnt=0
+  let c=col('.')
+  let l=line('.')
+  let lc=col('$')
+  let line=getline('.')
+  while cnt
+    if c>=lc
+      let mvcnt+=cnt
+      break
+    endif
+    if stridx(&concealcursor, 'n')==-1
+      let isconcealed=0
+    else
+      let [isconcealed, cchar, group]=synconcealed(l, c)
+      if !isconcealed && synconcealed(l,c+1)[0]
+	      let c+=1
+	      let cnt-=1
+	      let mvcnt+=1
+	      let [isconcealed, cchar, group]=synconcealed(l, c)
+      endif
+    endif
+    if isconcealed
+      let cnt-=strchars(cchar)
+      let oldc=c
+      let c+=1
+      while c<lc && synconcealed(l, c)[0]
+        let c+=1
+      endwhile
+      let mvcnt+=strchars(line[oldc-1:c-2])
+    else
+      let cnt-=1
+      let mvcnt+=1
+      let c+=len(matchstr(line[c-1:], '.'))
+    endif
+  endwhile
+  "exec "normal ".mvcnt."l"
+  return ":\<C-u>\e".mvcnt."l"
+endfunction
+
+function! MyOrgModeBackwardSkipConceal(count)
+  let cnt=a:count
+  let mvcnt=0
+  let c=col('.')
+  let l=line('.')
+  let lc=1
+  let line=getline('.')
+  while cnt
+    if c<=lc
+      let mvcnt+=cnt
+      break
+    endif
+    if stridx(&concealcursor, 'n')==-1
+      let isconcealed=0
+    else
+      let [isconcealed, cchar, group]=synconcealed(l, c)
+      if !isconcealed && synconcealed(l,c-1)[0]
+	      let c-=1
+	      let cnt-=1
+	      let mvcnt+=1
+	      let [isconcealed, cchar, group]=synconcealed(l, c)
+      endif
+    endif
+    if isconcealed
+      let cnt-=strchars(cchar)
+      let oldc=c
+      let c-=1
+      while c>lc && synconcealed(l, c)[0]
+        let c-=1
+      endwhile
+      let mvcnt+=strchars(line[c:oldc-1])
+    else
+      let cnt-=1
+      let mvcnt+=1
+      let c-=len(matchstr(line[c-1:], '.'))
+    endif
+  endwhile
+  "exec "normal ".mvcnt."h"
+  return ":\<C-u>\e".mvcnt."h"
+endfunction
+
+autocmd Filetype org nnoremap <expr> <silent> <buffer> l MyOrgModeForwardSkipConceal(v:count1)
+autocmd Filetype org nnoremap <expr> <silent> <buffer> h MyOrgModeBackwardSkipConceal(v:count1)
+
+function! MyOrgModeFollowLinkUnderCursor()
+	let l:referencePattern='\v\[\[([^\]]+)\](\[([^\]]+)\])?\]'
+
+	let l:line=getline('.')
+	let l:col=col('.')
+	let l:start=0
+
+	while l:col>=l:start
+		let l:start=match(l:line, l:referencePattern)+1
+		let l:end=matchend(l:line, l:referencePattern)
+
+		if l:start<0 || l:end<0
+			break
+		endif
+
+		if l:col < l:end
+			let l:link=matchlist(l:line, l:referencePattern)
+			call MyOrgModeFollowLink(l:link[1])
+			return
+		endif
+
+		let l:line=l:line[l:end:]
+		let l:col-=l:end
+		let l:start=0
+	endwhile	
+endfunction
+
+function! MyOrgModeFollowLink(linkString)
+	echo a:linkString
+	if match(a:linkString,"^https\?\:\/\/") != -1
+		silent exe "!xdg-open \"" . a:linkString . "\" &"
+	elseif match(a:linkString,"\\.mp4$") != -1
+		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
+	elseif match(a:linkString,"\\.org$") != -1
+		exe "edit ".a:linkString
+	else
+		silent exe "!xdg-open \"" . a:linkString . "\" &"
+	endif
+endfunction
+
+autocmd Filetype org nnoremap <silent> <buffer> <CR> :call MyOrgModeFollowLinkUnderCursor()<cr>
+autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkUnderCursor()<cr>
