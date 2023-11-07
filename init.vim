@@ -576,12 +576,13 @@ function! MyOrgModeFollowLinkUnderCursor()
 endfunction
 
 function! MyOrgModeFollowLink(linkString)
+	let l:openInNeovim='\.\(c\|cpp\|h\|hpp\|scm\|vim\|org\)$'
 	echo a:linkString
 	if match(a:linkString,"^https\?\:\/\/") != -1
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
 	elseif match(a:linkString,"\\.mp4$") != -1
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
-	elseif match(a:linkString,"\\.org$") != -1
+	elseif match(a:linkString,l:openInNeovim) != -1
 		exe "edit ".a:linkString
 	else
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
