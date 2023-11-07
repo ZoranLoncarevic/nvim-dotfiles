@@ -591,3 +591,30 @@ endfunction
 
 autocmd Filetype org nnoremap <silent> <buffer> <CR> :call MyOrgModeFollowLinkUnderCursor()<cr>
 autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkUnderCursor()<cr>
+
+" Navigate between diary entries
+function! MyEditDiary(what)
+	
+	if !filereadable(expand("%"))
+		silent write
+	endif
+
+	let directory=expand("%:p:h")
+	let file_list=glob(directory.'/*',v:false,v:true)
+	let position=index(file_list, expand("%:p"))
+
+	if a:what == "next"
+		if position>-1 && position<len(file_list)-1
+			exe "edit " . l:file_list[position+1]
+		endif
+	elseif a:what == "prev"
+		if position>0
+			exe "edit " . l:file_list[position-1]
+		endif
+	endif
+	echo expand("%:t")
+endfunction
+
+autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Left> :call MyEditDiary("prev")<cr>
+autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Right> :call MyEditDiary("next")<cr>
+command Note exe "edit " . $HOME . "/Zetelkastten/Daily Log/" . strftime("%m-%d-%Y") . ".org"
