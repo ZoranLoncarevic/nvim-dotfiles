@@ -104,6 +104,9 @@ lua require('telescope').load_extension('fzf')
 let g:move_key_modifier = 'C'
 let g:move_key_modifier_visualmode = 'C'
 
+" A synonym for CtrlSF command
+command! -nargs=* Find CtrlSF <args>
+
 " NerdTree plugin configuration
 nnoremap <silent> <A-f> :NERDTreeToggle<cr>
 let NERDTreeMinimalUI=1
