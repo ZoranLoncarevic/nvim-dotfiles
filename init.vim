@@ -152,6 +152,12 @@ function! MyError(msg)
 	let v:errmsg = a:msg
 endfunction
 
+function! MyDebug(msg)
+	if exists("g:mydebug") && g:mydebug > 0
+		echo a:msg
+	endif
+endfunction
+
 " Navigation between windows
 " Taken from https://github.com/AnotherProksY/ez-window
 function! MyNewScratchBuffer()
@@ -621,3 +627,96 @@ endfunction
 autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Left> :call MyEditDiary("prev")<cr>
 autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Right> :call MyEditDiary("next")<cr>
 command Note exe "edit " . $HOME . "/Zetelkastten/Daily Log/" . strftime("%m-%d-%Y") . ".org"
+
+" Automatic tags management
+command! AutoTags :call MyAutoAddTagFile()
+
+function! MyAutoAddTagFile()
+	let base_dir = MyGetBaseProjectDirectory(expand("%:p:h"))
+	let language = MyTagFiletypeToLanguage(&filetype)
+
+	if base_dir == ""
+		return ""
+	endif
+
+	let tag_file = MyGetAutoTagFile(base_dir,language)
+	if tag_file != ""
+		" Nothing to do if already done...
+		if exists("b:AutoTagInserted")
+			return ""
+		endif
+		let b:AutoTagInserted = 1
+
+		" Take care of already loaded buffers...
+		let currBuff=bufnr("%")
+		bufdo if (expand("%:p") =~ "^" . l:base_dir) && 
+		      \  (MyTagFiletypeToLanguage(&filetype) == l:language) | 
+		      \     exe "setl tags+=" . l:tag_file | 
+		      \     let b:AutoTagInserted=1 | 
+	              \ endif
+		execute 'buffer ' . currBuff
+
+		" And set it up for future buffers...
+		exe "augroup " . matchstr(tag_file,'-\zs[a-z0-9]*') . "\n" .
+		  \ "  autocmd!" . " | " .
+		  \ "augroup END"
+		exe "autocmd! " . matchstr(tag_file,'-\zs[a-z0-9]*') .
+		  \ "  BufNewFile,BufRead " . l:base_dir . "/* " .
+		  \ "  setl tags+=" . l:tag_file
+		
+		call MyDebug( "Phase 3: Setting tagfile..." . tag_file )
+	endif
+endfunction
+
+function! MyGetBaseProjectDirectory(dir)
+	if a:dir =~ '^/usr/local/share/TeXmacs/progs/'
+		return '/usr/local/share/TeXmacs/progs'
+	else
+		let external_cmd='echo $(cd "' . a:dir . '"; git rev-parse --show-toplevel)'
+		return system(external_cmd)->trim()
+	endif
+endfunction
+
+function! MyGetAutoTagFile(base_dir, language)
+	let tag_file = fnamemodify(a:base_dir,":t") . '-'
+	let tag_file .= substitute(system("sha1sum", a:base_dir . ':' . a:language)," .*$",".tags","")
+	let tag_file = $HOME . "/.config/nvim/ctags/" . l:tag_file
+	
+	call MyDebug( "Phase 1: Determine tag file name: " . tag_file )
+	if !filereadable(tag_file)
+		let tag_file = MyMakeTagFile(tag_file, a:base_dir, a:language)
+	endif
+	
+	return tag_file
+endfunction
+
+function! MyMakeTagFile(tag_file, base_dir, language)
+	let command = 'find "' . a:base_dir . '" -regex '
+	let pattern = MyTagLanguageToPattern(a:language)
+	let command .= "'" . l:pattern . "' | "
+	let command .= "ctags -L - -f '" . a:tag_file . "'"
+	call MyDebug( "Phase 2: Running " . l:command )
+	silent exe "!" . l:command
+	return a:tag_file
+endfunction
+
+function! MyTagLanguageToPattern(language)
+	if a:language == 'scheme'
+		let pattern='.*[.]scm'
+	elseif a:language == 'c-or-cpp'
+		let pattern='.*[.]\(c\|h\|cpp\)'
+	elseif a:language == 'vim'
+		let pattern='.*[.]vim'
+	else
+		let pattern='.*'
+	endif
+	return pattern
+endfunction
+
+function! MyTagFiletypeToLanguage(filetype)
+	if a:filetype == 'c' || a:filetype == 'cpp'
+		return 'c-or-cpp'
+	else
+		return a:filetype
+	endif
+endfunction
