@@ -629,9 +629,9 @@ autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer
 command Note exe "edit " . $HOME . "/Zetelkastten/Daily Log/" . strftime("%m-%d-%Y") . ".org"
 
 " Automatic tags management
-command! AutoTags :call MyAutoAddTagFile()
+command! -bang AutoTags :call MyAutoAddTagFile("<bang>")
 
-function! MyAutoAddTagFile()
+function! MyAutoAddTagFile(bang)
 	let base_dir = MyGetBaseProjectDirectory(expand("%:p:h"))
 	let language = MyTagFiletypeToLanguage(&filetype)
 
@@ -639,7 +639,7 @@ function! MyAutoAddTagFile()
 		return ""
 	endif
 
-	let tag_file = MyGetAutoTagFile(base_dir,language)
+	let tag_file = MyGetAutoTagFile(base_dir,language,a:bang)
 	if tag_file != ""
 		" Nothing to do if already done...
 		if exists("b:AutoTagInserted")
@@ -677,13 +677,13 @@ function! MyGetBaseProjectDirectory(dir)
 	endif
 endfunction
 
-function! MyGetAutoTagFile(base_dir, language)
+function! MyGetAutoTagFile(base_dir, language, bang)
 	let tag_file = fnamemodify(a:base_dir,":t") . '-'
 	let tag_file .= substitute(system("sha1sum", a:base_dir . ':' . a:language)," .*$",".tags","")
 	let tag_file = $HOME . "/.config/nvim/ctags/" . l:tag_file
 	
 	call MyDebug( "Phase 1: Determine tag file name: " . tag_file )
-	if !filereadable(tag_file)
+	if !filereadable(tag_file) || a:bang == "!"
 		let tag_file = MyMakeTagFile(tag_file, a:base_dir, a:language)
 	endif
 	
