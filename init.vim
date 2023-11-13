@@ -720,3 +720,14 @@ function! MyTagFiletypeToLanguage(filetype)
 		return a:filetype
 	endif
 endfunction
+
+" Automatically invoke AutoTags if tag is not found
+function! MyTagCommand()
+	try
+		silent exe 'tag' expand('<cword>')
+	catch
+		AutoTags
+		exe 'tag' expand('<cword>')
+	endtry
+endfunction
+nnoremap <silent> <C-]> :call MyTagCommand()<cr>
