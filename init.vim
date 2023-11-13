@@ -142,6 +142,9 @@ command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
 vnoremap > >gv
 vnoremap < <gv
 
+" Uppercase preceding word
+inoremap <A-u> <esc>mzgUiw`za
+
 " Clear search highlighting
 nnoremap <silent> \\ :nohlsearch<CR>
 
