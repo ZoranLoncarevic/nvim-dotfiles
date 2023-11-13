@@ -123,6 +123,7 @@ let g:markdown_folding = 1
 
 " Source current file when editing vim script
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
+auto FileType vim vnoremap <buffer> <C-C><C-C> y:<c-u>@"<cr>
 
 " Allways start terminal in insert mode
 autocmd BufEnter term://* startinsert
