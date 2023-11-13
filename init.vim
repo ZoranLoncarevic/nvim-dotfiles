@@ -365,8 +365,24 @@ function! MyTerminalWrapperRepeat()
 	call feedkeys("\<C-P>\<CR>\<C-\>\<C-N>\<C-W>w")
 endfunction
 
+function! MyTerminalWrapperSendBlock()
+	let [line_start, column_start] = getpos("'<")[1:2]
+	let [line_end, column_end]     = getpos("'>")[1:2]
+	let lines = getline(line_start, line_end)
+
+	call MyTerminalWrapper()
+	if !exists('b:terminal_job_id')
+		return ""
+	endif
+
+	call chansend(b:terminal_job_id, join(lines,"\n") . "\n")
+	stopinsert
+	wincmd p
+endfunction
+
 command! -nargs=1 TerminalWrapperMode call SetTerminalWrapperMode('<args>')
 nnoremap <C-C><C-C> :call MyTerminalWrapper()<cr>
+vnoremap <silent> <C-C><C-C> :<c-u>call MyTerminalWrapperSendBlock()<cr>
 
 " Codi configuration
 function! s:codi_guile_preprocess(line)
