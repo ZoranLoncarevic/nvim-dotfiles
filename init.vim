@@ -73,6 +73,7 @@ if dein#load_state(s:dein_base)
   call dein#add('tpope/vim-commentary')
   call dein#add('mhinz/vim-startify')
   call dein#add('junegunn/vim-peekaboo')
+  call dein#add('lambdalisue/suda.vim')
   call dein#add('dyng/ctrlsf.vim', {'on_cmd': 'CtrlSF<Space>'})
 
   call dein#end()
@@ -132,6 +133,9 @@ tnoremap <Esc><Esc> <C-\><C-N>
 
 " Insert date&time stamp
 iabbrev <expr> ttime strftime("%m/%d/%Y %H:%M")
+
+" Write file as root using suda.vim
+cnoreabbrev w!! SudaWrite
 
 " Diff unsaved changes in the buffer as edited by the user
 " against the file on disk. From :help :DiffOrig
