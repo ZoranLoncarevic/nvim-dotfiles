@@ -122,9 +122,11 @@ let delimitMate_expand_cr = 1
 " Enable folding for markdown filetype
 let g:markdown_folding = 1
 
-" Source current file when editing vim script
+" Source current file when editing vim and lua scripts
 auto FileType vim nnoremap <buffer> <C-C><C-C> :update \| source %<cr>
 auto FileType vim vnoremap <buffer> <C-C><C-C> y:<c-u>@"<cr>
+auto FileType lua nnoremap <buffer> <C-C><C-C> :update \| luafile %<cr>
+auto FileType lua vnoremap <buffer> <C-C><C-C> y:<c-u>lua <c-r>"<cr>
 
 " Allways start terminal in insert mode
 autocmd BufEnter term://* startinsert
