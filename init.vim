@@ -156,7 +156,7 @@ inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
 
 " Clear search highlighting
-nnoremap <silent> \\ :nohlsearch<CR>
+nnoremap <silent> \\ :nohlsearch\|echon<CR>
 
 " Utility functions
 function! MyError(msg)
