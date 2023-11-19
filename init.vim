@@ -714,6 +714,7 @@ function! MyGetAutoTagFile(base_dir, language, bang)
 	
 	call MyDebug( "Phase 1: Determine tag file name: " . tag_file )
 	if !filereadable(tag_file) || a:bang == "!"
+		echo "Generated " . tag_file
 		let tag_file = MyMakeTagFile(tag_file, a:base_dir, a:language)
 	endif
 	
