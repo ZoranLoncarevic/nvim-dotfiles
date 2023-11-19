@@ -702,7 +702,7 @@ function! MyGetBaseProjectDirectory(dir)
 	if a:dir =~ '^/usr/local/share/TeXmacs/progs/'
 		return '/usr/local/share/TeXmacs/progs'
 	else
-		let external_cmd='echo $(cd "' . a:dir . '"; git rev-parse --show-toplevel)'
+		let external_cmd='echo $(cd "' . a:dir . '"; git rev-parse --show-toplevel 2>/dev/null)'
 		return system(external_cmd)->trim()
 	endif
 endfunction
@@ -758,7 +758,11 @@ function! MyTagCommand()
 		silent exe 'tag' expand('<cword>')
 	catch
 		AutoTags
-		exe 'tag' expand('<cword>')
+		try
+		   exe 'tag' expand('<cword>')
+	        catch
+		   call MyError('E426: tag not found: '.expand('<cword>'))
+	        endtry
 	endtry
 endfunction
 nnoremap <silent> <C-]> :call MyTagCommand()<cr>
