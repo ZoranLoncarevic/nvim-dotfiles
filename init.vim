@@ -769,3 +769,52 @@ function! MyTagCommand()
 	endtry
 endfunction
 nnoremap <silent> <C-]> :call MyTagCommand()<cr>
+
+" Set custom behaviour for this and all subsequently
+" loaded buffers of the same filetype.
+command! -nargs=* Set :call MySetFiletypeOption(<f-args>)
+function! MySetFiletypeOption(...)
+	if a:0>0
+		let command = MyGetFiletypeSpecificCommand(&filetype,a:1)
+		if command != {}
+		  exe l:command.immediate
+		  call MySetFiletypeSpecificAutocommand(&filetype,l:command.auto)
+		endif
+	endif
+endfunction
+
+function! MySetFiletypeSpecificAutocommand(filetype,command)
+	let group='MFSC-'.a:filetype
+	exe "augroup " . l:group . "\n" .
+	  \ "  autocmd!" . " | " .
+	  \ "augroup END"
+	exe "autocmd! " . l:group .
+	  \ "  FileType " . a:filetype . " " . a:command
+endfunction
+
+function! MyGetFiletypeSpecificCommand(filetype,option)
+	if a:option == "fold"
+		return My_option_fold(&filetype)
+	elseif a:option == "fold!"
+		return My_option_fold_bang(&filetype)
+	else
+		return {}
+	endif
+endfunction
+
+function! My_option_fold(filetype)
+	if a:filetype == "lua" || a:filetype == "vim"
+		return { 'immediate': "setl foldmethod=indent",
+		     \   'auto': "setl foldmethod=indent", }
+	elseif a:filetype == "c" || a:filetype == "cpp"
+		return { 'immediate': "setl foldmethod=syntax",
+		     \   'auto': "setl foldmethod=syntax", }
+	endif
+endfunction
+
+function! My_option_fold_bang(filetype)
+	return { 'immediate': "setl foldmethod=manual|norm zE",
+	     \   'auto': "exe", }
+	endif
+endfunction
+
