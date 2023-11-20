@@ -87,6 +87,9 @@ set splitright
 " No status line if there's just one window
 set laststatus=1
 
+" Some filetype defaults
+auto FileType lua setl shiftwidth=2
+
 " Colorscheme
 highlight CursorLine ctermbg=239 cterm=NONE
 highlight VertSplit ctermfg=7
