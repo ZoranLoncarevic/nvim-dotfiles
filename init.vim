@@ -728,10 +728,19 @@ function! MyMakeTagFile(tag_file, base_dir, language)
 	let command = 'find "' . a:base_dir . '" -regex '
 	let pattern = MyTagLanguageToPattern(a:language)
 	let command .= "'" . l:pattern . "' | "
-	let command .= "ctags -L - -f '" . a:tag_file . "'"
+	let ctags = MyCtagsBinaryFor(a:language)
+	let command .= l:ctags . "'" . a:tag_file . "'"
 	call MyDebug( "Phase 2: Running " . l:command )
 	silent exe "!" . l:command
 	return a:tag_file
+endfunction
+
+function! MyCtagsBinaryFor(language)
+	if a:language == "lua"
+		return "utags-lua "
+	else
+		return "ctags -L - -f "
+	endif
 endfunction
 
 function! MyTagLanguageToPattern(language)
@@ -741,6 +750,8 @@ function! MyTagLanguageToPattern(language)
 		let pattern='.*[.]\(c\|h\|cpp\)'
 	elseif a:language == 'vim'
 		let pattern='.*[.]vim'
+	elseif a:language == 'lua'
+		let pattern='.*[.]lua'
 	else
 		let pattern='.*'
 	endif
