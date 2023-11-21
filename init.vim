@@ -161,6 +161,9 @@ inoremap <c-]> <c-x><c-]>
 " Clear search highlighting
 nnoremap <silent> \\ :nohlsearch\|echon<CR>
 
+" e %. opens Netrw/NERDTree in current file's directory (like Explore)
+cabbr <expr> %. getcmdtype() == ':' && getcmdline() == "e %." ? expand("%:p:h") : "%."
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
