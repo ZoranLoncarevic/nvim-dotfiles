@@ -832,3 +832,33 @@ function! My_option_fold_bang(filetype)
 	endif
 endfunction
 
+" Execute Ex command in the current file's or project's directory
+command! -nargs=1 FromCfd call MyRunInCurrentFileDirectory(<f-args>)
+command! -nargs=1 FromProj call MyRunInCurrentProject(<f-args>)
+
+function! MyRunInCurrentFileDirectory(cmd)
+	call MyRunInDirectory(a:cmd, expand("%:p:h"))
+endfunction
+
+function! MyRunInCurrentProject(cmd)
+	let proj_base = MyGetBaseProjectDirectory(expand("%:p:h"))
+	if proj_base != ""
+		call MyRunInDirectory(a:cmd, proj_base)
+	endif
+endfunction
+
+function! MyRunInDirectory(cmd, dir)
+	let rdir = getcwd()
+	if haslocaldir(0)
+		let rcmd = "lcd"
+	elseif haslocaldir(-1)
+		let rcmd = "tcd"
+	else
+		let rcmd = "cd"
+	endif
+
+	execute rcmd a:dir
+	execute a:cmd
+	execute rcmd rdir
+endfunction
+
