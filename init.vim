@@ -101,8 +101,9 @@ highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
-" Load telescope-fzf-native extension
+" Configure telescope fuzzy finder
 lua require('telescope').load_extension('fzf')
+lua require('telescope_configuration')
 
 " Vim-move plugin configuration
 let g:move_key_modifier = 'C'
