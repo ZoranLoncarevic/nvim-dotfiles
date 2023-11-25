@@ -148,7 +148,9 @@ cnoreabbrev w!! SudaWrite
 
 " Diff unsaved changes in the buffer as edited by the user
 " against the file on disk. From :help :DiffOrig
-command DiffOrig vert new | set buftype=nofile | read ++edit # | 0d_
+command! DiffOrig let my_diff_orig_filetype=&filetype |
+                \ vert new | set buftype=nofile | read ++edit # | 0d_
+                \ | call setbufvar("%","&filetype",my_diff_orig_filetype)
                 \ | diffthis | wincmd p | diffthis
 
 " Keep visual selection after indenting
