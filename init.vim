@@ -34,6 +34,9 @@ if dein#load_state(s:dein_base)
   call dein#add('vim-scripts/foldutil.vim', {'on_cmd': ['FoldMatching', 'FoldShowLines', 'FoldShowRange']})
   call dein#add('HiPhish/info.vim', {'on_cmd': 'Info'})
 
+" Documentation
+  call dein#add('milisims/nvim-luaref')
+
 " Shells and REPLs
   call dein#add('metakirby5/codi.vim', {'on_cmd': 'Codi' }) 
 
@@ -89,6 +92,8 @@ set laststatus=1
 
 " Some filetype defaults
 auto FileType lua setl shiftwidth=2
+auto FileType lua setl keywordprg=:help
+auto FileType lua setl iskeyword+=.
 
 " Colorscheme
 highlight CursorLine ctermbg=239 cterm=NONE
