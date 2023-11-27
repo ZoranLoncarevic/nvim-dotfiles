@@ -165,6 +165,9 @@ vnoremap < <gv
 " Uppercase preceding word
 inoremap <A-u> <esc>mzgUiw`za
 
+" Swap/eXchange two adjacent words
+nnoremap ,xtw dawwP
+
 " Insert Mode Completion
 inoremap <c-f> <c-x><c-f>
 inoremap <c-]> <c-x><c-]>
