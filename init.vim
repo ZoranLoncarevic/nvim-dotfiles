@@ -662,17 +662,21 @@ autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkU
 " Navigate between diary entries
 function! MyEditDiary(what)
 	
-	if !filereadable(expand("%"))
-		silent write
-	endif
-
 	let directory=expand("%:p:h")
 	let file_list=glob(directory.'/*',v:false,v:true)
-	let position=index(file_list, expand("%:p"))
+	if !filereadable(expand("%"))
+		let position=len(file_list)
+	else
+		let position=index(file_list, expand("%:p"))
+	endif
 
 	if a:what == "next"
-		if position>-1 && position<len(file_list)-1
+		if position>-1
+		  if position<len(file_list)-1
 			exe "edit " . l:file_list[position+1]
+		  else
+			Note
+		  endif
 		endif
 	elseif a:what == "prev"
 		if position>0
