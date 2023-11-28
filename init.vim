@@ -178,6 +178,14 @@ nnoremap <silent> \\ :nohlsearch\|echon<CR>
 " e %. opens Netrw/NERDTree in current file's directory (like Explore)
 cabbr <expr> %. getcmdtype() == ':' && getcmdline() == "e %." ? expand("%:p:h") : "%."
 
+" additional mappings for git rebase
+auto FileType gitrebase nnoremap <buffer> <silent> ,e :Edit<cr>
+auto FileType gitrebase nnoremap <buffer> <silent> ,p :Pick<cr>
+auto FileType gitrebase nnoremap <buffer> <silent> ,s :Squash<cr>
+auto FileType gitrebase nnoremap <buffer> <silent> ,r :Reword<cr>
+auto FileType gitrebase nnoremap <buffer> <silent> ,f :Fixup<cr>
+auto FileType gitrebase nnoremap <buffer> <silent> ,d :Drop<cr>
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
