@@ -888,3 +888,13 @@ function! MyRunInDirectory(cmd, dir)
 	execute rcmd rdir
 endfunction
 
+" Delete file on disk without E211: File no longer available
+command! -bar -bang Unlink
+       \ if <bang>0 || confirm("Delete file ".expand("%:p")."? ","&Yes\n&No",2) == 1 |
+       \    if delete(expand("%:p")) |
+       \       echoerr empty(getftype(expand("%:p"))) ? "No file \"".@%."\" on disk" : "Failed to delete \"".@%."\"" |
+       \    else |
+       \       edit! |
+       \    endif |
+       \ endif
+command! -bar -bang Remove Unlink<bang>
