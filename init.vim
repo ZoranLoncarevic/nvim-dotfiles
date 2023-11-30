@@ -353,6 +353,7 @@ endfunction
 
 nnoremap <silent> <Backspace> :call MySmartBackspace_normal()<cr>
 tnoremap <silent> <expr> <Backspace> MySmartBackspace_terminal()
+nnoremap <silent> <M-Backspace> :tabp<cr>
 
 " My terminal wrapper
 function! MySwitchToWindowByBuffer(bufn)
