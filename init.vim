@@ -99,12 +99,17 @@ auto FileType lua setl iskeyword+=.
 highlight CursorLine ctermbg=239 cterm=NONE
 highlight VertSplit ctermfg=7
 highlight StatusLineNC ctermfg=7
+highlight TabLine cterm=NONE
+highlight TabLineFill cterm=NONE
 
 " Gitgutter plugin configuration
 highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" Configure tabline
+lua require('tabline_configuration').setup({})
 
 " Configure telescope fuzzy finder
 lua require('telescope').load_extension('fzf')
