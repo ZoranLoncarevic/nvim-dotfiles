@@ -665,6 +665,21 @@ endfunction
 autocmd Filetype org nnoremap <silent> <buffer> <CR> :call MyOrgModeFollowLinkUnderCursor()<cr>
 autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkUnderCursor()<cr>
 
+autocmd FileType org imap <silent> <buffer> <expr> <CR> MyOrgModeEnterKeyHandler()
+
+function! MyOrgModeEnterKeyHandler()
+	let line=getline('.')
+	if line =~ '^\s*\(\a\|\d\+\)[.)]\(\s\|$\)'
+		return "\<Esc>^y/\\.\\|)/e+1\<CR>:nohl\<CR>o\<C-R>\"\<Esc>^\<C-A>A"
+	elseif line =~ '^\(\s*[-+]\|\s\+\*\)\(\s\|$\)'
+		return "\<Esc>^y2lo\<C-R>\""
+	elseif line =~ '^\*\{2,\} '
+		return "\<Esc>^yf o\<C-R>\""
+	else
+		return "\<CR>"
+	endif
+endfunction
+
 " Navigate between diary entries
 function! MyEditDiary(what)
 	
