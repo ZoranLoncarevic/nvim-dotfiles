@@ -919,3 +919,13 @@ command! -bar -bang Unlink
        \    endif |
        \ endif
 command! -bar -bang Remove Unlink<bang>
+
+" Open current file's directory in Netrw like vinegar
+nmap <silent> <expr> - MyRevealCurrentFileInNetrw()
+function! MyRevealCurrentFileInNetrw()
+	if &filetype != "netrw"
+		return ":Explore\<CR>/" . expand("%:t") . "\<CR>:nohl\<CR>"
+	else
+		return "-"
+	endif
+endfunction
