@@ -486,7 +486,7 @@ function! MyGuileHelp(word)
 endfunction
 
 function! s:my_find_inf_window() abort
-     if &filetype ==# 'info'
+     if s:is_inf_window_filetype(&filetype)
           return 1
       elseif winnr('$') ==# 1
           return 0
@@ -495,12 +495,18 @@ function! s:my_find_inf_window() abort
       let l:thiswin = winnr()
       while 1 
           wincmd w
-          if &filetype ==# 'info'
+          if s:is_inf_window_filetype(&filetype)
               return 1
           elseif l:thiswin ==# winnr()
               return 0
           endif
        endwhile
+endfunction
+
+function! s:is_inf_window_filetype(filetype)
+	return a:filetype ==# 'info' ||
+	     \ a:filetype ==# 'help' ||
+	     \ a:filetype ==# 'dictionary'
 endfunction
 
 " DFS traversal of Info pages
@@ -928,4 +934,24 @@ function! MyRevealCurrentFileInNetrw()
 	else
 		return "-"
 	endif
+endfunction
+
+" For text, markdown and orgmode filetypes, K looks up word in a dictionary
+autocmd FileType text,markdown,org,dictionary setlocal keywordprg=:WordDictionary
+command! -nargs=1 WordDictionary :call MyWordDictionary(<q-args>)
+function! MyWordDictionary(word)
+
+	if !s:my_find_inf_window()
+		split
+	endif
+
+	enew
+	setlocal buftype=nofile
+	setlocal bufhidden=wipe
+	setlocal filetype=dictionary
+	setlocal nowrap
+	exe "file" a:word.".dictionary"
+	redraw
+	exe "read" "!dict ".a:word." 2>/dev/null"
+	norm gg
 endfunction
