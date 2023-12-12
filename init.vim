@@ -938,20 +938,87 @@ endfunction
 
 " For text, markdown and orgmode filetypes, K looks up word in a dictionary
 autocmd FileType text,markdown,org,dictionary setlocal keywordprg=:WordDictionary
+autocmd BufReadCmd Dictionary:* call MyDictionaryWordLoad(expand('<afile>'))
 command! -nargs=1 WordDictionary :call MyWordDictionary(<q-args>)
 function! MyWordDictionary(word)
+
+	let l:alias = g:dict_alias
+	let l:dictionary = g:dict_prg
+	if exists("b:dict_prg")
+		let l:dictionary = b:dict_prg
+		let l:alias = b:dict_alias
+	endif
 
 	if !s:my_find_inf_window()
 		split
 	endif
 
-	enew
+	exe "edit" "Dictionary:".a:word." (".l:alias.")"
+endfunction
+
+function! MyDictionaryWordLoad(dict_url)
+	let l:url_components=matchlist(a:dict_url,'\vDictionary:(.*) \(([A-Za-z0-9]*)\)')
+	let l:word=url_components[1]
+	let l:dictionary=url_components[2]
+
+	let b:dict_word = l:word
+	let b:dict_alias = l:dictionary
+	let b:dict_prg = MyDictionary2executable(l:dictionary)
 	setlocal buftype=nofile
-	setlocal bufhidden=wipe
+	setlocal nobuflisted
 	setlocal filetype=dictionary
 	setlocal nowrap
-	exe "file" a:word.".dictionary"
 	redraw
-	exe "read" "!dict ".a:word." 2>/dev/null"
-	norm gg
+	silent keepjumps exe "read" "!".b:dict_prg." ".l:word." 2>/dev/null"
+	silent keepjumps norm gg
+endfunction
+
+" Default dictionary
+let g:dict_prg = "dict"
+let g:dict_alias = "dict"
+
+" Front facing dictionary user interface
+command! -nargs=* Dict :call MyDictionaryFrontEnd(<f-args>)
+function! MyDictionaryFrontEnd(...)
+	let word = ""
+	let dict = ""
+	let alias = ""
+	for i in range(1,a:0)
+		if a:{i} =~ "^@"
+			let dict = MyDictionary2executable(a:{i}[1:])
+			let alias = a:{i}[1:]
+		else
+			let word = a:{i}
+		endif
+	endfor
+
+	if l:dict != ""
+		if exists("b:dict_prg")
+			let b:dict_prg = l:dict
+			let b:dict_alias = l:alias
+		else
+			let g:dict_prg = l:dict
+			let g:dict_alias = l:alias
+		endif
+	endif
+
+	if word != "" || exists("b:dict_word")
+		call MyWordDictionary(word==""?b:dict_word:word)
+	endif
+endfunction
+
+function! MyDictionary2executable(alias)
+	if a:alias=="google"
+		return "dict-google"
+	elseif a:alias=="cambridge"
+		return "dict-cambridge"
+	elseif a:alias=="webster"
+		return "dict-webster"
+	elseif a:alias=="dict"
+		return "dict"
+	elseif a:alias=="translate"
+		return "trans --no-ansi"
+	else
+		return "dict-unknown"
+	endif
 endfunction
