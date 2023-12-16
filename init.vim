@@ -978,6 +978,7 @@ let g:dict_prg = "dict"
 let g:dict_alias = "dict"
 
 " Front facing dictionary user interface
+autocmd FileType dictionary nnoremap <buffer> , :Dict @
 command! -nargs=* Dict :call MyDictionaryFrontEnd(<f-args>)
 function! MyDictionaryFrontEnd(...)
 	let word = ""
