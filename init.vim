@@ -979,7 +979,8 @@ let g:dict_alias = "dict"
 
 " Front facing dictionary user interface
 autocmd FileType dictionary nnoremap <buffer> , :Dict @
-command! -nargs=* Dict :call MyDictionaryFrontEnd(<f-args>)
+command! -nargs=* -complete=customlist,MyDictionaryAutocomplete
+       \ Dict :call MyDictionaryFrontEnd(<f-args>)
 function! MyDictionaryFrontEnd(...)
 	let word = ""
 	let dict = ""
@@ -1022,4 +1023,15 @@ function! MyDictionary2executable(alias)
 	else
 		return "dict-unknown"
 	endif
+endfunction
+
+let g:dictionary_aliases=['webster', 'cambridge', 'google', 'translate', 'dict']
+function MyDictionaryAutocomplete(arglead, cmdline, cursorpos)
+	let candidates=[]
+	for alias in g:dictionary_aliases
+		if "@".alias[0:len(a:arglead)-2] ==# a:arglead
+			let candidates+=["@".l:alias]
+		endif
+	endfor
+	return candidates
 endfunction
