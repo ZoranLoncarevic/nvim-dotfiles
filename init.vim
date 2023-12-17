@@ -171,7 +171,8 @@ vnoremap < <gv
 inoremap <A-u> <esc>mzgUiw`za
 
 " Swap/eXchange two adjacent words
-nnoremap ,xtw dawwP
+autocmd FileType text,markdown,org,dictionary nnoremap <buffer> <c-l> dawwPb
+autocmd FileType text,markdown,org,dictionary nnoremap <buffer> <c-h> dawbPb
 
 " Insert Mode Completion
 inoremap <c-f> <c-x><c-f>
