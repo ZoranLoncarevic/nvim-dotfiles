@@ -1036,3 +1036,123 @@ function MyDictionaryAutocomplete(arglead, cmdline, cursorpos)
 	endfor
 	return candidates
 endfunction
+
+" Menu Infrastructure
+function! MyStartMenu(name)
+
+  if !&hidden && &modified
+    call MyError('Save your changes first.')
+    return v:false
+  endif
+
+  if line2byte('$') != -1
+    noautocmd enew
+  endif
+
+  silent! setlocal
+        \ bufhidden=wipe
+        \ colorcolumn=
+        \ foldcolumn=0
+        \ matchpairs=
+        \ modifiable
+        \ nobuflisted
+        \ nocursorcolumn
+        \ nocursorline
+        \ nolist
+        \ nonumber
+        \ noreadonly
+        \ norelativenumber
+        \ nospell
+        \ noswapfile
+        \ signcolumn=no
+        \ synmaxcol&
+
+  if empty(&statusline)
+    exe "setlocal statusline=".substitute(a:name,' ','\\ ','g')
+  endif
+
+  let b:MyMenu = { 'fixed_col': 5, 'leftmouse': 0, 'entries': {} }
+  return v:true
+endfunction
+
+function! MyMenuFinish()
+  setlocal nomodifiable nomodified
+  nnoremap <buffer><nowait><silent> <cr> :call MyMenuOpen()<cr>
+  nnoremap <buffer><nowait><silent> <LeftMouse>   :call MyMenu_leftmouse()<cr>
+
+  " Without these mappings n/N wouldn't work properly, since autocmds always
+  " force the cursor back on the index.
+  nnoremap <buffer><expr> n ' j'[v:searchforward].'n'
+  nnoremap <buffer><expr> N 'j '[v:searchforward].'N'
+
+  function! s:compare_by_index(foo, bar)
+    return a:foo.index - a:bar.index
+  endfunction
+
+  for entry in sort(values(b:MyMenu.entries), 's:compare_by_index')
+    execute 'nnoremap <buffer><silent><nowait>' entry.index
+          \ ':call MyMenuOpen('. string(entry.line) .')<cr>'
+  endfor
+
+  let b:MyMenu.firstline=min(keys(b:MyMenu.entries))
+  let b:MyMenu.lastline =max(keys(b:MyMenu.entries))
+  
+  call cursor(b:MyMenu.firstline, b:MyMenu.fixed_col)
+  autocmd startify CursorMoved <buffer> call MyMenu_set_cursor()
+
+  set filetype=menu
+endfunction
+
+function! MyMenuRegister(line, index, command)
+	let b:MyMenu.entries[a:line] = {
+            \ 'index': a:index,
+	    \ 'line':  a:line,
+	    \ 'command': a:command, }
+endfunction
+
+function! MyMenu_set_cursor() abort
+  let b:MyMenu.oldline = exists('b:MyMenu.newline') ? b:MyMenu.newline : b:MyMenu.fixed_col
+  let b:MyMenu.newline = line('.')
+
+  " going up (-1) or down (1)
+  if b:MyMenu.oldline == b:MyMenu.newline
+        \ && col('.') != b:MyMenu.fixed_col
+        \ && !b:MyMenu.leftmouse
+    let movement = 2 * (col('.') > b:MyMenu.fixed_col) - 1
+    let b:MyMenu.newline += movement
+  else
+    let movement = 2 * (b:MyMenu.newline > b:MyMenu.oldline) - 1
+    let b:MyMenu.leftmouse = 0
+  endif
+
+  " skip lines that are not part of the menu
+  while !has_key(b:MyMenu.entries,b:MyMenu.newline) &&
+      \ b:MyMenu.newline>b:MyMenu.firstline &&
+      \ b:MyMenu.newline<b:MyMenu.lastline
+	  let b:MyMenu.newline += movement
+  endwhile
+
+  let b:MyMenu.newline = max([b:MyMenu.firstline, 
+                         \    min([b:MyMenu.lastline, b:MyMenu.newline])])
+
+  call cursor(b:MyMenu.newline, b:MyMenu.fixed_col)
+endfunction
+
+function! MyMenu_leftmouse()
+  " feedkeys() triggers CursorMoved which calls s:set_cursor() which checks .leftmouse
+  let b:MyMenu.leftmouse = 1
+  call feedkeys("\<LeftMouse>", 'nt')
+endfunction
+
+function! MyMenuButton(index)
+	return '   ' . '[' . a:index . ']' . repeat(' ',3-strlen(a:index))
+endfunction
+
+function! MyMenuOpen(...)
+	if exists('a:1')
+		let command = b:MyMenu.entries[a:1].command
+	else
+		let command = b:MyMenu.entries[line('.')].command
+	endif
+	exe command
+endfunction
