@@ -1037,6 +1037,32 @@ function MyDictionaryAutocomplete(arglead, cmdline, cursorpos)
 	return candidates
 endfunction
 
+" Dictionary selection menu
+autocmd FileType dictionary nnoremap \, :call MyDictionarySelectionMenu()<cr>
+function! MyDictionarySelectionMenu()
+	if MyStartMenu("Select Dictionary")
+		call append('$',['   Dictionaries:',''])
+		call append('$',MyMenuButton(0)."Meriam-Webster")
+		call MyMenuRegister(line('$'),0,"call MyDict_sl('webster')")
+		call append('$',MyMenuButton(1)."Cambridge")
+		call MyMenuRegister(line('$'),1,"call MyDict_sl('cambridge')")
+		call append('$',MyMenuButton(2)."Google define")
+		call MyMenuRegister(line('$'),2,"call MyDict_sl('google')")
+		call append('$',MyMenuButton(3)."Google translate")
+		call MyMenuRegister(line('$'),3,"call MyDict_sl('translate')")
+		call append('$',MyMenuButton(4)."Dict service")
+		call MyMenuRegister(line('$'),4,"call MyDict_sl('dict')")
+		call append('$','')
+		nnoremap <silent> <buffer> q :Bdelete<cr>
+		call MyMenuFinish()
+	endif
+endfunction
+
+function! MyDict_sl(dictionary)
+	norm 
+	exe "Dict @".a:dictionary
+endfunction
+
 " Menu Infrastructure
 function! MyStartMenu(name)
 
