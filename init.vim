@@ -1156,3 +1156,22 @@ function! MyMenuOpen(...)
 	endif
 	exe command
 endfunction
+
+" Buffer selector menu
+nnoremap <silent> \<Backspace> :call MyBufferSelectionMenu()<cr>
+function! MyBufferSelectionMenu()
+	if MyStartMenu("Select Buffer")
+		call append('$',['   Buffers:',''])
+		
+		let index=0
+		for buffer in getbufinfo({'buflisted': 1})
+			let entry = MyMenuButton(index) . bufname(buffer.bufnr)
+			call append('$', entry)
+			call MyMenuRegister(line('$'), index, 'bu '.buffer.bufnr)
+			let index+=1
+		endfor
+		call append('$','')
+		nnoremap <silent> <buffer> q :Bdelete<cr>
+		call MyMenuFinish()
+	endif
+endfunction
