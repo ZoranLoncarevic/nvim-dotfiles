@@ -192,6 +192,16 @@ auto FileType gitrebase nnoremap <buffer> <silent> ,r :Reword<cr>
 auto FileType gitrebase nnoremap <buffer> <silent> ,f :Fixup<cr>
 auto FileType gitrebase nnoremap <buffer> <silent> ,d :Drop<cr>
 
+" Keep normal commands on the same keys in sr1 layout
+nmap Č :
+nmap žž \\
+nmap đc ]c
+nmap šc [c
+nmap žhu \hu
+nmap žhs \hs
+nmap ž<Backspace> \<Backspace>
+nmap Ć "
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
