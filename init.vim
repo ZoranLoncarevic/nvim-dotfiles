@@ -1211,3 +1211,41 @@ function! MyBufferSelectionMenu()
 		call MyMenuFinish()
 	endif
 endfunction
+
+" Open alternative file for the current buffer
+autocmd BufReadCmd alt://* call MyAltFileLoad(expand('<afile>'))
+function! MyAltFileLoad(url)
+	let l:components = matchlist(a:url, '\valt:/(.*)')
+	let l:altfilename = system("sha1sum",l:components[1])
+	let l:altfilename = substitute(l:altfilename," .*$",".org","")
+	let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
+
+	if filereadable(l:filename)
+		silent keepjumps exe "read" l:filename
+		silent keepjumps norm gg
+		setlocal nomodified
+	endif
+
+	set filetype=org
+endfunction
+
+autocmd BufWriteCmd alt://* call MyAltFileWrite(expand('<afile>'))
+function! MyAltFileWrite(url)
+	let l:components = matchlist(a:url, '\valt:/(.*)')
+	let l:altfilename = system("sha1sum",l:components[1])
+	let l:altfilename = substitute(l:altfilename," .*$",".org","")
+	let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
+
+	exe "write!" l:filename
+	setlocal nomodified
+endfunction
+
+command! Alternative call MyAlternativeFile()
+function! MyAlternativeFile()
+	let l:path = expand("%:p")
+	if l:path =~# '^alt://'
+		exe "edit" substitute(l:path, "^alt:/", "", "")
+	else
+		exe "edit" "alt:/".l:path
+	endif
+endfunction
