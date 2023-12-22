@@ -674,6 +674,8 @@ function! MyOrgModeFollowLink(linkString, alt)
 	echo a:linkString
 	if match(a:linkString,"^https\?\:\/\/") != -1
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
+	elseif match(a:linkString,"^alt:\/") != -1
+		exe "edit" a:linkString
 	elseif match(a:linkString,"\\.mp4$") != -1
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
 	elseif match(a:linkString,l:openInNeovim) != -1
