@@ -638,7 +638,7 @@ endfunction
 autocmd Filetype org nnoremap <expr> <silent> <buffer> l MyOrgModeForwardSkipConceal(v:count1)
 autocmd Filetype org nnoremap <expr> <silent> <buffer> h MyOrgModeBackwardSkipConceal(v:count1)
 
-function! MyOrgModeFollowLinkUnderCursor()
+function! MyOrgModeFollowLinkUnderCursor(alt)
 	let l:referencePattern='\v\[\[([^\]]+)\](\[([^\]]+)\])?\]'
 
 	let l:line=getline('.')
@@ -655,7 +655,7 @@ function! MyOrgModeFollowLinkUnderCursor()
 
 		if l:col < l:end
 			let l:link=matchlist(l:line, l:referencePattern)
-			call MyOrgModeFollowLink(l:link[1])
+			call MyOrgModeFollowLink(l:link[1],a:alt)
 			return
 		endif
 
@@ -665,7 +665,11 @@ function! MyOrgModeFollowLinkUnderCursor()
 	endwhile	
 endfunction
 
-function! MyOrgModeFollowLink(linkString)
+function! MyOrgModeFollowLink(linkString, alt)
+	if a:alt
+		call MyAlternativeFile(a:linkString)
+		return
+	endif
 	let l:openInNeovim='\.\(c\|cpp\|h\|hpp\|scm\|vim\|org\)$'
 	echo a:linkString
 	if match(a:linkString,"^https\?\:\/\/") != -1
@@ -679,8 +683,10 @@ function! MyOrgModeFollowLink(linkString)
 	endif
 endfunction
 
-autocmd Filetype org nnoremap <silent> <buffer> <CR> :call MyOrgModeFollowLinkUnderCursor()<cr>
-autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkUnderCursor()<cr>
+autocmd Filetype org nnoremap <silent> <buffer> <CR> :call MyOrgModeFollowLinkUnderCursor(v:false)<cr>
+autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkUnderCursor(v:false)<cr>
+autocmd Filetype org nnoremap <silent> <buffer> <M-]> :call MyOrgModeFollowLinkUnderCursor(v:true)<cr>
+autocmd Filetype org nnoremap <silent> <buffer> <M-CR> :call MyOrgModeFollowLinkUnderCursor(v:true)<cr>
 
 autocmd FileType org imap <silent> <buffer> <expr> <CR> MyOrgModeEnterKeyHandler()
 
@@ -1241,8 +1247,12 @@ function! MyAltFileWrite(url)
 endfunction
 
 command! Alternative call MyAlternativeFile()
-function! MyAlternativeFile()
-	let l:path = expand("%:p")
+function! MyAlternativeFile(...)
+	if a:0>0
+		let l:path = a:1
+	else
+		let l:path = expand("%:p")
+	endif
 	if l:path =~# '^alt://'
 		exe "edit" substitute(l:path, "^alt:/", "", "")
 	else
