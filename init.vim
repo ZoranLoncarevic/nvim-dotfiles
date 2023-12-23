@@ -1261,3 +1261,25 @@ function! MyAlternativeFile(...)
 		exe "edit" "alt:/".l:path
 	endif
 endfunction
+
+" Execute shell command in terminal buffer à la Emacs compile/recompile
+command! -nargs=1 -complete=shellcmd Term call MyExecuteInTerminal(<q-args>)
+function! MyExecuteInTerminal(cmd)
+	if !s:my_find_window(function('s:is_my_terminal'))
+		top split
+		term
+		let b:exe_terminal = 1
+		nnoremap <buffer> gg gg0/ivan@ivan-laptop:<cr>:nohl<cr>zt
+		nnoremap <buffer> <silent> q :bdelete!<cr>
+	endif
+	if exists("b:terminal_job_id")
+		set scrollback=1
+		set scrollback=-1
+		call chansend(b:terminal_job_id, "".a:cmd."")
+		stopinsert
+	endif
+endfunction
+
+function! s:is_my_terminal()
+	return exists("b:exe_terminal")
+endfunction
