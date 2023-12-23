@@ -488,7 +488,7 @@ function! MyGuileHelp(word)
 	else
 		let l:xRef = info#reference#decode(l:xRefString, {'File': 'guile.info'})
 		let l:uri = info#uri#encode(l:xRef)
-		if s:my_find_inf_window()
+		if s:my_find_window(function('s:is_info_window'))
 			execute 'silent edit' info#uri#exescape(l:uri)
 		else
 			execute 'silent split' info#uri#exescape(l:uri)
@@ -496,8 +496,8 @@ function! MyGuileHelp(word)
 	endif
 endfunction
 
-function! s:my_find_inf_window() abort
-     if s:is_inf_window_filetype(&filetype)
+function! s:my_find_window(predicate) abort
+     if a:predicate()
           return 1
       elseif winnr('$') ==# 1
           return 0
@@ -506,7 +506,7 @@ function! s:my_find_inf_window() abort
       let l:thiswin = winnr()
       while 1 
           wincmd w
-          if s:is_inf_window_filetype(&filetype)
+          if a:predicate()
               return 1
           elseif l:thiswin ==# winnr()
               return 0
@@ -514,10 +514,10 @@ function! s:my_find_inf_window() abort
        endwhile
 endfunction
 
-function! s:is_inf_window_filetype(filetype)
-	return a:filetype ==# 'info' ||
-	     \ a:filetype ==# 'help' ||
-	     \ a:filetype ==# 'dictionary'
+function! s:is_info_window()
+	return &filetype ==# 'info' ||
+	     \ &filetype ==# 'help' ||
+	     \ &filetype ==# 'dictionary'
 endfunction
 
 " DFS traversal of Info pages
@@ -968,7 +968,7 @@ function! MyWordDictionary(word)
 		let l:alias = b:dict_alias
 	endif
 
-	if !s:my_find_inf_window()
+	if !s:my_find_window(function('s:is_info_window'))
 		split
 	endif
 
