@@ -680,6 +680,9 @@ function! MyOrgModeFollowLink(linkString, alt)
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
 	elseif match(a:linkString,l:openInNeovim) != -1
 		exe "edit ".a:linkString
+	elseif match(a:linkString,"^Redirect:") != -1
+		Bdelete
+		exe "edit" MyGetCannonicalZetelkasttenFile(a:linkString[9:])
 	elseif stridx(a:linkString,"/") == -1
 		exe "edit" MyGetCannonicalZetelkasttenFile(a:linkString)
 	else
@@ -1244,6 +1247,16 @@ function! MyAltFileLoad(url)
 
 	if filereadable(l:filename)
 		silent keepjumps exe "read" l:filename
+		silent keepjumps 1delete _
+		let redirect = matchlist(getline(1),'\v\[\[Redirect:(.*)\]\]')
+		if redirect != []
+			let b:CanonicalZetelkasttenFile = MyGetCannonicalZetelkasttenFile(l:redirect[1])
+			%delete _
+			if filereadable(b:CanonicalZetelkasttenFile)
+			   silent keepjumps exe "read" b:CanonicalZetelkasttenFile
+			   silent keepjumps 1delete _
+			endif
+		endif
 		silent keepjumps norm gg
 		setlocal nomodified
 	endif
@@ -1256,7 +1269,12 @@ function! MyAltFileWrite(url)
 	let l:components = matchlist(a:url, '\valt:/(.*)')
 	let l:altfilename = system("sha1sum",l:components[1])
 	let l:altfilename = substitute(l:altfilename," .*$",".org","")
-	let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
+
+	if exists("b:CanonicalZetelkasttenFile")
+		let l:filename = b:CanonicalZetelkasttenFile
+	else
+		let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
+	endif
 
 	exe "write!" l:filename
 	setlocal nomodified
