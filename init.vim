@@ -667,7 +667,7 @@ endfunction
 
 function! MyOrgModeFollowLink(linkString, alt)
 	if a:alt
-		call MyAlternativeFile(a:linkString)
+		call MyAlternativeFile(MyGetCannonicalZetelkasttenFile(a:linkString))
 		return
 	endif
 	let l:openInNeovim='\.\(c\|cpp\|h\|hpp\|scm\|vim\|org\)$'
@@ -680,8 +680,22 @@ function! MyOrgModeFollowLink(linkString, alt)
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
 	elseif match(a:linkString,l:openInNeovim) != -1
 		exe "edit ".a:linkString
+	elseif stridx(a:linkString,"/") == -1
+		exe "edit" MyGetCannonicalZetelkasttenFile(a:linkString)
 	else
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
+	endif
+endfunction
+
+function! MyGetCannonicalZetelkasttenFile(link)
+	if stridx(a:link,"/") == -1
+		let filename = $HOME."/Zetelkastten/".a:link
+		if match(a:link,"\.org$") == -1
+			let filename .= ".org"
+		endif
+		return filename
+	else
+		return a:link
 	endif
 endfunction
 
