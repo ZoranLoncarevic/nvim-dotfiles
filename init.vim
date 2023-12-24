@@ -1240,7 +1240,7 @@ endfunction
 " Open alternative file for the current buffer
 autocmd BufReadCmd alt://* call MyAltFileLoad(expand('<afile>'))
 function! MyAltFileLoad(url)
-	let l:components = matchlist(a:url, '\valt:/(.*)')
+	let l:components = matchlist(a:url, '\valt://(.*)')
 	let l:altfilename = system("sha1sum",l:components[1])
 	let l:altfilename = substitute(l:altfilename," .*$",".org","")
 	let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
@@ -1266,7 +1266,7 @@ endfunction
 
 autocmd BufWriteCmd alt://* call MyAltFileWrite(expand('<afile>'))
 function! MyAltFileWrite(url)
-	let l:components = matchlist(a:url, '\valt:/(.*)')
+	let l:components = matchlist(a:url, '\valt://(.*)')
 	let l:altfilename = system("sha1sum",l:components[1])
 	let l:altfilename = substitute(l:altfilename," .*$",".org","")
 
@@ -1288,9 +1288,9 @@ function! MyAlternativeFile(...)
 		let l:path = expand("%:p")
 	endif
 	if l:path =~# '^alt://'
-		exe "edit" substitute(l:path, "^alt:/", "", "")
+		exe "edit" substitute(l:path, "^alt://", "", "")
 	else
-		exe "edit" "alt:/".l:path
+		exe "edit" "alt://".l:path
 	endif
 endfunction
 
