@@ -359,7 +359,7 @@ function! MySmartBackspace_terminal()
 			return ':call MySmartBackspace_normal()'
 		endif
 	endif
-	return "\b"
+	return ""
 endfunction
 
 nnoremap <silent> <Backspace> :call MySmartBackspace_normal()<cr>
