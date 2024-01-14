@@ -541,10 +541,10 @@ function! MyInfoGoto(reference)
 	execute 'silent edit' info#uri#exescape(info#uri#encode(a:reference))
 endfunction
 
-autocmd FileType info nnoremap <Space><Space> :call MyInfoDFSTraverse()<cr>
-autocmd FileType info nnoremap <A-Left>  :InfoPrev<cr>
-autocmd FileType info nnoremap <A-Right> :InfoNext<cr>
-autocmd FileType info nnoremap <A-Up>    :InfoUp<cr>
+autocmd FileType info nnoremap <buffer> <Space><Space> :call MyInfoDFSTraverse()<cr>
+autocmd FileType info nnoremap <buffer> <A-Left>  :InfoPrev<cr>
+autocmd FileType info nnoremap <buffer> <A-Right> :InfoNext<cr>
+autocmd FileType info nnoremap <buffer> <A-Up>    :InfoUp<cr>
 
 " Personal implementation of orgmode
 " See https://github.com/albfan/ag.vim/commit/bdccf94877401035377aafdcf45cd44b46a50fb5
