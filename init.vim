@@ -1319,3 +1319,219 @@ endfunction
 function! s:is_my_terminal()
 	return exists("b:exe_terminal")
 endfunction
+
+" Calendar picker
+function! DaysInMonth(m,y)
+	return 31-(a:m-2?(a:m-1)%7%2:and(a:y,a:y%25?3:15)?3:2)
+endfunction
+
+function! Month(year, month, opts)
+	let table={ 'year': a:year, 'month': a:month, 'opts': a:opts }
+	let day=system('date -d'.a:year.'-'.a:month.'-01 "+%u"')->trim()
+	let day=day%7
+	let date=1
+	let week=1
+	let lastdate=DaysInMonth(a:month, a:year)
+	while !(date>lastdate)
+		let table[week.day]=date
+		let week+=day==6
+		let day=(day+1)%7
+		let date+=1
+	endwhile
+	return table
+endfunction
+
+function! s:userMark(month,day)
+	if has_key(a:month.opts,"marks")
+		let date=a:month.year.'-'.a:month.month.'-'.a:month[a:day]
+		return has_key(a:month.opts.marks,date)?a:month.opts.marks[date]:" "
+	else
+		return " "
+	endif
+endfunction
+
+function! Week(number, month)
+	let result=""
+	let day=0
+	while day<7
+		if has_key(a:month,a:number.day)
+		   let result.=printf("%2s%s",a:month[a:number.day],
+		                            \ s:userMark(a:month,a:number.day))
+		else
+		   let result.="   "
+		endif
+		let day+=1
+	endwhile
+	return result
+endfunction
+
+function! Center(string, line_length)
+	let lpadding=repeat(" ",(a:line_length-len(a:string))/2)
+	let rpadding=repeat(" ",a:line_length-len(a:string)-len(lpadding))
+	return l:lpadding.a:string.l:rpadding
+endfunction
+
+function! _Calendar(year, opts={})
+	call append('$',Center(a:year,64))
+	call _ThreeMonthsCalendar(a:year,1,a:opts)
+	call _ThreeMonthsCalendar(a:year,4,a:opts)
+	call _ThreeMonthsCalendar(a:year,7,a:opts)
+	call _ThreeMonthsCalendar(a:year,10,a:opts)
+endfunction
+
+let MonthName=["January","February","March",
+              \"April","May","June",
+              \"July","August","September",
+              \"October","November","December"]
+
+function! _ThreeMonthsCalendar(year, month, opts={})
+	call append('$',Center(g:MonthName[a:month-1],20)."  ".
+	              \ Center(g:MonthName[a:month],20)."  ".
+                      \ Center(g:MonthName[a:month+1],20))
+	call append("$",repeat("Su Mo Tu We Th Fr Sa  ",3))
+
+	let Month1=Month(a:year,a:month,a:opts)
+	let Month2=Month(a:year,a:month+1,a:opts)
+	let Month3=Month(a:year,a:month+2,a:opts)
+	let week=1
+	while week<7
+		call append("$", Week(week,Month1)." ".
+		               \ Week(week,Month2)." ".
+		               \ Week(week,Month3))
+		let week+=1
+	endwhile
+	call append("$",'')
+
+endfunction
+
+function! _SingleMonthCalendar(year, month, opts={})
+	let Month1=Month(a:year,a:month,a:opts)
+	call append("$",Center(g:MonthName[a:month-1],20))
+	call append("$","Su Mo Tu We Th Fr Sa")
+	call append("$",Week(1,Month1))
+	call append("$",Week(2,Month1))
+	call append("$",Week(3,Month1))
+	call append("$",Week(4,Month1))
+	call append("$",Week(5,Month1))
+	call append("$",'')
+endfunction
+
+function! SingleMonthCalendar(year, month, opts={})
+	call SetupCallendarBuffer({'type': 1, 'year': a:year, 'month': a:month}, a:opts)
+	call _SingleMonthCalendar(a:year, a:month, a:opts)
+endfunction
+
+function! ThreeMonthsCalendar(year, month, opts={})
+	call SetupCallendarBuffer({'type': 3, 'year': a:year, 'month': a:month}, a:opts)
+	call _ThreeMonthsCalendar(a:year, a:month, a:opts)
+endfunction
+
+function! Calendar(year, opts={})
+	call SetupCallendarBuffer({'type':12, 'year':a:year},a:opts)
+	call _Calendar(a:year, a:opts)
+endfunction
+
+function! SetupCallendarBuffer(type,opts)
+	enew
+	file Calendar
+	silent! setlocal noswapfile buftype=nofile
+	set filetype=pcalendar
+	let b:pcalendar={'type': a:type, 'opts': a:opts}
+	nnoremap <buffer> <silent> <CR> :call MyCallendarSelectDate()<cr>
+	nnoremap <buffer> <silent> <A-Left> :call MyCallendarPrev()<cr>
+	nnoremap <buffer> <silent> <A-Right> :call MyCallendarNext()<cr>
+	nnoremap <buffer> <silent> q :Bdelete!<cr>
+endfunction
+
+function! MyCallendarSelectDate()
+	let result=MyCallendarGetSelectedDate()
+	if result!="" && has_key(b:pcalendar.opts,"selection_cb")
+		call b:pcalendar.opts.selection_cb(result)
+	endif
+endfunction
+
+function! MyCallendarGetSelectedDate()
+	let curline=getline(".")
+	let pos=col(".")
+	if pos>1 && curline[pos-1] =~ '[0-9]' && curline[pos-2] =~ '[0-9]'
+		let pos-=1
+	endif
+	if has_key(b:pcalendar.opts,"returnOnlyLinks") &&
+	 \ b:pcalendar.opts.returnOnlyLinks &&
+	 \ curline[pos-1:] !~ '[ 0-9][0-9]_'
+		return ""
+	endif
+	if curline[pos-1:] !~ '[ 0-9][0-9][@_+* ]'
+		return ""
+	endif
+	let day=trim(substitute(curline[pos-1:pos],"[@_*+]$","",""))
+	let cline=line(".")-1
+	while cline>0
+		let slot=getline(cline)[22*(pos/22):22*(1+pos/22)]
+		let month=matchlist(slot,'\v^ +([A-Z][a-z]*) +$')
+		if month != []
+			break
+		endif
+		let cline-=1
+	endwhile
+	if cline==0 || index(g:MonthName,month[1])==-1
+		return ""
+	endif
+	let month=index(g:MonthName,month[1])+1
+	return b:pcalendar.type.year."-".month."-".day
+endfunction
+
+function! MyCallendarPrev()
+	if &filetype!='pcalendar'
+		return
+	endif
+	%delete
+	if b:pcalendar.type.type == 1
+		let b:pcalendar.type.month=max([1,b:pcalendar.type.month-1])
+		call _SingleMonthCalendar(b:pcalendar.type.year,
+		                        \ b:pcalendar.type.month,
+		                        \ b:pcalendar.opts)
+	elseif b:pcalendar.type.type == 3
+		let b:pcalendar.type.month=max([1,b:pcalendar.type.month-3])
+		call _ThreeMonthsCalendar(b:pcalendar.type.year,
+		                        \ b:pcalendar.type.month,
+		                        \ b:pcalendar.opts)
+	elseif b:pcalendar.type.type == 12
+		let b:pcalendar.type.year=max([1,b:pcalendar.type.year-1])
+		call _Calendar(b:pcalendar.type.year,
+		             \ b:pcalendar.opts)
+	endif
+endfunction
+
+function! MyCallendarNext()
+	if &filetype!='pcalendar'
+		return
+	endif
+	%delete
+	if b:pcalendar.type.type == 1
+		let b:pcalendar.type.month=min([12,b:pcalendar.type.month+1])
+		call _SingleMonthCalendar(b:pcalendar.type.year,
+		                        \ b:pcalendar.type.month,
+		                        \ b:pcalendar.opts)
+	elseif b:pcalendar.type.type == 3
+		let b:pcalendar.type.month=min([12,b:pcalendar.type.month+3])
+		call _ThreeMonthsCalendar(b:pcalendar.type.year,
+		                        \ b:pcalendar.type.month,
+		                        \ b:pcalendar.opts)
+	elseif b:pcalendar.type.type == 12
+		let b:pcalendar.type.year=b:pcalendar.type.year+1
+		call _Calendar(b:pcalendar.type.year,
+		             \ b:pcalendar.opts)
+	endif
+endfunction
+
+command! -bang -nargs=? Calendar
+	\ :call MyCalendarCommand(<q-bang>, <q-args>)
+
+function! MyCalendarCommand(bang, year)
+	let l:year=a:year==""?strftime("%Y"):a:year
+	if a:bang=="!"
+		split
+	endif
+	call Calendar(l:year)
+endfunction
