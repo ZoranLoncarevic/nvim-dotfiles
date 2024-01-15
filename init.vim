@@ -1533,5 +1533,30 @@ function! MyCalendarCommand(bang, year)
 	if a:bang=="!"
 		split
 	endif
-	call Calendar(l:year)
+	call ZetelkasttenCalendar(l:year)
+endfunction
+
+" Zetelkastten daily log: calendar view
+function! ZetelkasttenCalendar(year)
+	let Zetelkastten=expand("~/Zetelkastten/Daily Log/")
+	let file_list=glob(Zetelkastten.'*',v:false,v:true)
+	let zetel_marks={}
+	for file in l:file_list
+		let date=substitute(file,'\v(.*)/([0-9-]+).org','\2',"")
+		let date=substitute(date,'\v([0-9][0-9])-([0-9][0-9])-([0-9][0-9][0-9][0-9])','\3-\1-\2',"")
+		let date=substitute(date,'^0',"","")
+		let date=substitute(date,"-0","-","g")
+		let l:zetel_marks[l:date]="_"
+	endfor
+	call Calendar(a:year, {'marks': zetel_marks, 'selection_cb': function('ZetelkasttenCalendar_cb')})
+endfunction
+
+function! s:_padn(string)
+	return len(a:string)==1?"0".a:string:a:string
+endfunction
+
+function! ZetelkasttenCalendar_cb(date)
+	let date_comp=matchlist(a:date, '\v([0-9][0-9][0-9][0-9])-([1-9][0-9]?)-([1-9][0-9]?)')
+	let filename=s:_padn(date_comp[2]."-".s:_padn(date_comp[3]."-".date_comp[1]))
+	execute 'edit '.expand("~/Zetelkastten/Daily Log/").l:filename.".org"
 endfunction
