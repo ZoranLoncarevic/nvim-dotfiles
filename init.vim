@@ -712,10 +712,10 @@ autocmd FileType org imap <silent> <buffer> <expr> <CR> MyOrgModeEnterKeyHandler
 function! MyOrgModeEnterKeyHandler()
 	let line=getline('.')
 	if line =~ '^\s*\(\a\|\d\+\)[.)]\(\s\|$\)'
-		return "\<Esc>^y/\\.\\|)/e+1\<CR>:nohl\<CR>o\<C-R>\"\<Esc>^\<C-A>A"
+		return " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>A"
 	elseif line =~ '^\(\s*[-+]\|\s\+\*\)\(\s\|$\)'
-		return "\<Esc>^y2lo\<C-R>\""
-	elseif line =~ '^\*\{2,\} '
+		return " _\<Esc>hr\<CR>k^y2lj^PldlA"
+	elseif line =~ '^\*\{1,\} '
 		return "\<Esc>^yf o\<C-R>\""
 	else
 		return "\<CR>"
