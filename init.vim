@@ -1418,11 +1418,13 @@ endfunction
 
 function! SingleMonthCalendar(year, month, opts={})
 	call SetupCallendarBuffer({'type': 1, 'year': a:year, 'month': a:month}, a:opts)
+	call append('$',Center(a:year,20))
 	call _SingleMonthCalendar(a:year, a:month, a:opts)
 endfunction
 
 function! ThreeMonthsCalendar(year, month, opts={})
 	call SetupCallendarBuffer({'type': 3, 'year': a:year, 'month': a:month}, a:opts)
+	call append('$',Center(a:year,64))
 	call _ThreeMonthsCalendar(a:year, a:month, a:opts)
 endfunction
 
