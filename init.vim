@@ -1443,6 +1443,65 @@ function! SetupCallendarBuffer(type,opts)
 	nnoremap <buffer> <silent> <A-Left> :call MyCallendarPrev()<cr>
 	nnoremap <buffer> <silent> <A-Right> :call MyCallendarNext()<cr>
 	nnoremap <buffer> <silent> q :Bdelete!<cr>
+	autocmd startify CursorMoved <buffer> call MyCalendarFixCursorPosition()
+endfunction
+
+function! MyCalendarFixCursorPosition()
+	let oldcol=has_key(b:pcalendar,"newcol")?b:pcalendar.newcol:2
+	let b:pcalendar.newcol=col(".")
+	let linepos=line(".")
+	let colpos=col(".")
+	if l:linepos<4 || l:linepos>37
+		return 0
+	endif
+
+	if index([13,22,31],linepos)>-1
+		let linepos-=3
+		if trim(getline(linepos)[22*(colpos/22):22*(1+colpos/22)-1])==""
+			let linepos-=1
+		endif
+		while colpos>0 && getline(linepos)[colpos-1]!~'[0-9]'
+			let colpos-=1
+		endwhile
+	elseif trim(getline(linepos)[22*(colpos/22):22*(1+colpos/22)-1])==""
+		let linepos+=1
+		if trim(getline(linepos)[22*(colpos/22):22*(1+colpos/22)-1])==""
+			let linepos+=3
+		else
+			let linepos+=2
+		endif
+		while colpos<64 && getline(linepos)[colpos-1]!~'[0-9]'
+			let colpos+=1
+		endwhile
+	endif
+
+	if colpos%22==21
+		let colpos+=colpos>oldcol?2:-1
+	endif
+	if colpos%22==0
+		let colpos+=colpos>oldcol?2:-2
+	endif
+
+	let slot=getline(linepos)[22*(colpos/22):22*(1+colpos/22)-1]
+	if slot[0:1]=~'[ 0-9][0-9]' && trim(slot[colpos%22-1:])=="" && colpos==oldcol
+		let dir=-1
+	elseif slot[18:19]=~'[ 0-9][0-9]' && trim(slot[0:colpos%22-1])=="" && colpos==oldcol
+		let dir= 1
+	else
+		let dir=b:pcalendar.newcol>oldcol?1:-1
+	endif
+
+	if (colpos%22)%3==1 && oldcol-colpos==1 && colpos>1
+		let colpos-=2
+	endif
+
+	while getline(linepos)[colpos-1]!~'[0-9]' && colpos>1 && colpos<64
+		let colpos+=dir
+	endwhile
+	let colpos+=(colpos%22)%3==1?1:0
+
+	let b:pcalendar.newcol=l:colpos
+	call cursor(linepos, colpos)
 endfunction
 
 function! MyCallendarSelectDate()
