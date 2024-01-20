@@ -1618,6 +1618,6 @@ endfunction
 
 function! ZetelkasttenCalendar_cb(date)
 	let date_comp=matchlist(a:date, '\v([0-9][0-9][0-9][0-9])-([1-9][0-9]?)-([1-9][0-9]?)')
-	let filename=s:_padn(date_comp[2]."-".s:_padn(date_comp[3]."-".date_comp[1]))
+	let filename=s:_padn(date_comp[2]."-".s:_padn(date_comp[3])."-".date_comp[1])
 	execute 'edit '.expand("~/Zetelkastten/Daily Log/").l:filename.".org"
 endfunction
