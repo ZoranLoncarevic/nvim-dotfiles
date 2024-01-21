@@ -751,7 +751,29 @@ endfunction
 
 autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Left> :call MyEditDiary("prev")<cr>
 autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Right> :call MyEditDiary("next")<cr>
-command Note exe "edit " . $HOME . "/Zetelkastten/Daily Log/" . strftime("%m-%d-%Y") . ".org"
+command! -nargs=? -complete=customlist,MyZetelkasttenAutocomplete 
+       \ Note call ZetelkasttenFrontEnd(<f-args>)
+
+function! ZetelkasttenFrontEnd(...)
+	if a:0==0
+		exe "edit " . $HOME . "/Zetelkastten/Daily Log/" . strftime("%m-%d-%Y") . ".org"
+		return
+	endif
+
+	let cmd="find $HOME/Zetelkastten -name Apropos -prune -o -not -type d -name "
+	let cmd.="'".a:1."*' -print | sort"
+
+	let files=split(system(cmd),"\n")
+	if len(files)>0
+		exe "edit ".fnameescape(files[0])
+	endif
+endfunction
+
+function! MyZetelkasttenAutocomplete(arglead, cmdline, cursorpos)
+	let cmd="find $HOME/Zetelkastten -name Apropos -prune -o -not -type d -name "
+	let cmd.="'".a:arglead."*' -printf '%f\\n' | sort"
+	return split(system(cmd),"\n")->map('substitute(v:val,"\.org$","","")')
+endfunction
 
 " Automatic tags management
 command! -bang AutoTags :call MyAutoAddTagFile("<bang>")
