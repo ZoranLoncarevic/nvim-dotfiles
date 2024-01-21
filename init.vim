@@ -346,7 +346,7 @@ endfunction
 " including not stalling on terminal buffers
 "
 function! MySmartBackspace_normal()
-	bprev
+	call MySmartPreviousBuffer()
 	if &buftype ==# 'terminal'
 		let b:SmartBackspaceInitialTime = reltime()
 	endif
@@ -360,6 +360,27 @@ function! MySmartBackspace_terminal()
 		endif
 	endif
 	return ""
+endfunction
+
+let g:SmartBackspaceData={'bufferlist': [], 'atime': reltime(), 'pos': 0}
+function! MySmartPreviousBuffer()
+	if exists("g:SmartBackspaceMode") && g:SmartBackspaceMode=="bufnr"
+		bprev
+		return
+	endif
+
+	let elapsed_time = reltimefloat(reltime(g:SmartBackspaceData.atime))
+	let g:SmartBackspaceData.atime = reltime()
+	if elapsed_time>2 || g:SmartBackspaceData.bufferlist == []
+		let g:SmartBackspaceData.bufferlist = sort(getbufinfo({'buflisted': 1}),
+					            \ {b1,b2->b2.lastused-b1.lastused})
+		let g:SmartBackspaceData.pos = len(g:SmartBackspaceData.bufferlist)>1?1:0
+	endif
+	exe "buf" g:SmartBackspaceData.bufferlist[g:SmartBackspaceData.pos].bufnr
+	let g:SmartBackspaceData.pos += 1
+	if g:SmartBackspaceData.pos == len(g:SmartBackspaceData.bufferlist)
+		let g:SmartBackspaceData.pos = 0
+	endif
 endfunction
 
 nnoremap <silent> <Backspace> :call MySmartBackspace_normal()<cr>
