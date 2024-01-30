@@ -841,7 +841,11 @@ function! MyGetBaseProjectDirectory(dir)
 		return '/usr/local/share/TeXmacs/progs'
 	else
 		let external_cmd='echo $(cd "' . a:dir . '"; git rev-parse --show-toplevel 2>/dev/null)'
-		return system(external_cmd)->trim()
+		let result=system(external_cmd)->trim()
+		if result==""
+			let result=finddir('.hg/..', a:dir.';')
+		endif
+		return result
 	endif
 endfunction
 
