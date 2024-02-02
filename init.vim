@@ -748,6 +748,7 @@ function! MyEditDiary(what)
 	
 	let directory=expand("%:p:h")
 	let file_list=glob(directory.'/*',v:false,v:true)
+		    \ ->sort("MyEditDiaryCompare")
 	if !filereadable(expand("%"))
 		let position=len(file_list)
 	else
@@ -768,6 +769,12 @@ function! MyEditDiary(what)
 		endif
 	endif
 	echo expand("%:t")
+endfunction
+
+function! MyEditDiaryCompare(f1,f2)
+	let s1=a:f1[-8:-5].a:f1
+	let s2=a:f2[-8:-5].a:f2
+	return l:s1>l:s2?1:-1
 endfunction
 
 autocmd BufNewFile,BufRead */Zetelkastten/Daily\ Log/* nnoremap <silent> <buffer> <A-Left> :call MyEditDiary("prev")<cr>
@@ -1665,6 +1672,6 @@ endfunction
 
 function! ZetelkasttenCalendar_cb(date)
 	let date_comp=matchlist(a:date, '\v([0-9][0-9][0-9][0-9])-([1-9][0-9]?)-([1-9][0-9]?)')
-	let filename=s:_padn(date_comp[2]."-".s:_padn(date_comp[3])."-".date_comp[1])
+	let filename=s:_padn(s:_padn(date_comp[2])."-".s:_padn(date_comp[3])."-".date_comp[1])
 	execute 'edit '.expand("~/Zetelkastten/Daily Log/").l:filename.".org"
 endfunction
