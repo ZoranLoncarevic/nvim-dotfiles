@@ -135,6 +135,10 @@ let delimitMate_expand_cr = 1
 
 " Immediately focus CtrlSF results pane
 let g:ctrlsf_auto_focus = { "at": "start" }
+let g:ctrlsf_mapping = {
+    \ "open": "o",
+    \ "openb": [ "<CR>", "O" ],
+    \ }
 
 " Enable folding for markdown filetype
 let g:markdown_folding = 1
