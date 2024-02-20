@@ -223,6 +223,10 @@ function! MyDebug(msg)
 	endif
 endfunction
 
+function! MyClearMessageLine(n)
+	echon
+endfunction
+
 " Navigation between windows
 " Taken from https://github.com/AnotherProksY/ez-window
 function! MyNewScratchBuffer()
@@ -357,6 +361,8 @@ function! MySmartBackspace_normal()
 	if &buftype ==# 'terminal'
 		let b:SmartBackspaceInitialTime = reltime()
 	endif
+	echo expand("%")
+	call timer_start(3000, 'MyClearMessageLine')
 endfunction
 
 function! MySmartBackspace_terminal()
