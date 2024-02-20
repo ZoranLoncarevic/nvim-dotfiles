@@ -140,6 +140,9 @@ let g:ctrlsf_mapping = {
     \ "openb": [ "<CR>", "O" ],
     \ }
 
+" Toggle CtrlSF results pane
+nnoremap \f :CtrlSFToggle<cr>
+
 " Enable folding for markdown filetype
 let g:markdown_folding = 1
 
