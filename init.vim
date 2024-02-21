@@ -1033,7 +1033,11 @@ command! -bar -bang Remove Unlink<bang>
 nmap <silent> <expr> - MyRevealCurrentFileInNetrw()
 function! MyRevealCurrentFileInNetrw()
 	if &filetype != "netrw"
-		return ":Explore\<CR>/" . expand("%:t") . "\<CR>:nohl\<CR>"
+		if expand("%:t") == ""
+			return ":Explore\<CR>"
+		else
+			return ":Explore\<CR>/" . expand("%:t") . "\<CR>:nohl\<CR>"
+		endif
 	else
 		return "-"
 	endif
