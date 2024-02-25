@@ -679,6 +679,13 @@ function! MyOrgModeFollowLinkUnderCursor(alt)
 	let l:col=col('.')
 	let l:start=0
 
+	let l:previewWorkaround = has_key(b:,'PreviewMode') && b:PreviewMode==1 &&
+	                        \ has_key(b:,'PreviewModeStowedLine') &&
+	                        \ b:PreviewModeStowedLine.linenr == line(".")
+	if previewWorkaround
+		let l:lineStowed = b:PreviewModeStowedLine.line
+	endif
+
 	while l:col>=l:start
 		let l:start=match(l:line, l:referencePattern)+1
 		let l:end=matchend(l:line, l:referencePattern)
@@ -688,7 +695,11 @@ function! MyOrgModeFollowLinkUnderCursor(alt)
 		endif
 
 		if l:col < l:end
-			let l:link=matchlist(l:line, l:referencePattern)
+			if previewWorkaround
+				let l:link = matchlist(l:lineStowed, l:referencePattern)
+			else
+				let l:link=matchlist(l:line, l:referencePattern)
+			endif
 			call MyOrgModeFollowLink(l:link[1],a:alt)
 			return
 		endif
@@ -696,6 +707,9 @@ function! MyOrgModeFollowLinkUnderCursor(alt)
 		let l:line=l:line[l:end:]
 		let l:col-=l:end
 		let l:start=0
+		if previewWorkaround
+			let l:lineStowed = l:lineStowed[matchend(l:lineStowed, l:referencePattern):]
+		endif
 	endwhile	
 endfunction
 
@@ -753,6 +767,86 @@ function! MyOrgModeEnterKeyHandler()
 		return "\<Esc>^yf o\<C-R>\""
 	else
 		return "\<CR>"
+	endif
+endfunction
+
+" Part of Orgmode: works around the way nvim treats cursor position
+" and scrolls surrounding text in the presence of concealed characters.
+autocmd CursorMoved *.org call PreviewModeUpdate()
+autocmd FileType org nnoremap <silent> <buffer> \q :call TogglePreviewMode()<cr>
+autocmd FileType org nnoremap <silent> <buffer> <Esc> :call PreviewModeOff()<cr>
+
+function! PreviewModeUpdate()
+	if !has_key(b:,'PreviewMode') || b:PreviewMode == 0
+		return
+	endif
+
+	if has_key(b:,'PreviewModeStowedLine') && b:PreviewModeStowedLine.linenr != line(".")
+		call RestoreStowedLine()
+	endif
+
+	if !has_key(b:,'PreviewModeStowedLine') || b:PreviewModeStowedLine.linenr != line(".")
+		let orig_line=getline(".")
+		let b:PreviewModeStowedLine = {}
+		let b:PreviewModeStowedLine.linenr = line(".")
+		let b:PreviewModeStowedLine.line = l:orig_line
+
+		if orig_line != ""
+			let cursor_proxy = "🕅"
+			let line = l:orig_line[:col(".")-1] . cursor_proxy . l:orig_line[col("."):]
+			let line = substitute(line,'\v\['.cursor_proxy.'\[([^\]]+)\]\[([^\]]+)\]\]','[['.cursor_proxy.'\2]]',"g")
+			let line = substitute(line,'\v\[\[([^\]]*)'.cursor_proxy.'([^\]]*)\]\[([^\]]+)\]\]','[['.cursor_proxy.'\3]]',"g")
+			let line = substitute(line,'\v\[\[([^\]]+)\]\[([^\]]+)\]\]','[[\2]]',"g")
+			let cursor_pos = stridx(line, cursor_proxy)
+			" Note that cursor_proxy we chose takes 4 bytes
+			let line = l:line[:l:cursor_pos-1] . l:line[l:cursor_pos+4:]
+
+			if orig_line != l:line
+				undojoin
+				call setline(".",l:line)
+				call RestoreModifiedStatus()
+			endif
+			call cursor(0, cursor_pos)
+		endif
+	endif
+endfunction
+
+function! RestoreStowedLine()
+	if b:PreviewModeStowedLine.line != getline(b:PreviewModeStowedLine.linenr)
+		undojoin
+		call setline(b:PreviewModeStowedLine.linenr,b:PreviewModeStowedLine.line)
+		call RestoreModifiedStatus()
+	endif
+endfunction
+
+function! RestoreModifiedStatus()
+	if !b:PreviewModifedStatus
+		set nomodified
+	endif
+endfunction
+
+function! TogglePreviewMode()
+	if has_key(b:,'PreviewMode')
+		let b:PreviewMode = b:PreviewMode==0?1:0
+	else
+		let b:PreviewMode = 1
+	endif
+
+	if b:PreviewMode == 0
+		if has_key(b:,'PreviewModeStowedLine')
+			call RestoreStowedLine()
+			unlet b:PreviewModeStowedLine
+		endif
+	else
+		let b:PreviewModifedStatus = &modified
+	endif
+
+	echo "Preview mode ".(b:PreviewMode?"on":"off")
+endfunction
+
+function! PreviewModeOff()
+	if has_key(b:,'PreviewMode') && b:PreviewMode == 1
+		call TogglePreviewMode()
 	endif
 endfunction
 
