@@ -755,18 +755,38 @@ autocmd Filetype org nnoremap <silent> <buffer> <C-]> :call MyOrgModeFollowLinkU
 autocmd Filetype org nnoremap <silent> <buffer> <M-]> :call MyOrgModeFollowLinkUnderCursor(v:true)<cr>
 autocmd Filetype org nnoremap <silent> <buffer> <M-CR> :call MyOrgModeFollowLinkUnderCursor(v:true)<cr>
 
-autocmd FileType org imap <silent> <buffer> <expr> <CR> MyOrgModeEnterKeyHandler()
+autocmd FileType org imap <silent> <buffer> <expr> <CR> MyOrgModeEnterKeyHandler("CR")
+autocmd FileType org nnoremap <silent> <buffer> <expr> o MyOrgModeEnterKeyHandler("o")
 
-function! MyOrgModeEnterKeyHandler()
+let g:MyOrgModeEnterKeyReturnString = {
+    \	'numbered_list': {
+    \		'CR': " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>A",
+    \		'o': "^y/\\.\\|)/e+1\<CR>:nohl\<CR>o_\<Esc>Pldl^\<C-A>A",
+    \	},
+    \	'bullet_list': {
+    \		'CR': " _\<Esc>hr\<CR>k^y2lj^PldlA",
+    \		'o': "^y2lo_\<Esc>^PldlA",
+    \	},
+    \	'heading': {
+    \		'CR': " _\<Esc>hr\<CR>k^yf j^PldlA",
+    \		'o': "^yf o\<C-R>\"",
+    \	},
+    \	'default': {
+    \		'CR': "\<CR>",
+    \		'o': "o",
+    \	}
+    \}
+
+function! MyOrgModeEnterKeyHandler(cmd)
 	let line=getline('.')
 	if line =~ '^\s*\(\a\|\d\+\)[.)]\(\s\|$\)'
-		return " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>A"
+		return g:MyOrgModeEnterKeyReturnString.numbered_list[a:cmd]
 	elseif line =~ '^\(\s*[-+]\|\s\+\*\)\(\s\|$\)'
-		return " _\<Esc>hr\<CR>k^y2lj^PldlA"
+		return g:MyOrgModeEnterKeyReturnString.bullet_list[a:cmd]
 	elseif line =~ '^\*\{1,\} '
-		return "\<Esc>^yf o\<C-R>\""
+		return g:MyOrgModeEnterKeyReturnString.heading[a:cmd]
 	else
-		return "\<CR>"
+		return g:MyOrgModeEnterKeyReturnString.default[a:cmd]
 	endif
 endfunction
 
