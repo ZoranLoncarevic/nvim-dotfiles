@@ -760,16 +760,16 @@ autocmd FileType org nnoremap <silent> <buffer> <expr> o MyOrgModeEnterKeyHandle
 
 let g:MyOrgModeEnterKeyReturnString = {
     \	'numbered_list': {
-    \		'CR': " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>A",
-    \		'o': "^y/\\.\\|)/e+1\<CR>:nohl\<CR>o_\<Esc>Pldl^\<C-A>A",
+    \		'CR': " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>@A",
+    \		'o': "^y/\\.\\|)/e+1\<CR>:nohl\<CR>o_\<Esc>Pldl^\<C-A>@A",
     \	},
     \	'bullet_list': {
-    \		'CR': " _\<Esc>hr\<CR>k^y2lj^PldlA",
-    \		'o': "^y2lo_\<Esc>^PldlA",
+    \		'CR': " _\<Esc>hr\<CR>k^y2lj^Pldl@A",
+    \		'o': "^y2lo_\<Esc>^Pldl@A",
     \	},
     \	'heading': {
-    \		'CR': " _\<Esc>hr\<CR>k^yf j^PldlA",
-    \		'o': "^yf o\<C-R>\"",
+    \		'CR': " _\<Esc>hr\<CR>k^yf j^Pldl@A",
+    \		'o': "^yf @o\<C-R>\"",
     \	},
     \	'default': {
     \		'CR': "\<CR>",
@@ -777,7 +777,7 @@ let g:MyOrgModeEnterKeyReturnString = {
     \	}
     \}
 
-function! MyOrgModeEnterKeyHandler(cmd)
+function! _MyOrgModeEnterKeyHandler(cmd)
 	let line=getline('.')
 	if line =~ '^\s*\(\a\|\d\+\)[.)]\(\s\|$\)'
 		return g:MyOrgModeEnterKeyReturnString.numbered_list[a:cmd]
@@ -787,6 +787,16 @@ function! MyOrgModeEnterKeyHandler(cmd)
 		return g:MyOrgModeEnterKeyReturnString.heading[a:cmd]
 	else
 		return g:MyOrgModeEnterKeyReturnString.default[a:cmd]
+	endif
+endfunction
+
+function! MyOrgModeEnterKeyHandler(cmd)
+	let macro = _MyOrgModeEnterKeyHandler(a:cmd)
+	if len(macro)==1
+		return macro
+	else
+		let macro = substitute(macro,"@","\<Plug>MyOrgPResume","")
+		return "\<Plug>MyOrgPSuspend" . l:macro
 	endif
 endfunction
 
@@ -806,7 +816,7 @@ function! MyOrgModeExitPreviewOnInsert()
 endfunction
 
 function! PreviewModeUpdate()
-	if !has_key(b:,'PreviewMode') || b:PreviewMode == 0
+	if !has_key(b:,'PreviewMode') || b:PreviewMode != 1
 		return
 	endif
 
@@ -878,6 +888,25 @@ endfunction
 function! PreviewModeOff()
 	if has_key(b:,'PreviewMode') && b:PreviewMode == 1
 		call TogglePreviewMode()
+	endif
+endfunction
+
+" These are for use in key mappings that change buffer content
+" and might have adverse interactions with the Preview mode logic.
+nnoremap <Plug>MyOrgPSuspend :call MyOrgModeSuspendPreview()<CR>
+inoremap <Plug>MyOrgPSuspend <Esc>:call MyOrgModeSuspendPreview()<CR>a
+nnoremap <Plug>MyOrgPResume :call MyOrgModeResumePreview()<CR>
+inoremap <Plug>MyOrgPResume <Esc>:call MyOrgModeResumePreview()<CR>a
+
+function! MyOrgModeSuspendPreview()
+	if has_key(b:,'PreviewMode') && b:PreviewMode == 1
+		let b:PreviewMode = 2
+	endif
+endfunction
+
+function! MyOrgModeResumePreview()
+	if has_key(b:,'PreviewMode') && b:PreviewMode == 2
+		let b:PreviewMode = 1
 	endif
 endfunction
 
