@@ -723,18 +723,28 @@ function! MyOrgModeFollowLink(linkString, alt)
 	if match(a:linkString,"^https\?\:\/\/") != -1
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
 	elseif match(a:linkString,"^alt:\/") != -1
-		exe "edit" a:linkString
+		call MyOrgModeEditLinkedFile(a:linkString)
 	elseif match(a:linkString,"\\.mp4$") != -1
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
 	elseif match(a:linkString,l:openInNeovim) != -1
-		exe "edit ".a:linkString
+		call MyOrgModeEditLinkedFile(a:linkString)
 	elseif match(a:linkString,"^Redirect:") != -1
 		Bdelete
-		exe "edit" MyGetCannonicalZetelkasttenFile(a:linkString[9:])
+		call MyOrgModeEditLinkedFile(MyGetCannonicalZetelkasttenFile(a:linkString[9:]))
 	elseif stridx(a:linkString,"/") == -1
-		exe "edit" MyGetCannonicalZetelkasttenFile(a:linkString)
+		call MyOrgModeEditLinkedFile(MyGetCannonicalZetelkasttenFile(a:linkString))
 	else
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
+	endif
+endfunction
+
+function! MyOrgModeEditLinkedFile(file)
+	let shouldInheritPreview = &filetype == "org" &&
+				 \ has_key(b:,'PreviewMode') && b:PreviewMode == 1
+	exe "edit" a:file
+
+	if &filetype == "org" && l:shouldInheritPreview
+		silent call TogglePreviewMode()
 	endif
 endfunction
 
