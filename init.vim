@@ -920,6 +920,26 @@ function! MyOrgModeResumePreview()
 	endif
 endfunction
 
+" Orgmode links autocompletion in insert mode
+autocmd FileType org inoremap <silent> <expr> <buffer> <C-P> MyOrgLinkAutocomplete()
+
+function! MyOrgLinkAutocomplete()
+	let line_text = getline(".")[:col(".")-2]
+	let base_pos = match(line_text,'\[\[[^\]]*$')
+	if base_pos > -1
+		return("\<C-R>=_MyOrgLinkAutocomplete(".base_pos.")\<CR>")
+	else
+		return "\<C-P>"
+	endif
+endfunction
+
+function! _MyOrgLinkAutocomplete(base_pos)
+	let prefix = getline(".")[a:base_pos+2:col(".")-2]
+	let compres = MyZetelkasttenAutocomplete(prefix, getline("."), col("."))
+	call complete(a:base_pos+3,compres)
+	return ''
+endfunction
+
 " Navigate between diary entries
 function! MyEditDiary(what)
 	
