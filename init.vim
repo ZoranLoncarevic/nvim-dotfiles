@@ -673,6 +673,13 @@ autocmd Filetype org nnoremap <expr> <silent> <buffer> l MyOrgModeForwardSkipCon
 autocmd Filetype org nnoremap <expr> <silent> <buffer> h MyOrgModeBackwardSkipConceal(v:count1)
 
 function! MyOrgModeFollowLinkUnderCursor(alt)
+	let target = MyOrgModeGetLinkUnderCursor(1)
+	if target != ""
+		call MyOrgModeFollowLink(l:target,a:alt)
+	endif
+endfunction
+
+function! MyOrgModeGetLinkUnderCursor(what)
 	let l:referencePattern='\v\[\[([^\]]+)\](\[([^\]]+)\])?\]'
 
 	let l:line=getline('.')
@@ -694,14 +701,13 @@ function! MyOrgModeFollowLinkUnderCursor(alt)
 			break
 		endif
 
-		if l:col < l:end
+		if l:col <= l:end && l:col >= l:start
 			if previewWorkaround
 				let l:link = matchlist(l:lineStowed, l:referencePattern)
 			else
 				let l:link=matchlist(l:line, l:referencePattern)
 			endif
-			call MyOrgModeFollowLink(l:link[1],a:alt)
-			return
+			return l:link[a:what]
 		endif
 
 		let l:line=l:line[l:end:]
@@ -710,7 +716,8 @@ function! MyOrgModeFollowLinkUnderCursor(alt)
 		if previewWorkaround
 			let l:lineStowed = l:lineStowed[matchend(l:lineStowed, l:referencePattern):]
 		endif
-	endwhile	
+	endwhile
+	return ""
 endfunction
 
 function! MyOrgModeFollowLink(linkString, alt)
@@ -938,6 +945,33 @@ function! _MyOrgLinkAutocomplete(base_pos)
 	let compres = MyZetelkasttenAutocomplete(prefix, getline("."), col("."))
 	call complete(a:base_pos+3,compres)
 	return ''
+endfunction
+
+" yank an orgmode link to register
+autocmd FileType org nnoremap <silent> <buffer> yal :call MyOrgModeYankLink(v:register)<CR>
+autocmd FileType org nnoremap <silent> <buffer> p :call MyOrgModePut(v:register, "p")<CR>
+autocmd FileType org nnoremap <silent> <buffer> P :call MyOrgModePut(v:register, "P")<CR>
+
+function! MyOrgModeYankLink(register)
+	let link = MyOrgModeGetLinkUnderCursor(0)
+	if link != ""
+		call setreg(a:register,l:link)
+		echo link
+	endif
+endfunction
+
+function! MyOrgModePut(register, cmd)
+	if has_key(b:,'PreviewMode') && b:PreviewMode == 1
+		let savedview = winsaveview()
+		if has_key(b:,'PreviewModeStowedLine')
+			call MyOrgModeExitPreviewOnInsert(0)
+		endif
+		exe "norm!" "\"".a:register.a:cmd
+		call PreviewModeUpdate()
+		call winrestview(l:savedview)
+	else
+		exe "norm!" "\"".a:register.a:cmd
+	endif
 endfunction
 
 " Navigate between diary entries
