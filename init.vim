@@ -778,11 +778,11 @@ autocmd FileType org nnoremap <silent> <buffer> <expr> o MyOrgModeEnterKeyHandle
 let g:MyOrgModeEnterKeyReturnString = {
     \	'numbered_list': {
     \		'CR': " _\<Esc>hr\<CR>k^y/\\.\\|)/e+1\<CR>:nohl\<CR>j^Pldl^\<C-A>@A",
-    \		'o': "^y/\\.\\|)/e+1\<CR>:nohl\<CR>o_\<Esc>Pldl^\<C-A>@A",
+    \		'o': "^y/\\.\\|)/e+1\<CR>:nohl\<CR>o_\<Esc>Pldl^\<C-A>@:call MyOrgModeExitPreviewOnInsert(1)\<CR>A",
     \	},
     \	'bullet_list': {
     \		'CR': " _\<Esc>hr\<CR>k^y2lj^Pldl@A",
-    \		'o': "^y2lo_\<Esc>^Pldl@A",
+    \		'o': "^y2lo_\<Esc>^Pldl@:call MyOrgModeExitPreviewOnInsert(1)\<CR>A",
     \	},
     \	'heading': {
     \		'CR': " _\<Esc>hr\<CR>k^yf j^Pldl@A",
@@ -820,15 +820,85 @@ endfunction
 " Part of Orgmode: works around the way nvim treats cursor position
 " and scrolls surrounding text in the presence of concealed characters.
 autocmd CursorMoved *.org call PreviewModeUpdate()
-autocmd InsertEnter *.org call MyOrgModeExitPreviewOnInsert()
+autocmd InsertEnter *.org call MyOrgModeExitPreviewOnInsert(0)
 autocmd InsertLeave *.org call PreviewModeUpdate()
 autocmd FileType org nnoremap <silent> <buffer> \q :call TogglePreviewMode()<cr>
 autocmd FileType org nnoremap <silent> <buffer> <Esc> :call PreviewModeOff()<cr>
+autocmd FileType org nnoremap A :call MyOrgModeExitPreviewOnInsert(1)<CR>A
 
-function! MyOrgModeExitPreviewOnInsert()
+function! MyOrgModeExitPreviewOnInsert(skip_next)
 	if has_key(b:,'PreviewMode') && b:PreviewMode == 1
+		if has_key(b:, '_MyOrgModeSkipIE')
+			unlet b:PreviewModeStowedLine
+			unlet b:_MyOrgModeSkipIE
+			return
+		endif
+
+		let fixed_curpos = MyOrgModeFixedCursorPos()
 		call RestoreStowedLine()
-		unlet b:PreviewModeStowedLine
+		if !a:skip_next
+			unlet b:PreviewModeStowedLine
+		endif
+		call cursor(0, fixed_curpos)
+		let v:char = "p"
+
+		if a:skip_next
+			let b:_MyOrgModeSkipIE=1
+		elseif has_key(b:,'_MyOrgModeSkipIE')
+			unlet b:_MyOrgModeSkipIE
+		endif
+	endif
+endfunction
+
+function! MyOrgModeFixedCursorPos()
+
+	if !has_key(b:,'PreviewModeStowedLine') ||
+	\  b:PreviewModeStowedLine.linenr != line(".")
+		return col(".")
+	endif
+
+	let l:line=getline('.')
+	let l:stowed_line = b:PreviewModeStowedLine.line
+
+	let l:line_offset = 0
+	let l:stowed_offset = 0
+	let l:col = col(".")
+
+	while l:col > 0
+		let line_link = s:_mymatchlink(line)
+		let stowed_link = s:_mymatchlink(stowed_line)
+
+		if l:line_link.start<0 || l:stowed_link.start<0
+		                     \ || l:col < l:line_link.start
+			return l:stowed_offset + l:col
+		elseif l:col <= l:line_link.end
+			if stowed_link.description
+			   return l:stowed_offset + l:stowed_link.url_length + l:col
+			else
+			   return l:stowed_offset + l:col
+		        endif
+		else
+			let l:line = l:line[l:line_link.end:]
+			let l:line_offset += l:line_link.end
+			let l:stowed_line = l:stowed_line[l:stowed_link.end:]
+			let l:stowed_offset += l:stowed_link.end
+			let l:col -= l:line_link.end
+		endif
+	endwhile
+	return 0
+endfunction
+
+function! s:_mymatchlink(line)
+	let l:referencePattern='\v\[(\[([^\]]+)\])(\[([^\]]+)\])?\]'
+
+	if match(a:line, l:referencePattern) > 0
+		return { 'start': match(a:line, l:referencePattern)+1,
+		\        'end': matchend(a:line, l:referencePattern),
+		\        'url_length': len(matchlist(a:line, l:referencePattern)[1]),
+		\        'description': matchlist(a:line, l:referencePattern)[3]!='',
+		\      }
+	else
+		return { 'start': -1, 'end': -1, 'url_length':0 }
 	endif
 endfunction
 
