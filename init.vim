@@ -978,6 +978,15 @@ function! PreviewModeOff()
 	endif
 endfunction
 
+" Restore the current line before writing file to disk
+autocmd BufWritePre *.org call MyOrgRestoreBeforeWrite()
+function! MyOrgRestoreBeforeWrite()
+	if has_key(b:,'PreviewMode') && b:PreviewMode == 1 &&
+	\  has_key(b:,'PreviewModeStowedLine')
+		call RestoreStowedLine()
+	endif
+endfunction
+
 " These are for use in key mappings that change buffer content
 " and might have adverse interactions with the Preview mode logic.
 nnoremap <Plug>MyOrgPSuspend :call MyOrgModeSuspendPreview()<CR>
