@@ -722,7 +722,7 @@ endfunction
 
 function! MyOrgModeFollowLink(linkString, alt)
 	if a:alt
-		call MyAlternativeFile(MyGetCannonicalZetelkasttenFile(a:linkString))
+		call MyAlternativeFile("",MyGetCannonicalZetelkasttenFile(a:linkString))
 		return
 	endif
 	let l:openInNeovim='\.\(c\|cpp\|h\|hpp\|scm\|vim\|org\)$'
@@ -1608,8 +1608,7 @@ endfunction
 " Open alternative file for the current buffer
 autocmd BufReadCmd alt://* call MyAltFileLoad(expand('<afile>'))
 function! MyAltFileLoad(url)
-	let l:components = matchlist(a:url, '\valt://(.*)')
-	let l:altfilename = system("sha1sum",l:components[1])
+	let l:altfilename = system("sha1sum",a:url)
 	let l:altfilename = substitute(l:altfilename," .*$",".org","")
 	let l:filename = $HOME."/Zetelkastten/Apropos/".l:altfilename
 
@@ -1634,8 +1633,7 @@ endfunction
 
 autocmd BufWriteCmd alt://* call MyAltFileWrite(expand('<afile>'))
 function! MyAltFileWrite(url)
-	let l:components = matchlist(a:url, '\valt://(.*)')
-	let l:altfilename = system("sha1sum",l:components[1])
+	let l:altfilename = system("sha1sum",a:url)
 	let l:altfilename = substitute(l:altfilename," .*$",".org","")
 
 	if exists("b:CanonicalZetelkasttenFile")
@@ -1648,17 +1646,12 @@ function! MyAltFileWrite(url)
 	setlocal nomodified
 endfunction
 
-command! Alternative call MyAlternativeFile()
-function! MyAlternativeFile(...)
-	if a:0>0
-		let l:path = a:1
+command! -nargs=? Alternative call MyAlternativeFile(<q-args>, expand("%:p"))
+function! MyAlternativeFile(modifier, file)
+	if a:file =~# '^alt://'
+		exe "edit" substitute(a:file, '^alt://\(([^)]*)\)\?', "", "")
 	else
-		let l:path = expand("%:p")
-	endif
-	if l:path =~# '^alt://'
-		exe "edit" substitute(l:path, "^alt://", "", "")
-	else
-		exe "edit" "alt://".l:path
+		exe "edit" "alt://".(a:modifier==""?"":"(".a:modifier.")").a:file
 	endif
 endfunction
 
