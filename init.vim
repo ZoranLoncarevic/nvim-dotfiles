@@ -1099,7 +1099,7 @@ function! ZetelkasttenFrontEnd(...)
 	endif
 
 	let cmd="find $HOME/Zetelkastten -name Apropos -prune -o -not -type d -name "
-	let cmd.="'".a:1."*' -print | sort"
+	let cmd.="'".a:1."*' -printf '%f\t%p\n' | sed 's/\.org\t/\t/' | sort -t$\'\t\' -k1,1 | cut -f2"
 
 	let files=split(system(cmd),"\n")
 	if len(files)>0
