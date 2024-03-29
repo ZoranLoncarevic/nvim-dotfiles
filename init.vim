@@ -819,9 +819,9 @@ endfunction
 
 " Part of Orgmode: works around the way nvim treats cursor position
 " and scrolls surrounding text in the presence of concealed characters.
-autocmd CursorMoved *.org call PreviewModeUpdate()
-autocmd InsertEnter *.org call MyOrgModeExitPreviewOnInsert(0)
-autocmd InsertLeave *.org call PreviewModeUpdate()
+autocmd CursorMoved *.org,alt://* call PreviewModeUpdate()
+autocmd InsertEnter *.org,alt://* call MyOrgModeExitPreviewOnInsert(0)
+autocmd InsertLeave *.org,alt://* call PreviewModeUpdate()
 autocmd FileType org nnoremap <silent> <buffer> \q :call TogglePreviewMode()<cr>
 autocmd FileType org nnoremap <silent> <buffer> <Esc> :call PreviewModeOff()<cr>
 autocmd FileType org nnoremap A :call MyOrgModeExitPreviewOnInsert(1)<CR>A
