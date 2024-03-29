@@ -12,7 +12,7 @@ local cdPicker = function(name, cmd)
         local entry = require("telescope.actions.state").get_selected_entry()
 	require("telescope.actions").close(prompt_bufnr)
 	local dir = require("telescope.from_entry").path(entry)
-        vim.api.nvim_set_current_dir(dir)
+        vim.api.nvim_set_current_dir((dir:gsub("\\ "," ")))
       end)
       return true
     end,
