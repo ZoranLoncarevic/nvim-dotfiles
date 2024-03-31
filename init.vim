@@ -209,6 +209,12 @@ nmap žhs \hs
 nmap ž<Backspace> \<Backspace>
 nmap Ć "
 
+" Shebang abbreviations
+autocmd Filetype sh iabbr <expr> #! MyInsertShebang("#!/bin/bash")
+autocmd Filetype python iabbr <expr> #! MyInsertShebang("#!/usr/bin/python3")
+autocmd Filetype lua iabbr <expr> #! MyInsertShebang("#!/usr/bin/env lua")
+autocmd BufWritePost * call IfShebangSetExecutableBit()
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
@@ -225,6 +231,32 @@ endfunction
 
 function! MyClearMessageLine(n)
 	echon
+endfunction
+
+function MyInsertShebang(shebang)
+	if col(".")==3 && line(".")==1
+		let b:ShebangSet=1
+		return a:shebang
+	else
+		return "#!"
+	endif
+endfunction
+
+function! MySetExecutableBit()
+	if filereadable(expand("%"))
+		checktime
+		exe "au FileChangedShell " . expand("%:p") . " :echo "
+		silent !chmod a+x %
+		checktime
+		exe "au! FileChangedShell " . expand("%:p")
+	endif
+endfunction
+
+function! IfShebangSetExecutableBit()
+	if has_key(b:,'ShebangSet') &&
+	 \ getline(1)[0:1]=="#!"
+		call MySetExecutableBit()
+	endif
 endfunction
 
 " Navigation between windows
