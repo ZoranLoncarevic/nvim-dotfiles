@@ -1683,7 +1683,7 @@ function! MyAlternativeFile(modifier, file)
 	if a:file =~# '^alt://'
 		exe "edit" substitute(a:file, '^alt://\(([^)]*)\)\?', "", "")
 	else
-		exe "edit" "alt://".(a:modifier==""?"":"(".a:modifier.")").a:file
+		call MyOrgModeEditLinkedFile("alt://".(a:modifier==""?"":"(".a:modifier.")").a:file)
 	endif
 endfunction
 
