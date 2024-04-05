@@ -763,6 +763,8 @@ function! MyOrgModeFollowLink(linkString, alt)
 		silent exe "!xdg-open \"" . a:linkString . "\" &"
 	elseif match(a:linkString,"^alt:\/") != -1
 		call MyOrgModeEditLinkedFile(a:linkString)
+	elseif match(a:linkString,"^youtube:\/") != -1
+		call jobstart("get-youtube-video ".substitute(a:linkString,"^youtube:\/\/","",""))
 	elseif match(a:linkString,"\\.mp4\\|\\.avi\\|\\.mpeg$\\|\\.webm\\|\\.mkv") != -1
 		call jobstart('mplayer -really-quiet "'.a:linkString.'"', {'detach':1})
 	elseif match(a:linkString,l:openInNeovim) != -1
