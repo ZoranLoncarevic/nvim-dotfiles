@@ -206,6 +206,7 @@ nmap đc ]c
 nmap šc [c
 nmap žhu \hu
 nmap žhs \hs
+nmap ž, \,
 nmap ž<Backspace> \<Backspace>
 nmap Ć "
 
