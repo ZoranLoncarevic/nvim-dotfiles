@@ -1144,7 +1144,7 @@ endfunction
 
 function! MyZetelkasttenAutocomplete(arglead, cmdline, cursorpos)
 	let cmd="find $HOME/Zetelkastten -name Apropos -prune -o -not -type d -name "
-	let cmd.="'".a:arglead."*' -printf '%f\\n' | sort"
+	let cmd.="'".a:arglead."*' -printf '%f\\n' | sort -r"
 	return split(system(cmd),"\n")->map('substitute(v:val,"\.org$","","")')
 endfunction
 
