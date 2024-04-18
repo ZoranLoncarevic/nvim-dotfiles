@@ -45,7 +45,7 @@ if dein#load_state(s:dein_base)
   call dein#add('airblade/vim-gitgutter', {'on_path': '.*'})
   call dein#add('tpope/vim-fugitive', {'on_cmd': ['Git', 'Gcommit', 'Gblame','Gstatus', 'Gitdiff', 'Gbrowse'] }) 
   call dein#add('jreybert/vimagit', {'on_cmd': 'Magit'})
-  call dein#add('gregsexton/gitv', {'on_cmd': ['Gitv', 'Gitv!'], 'depends': 'vim-fugitive' })
+  call dein#add('rbong/vim-flog', {'on_cmd': ['Flog', 'Flogsplit', 'Floggit'], 'depends': 'vim-fugitive' })
 
 " Auto Completion
   call dein#add('Raimondi/delimitMate')
