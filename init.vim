@@ -10,6 +10,7 @@ if &runtimepath !~# '/dein.vim'
     let s:dir = $CACHE .. '/dein/repos/github.com/Shougo/dein.vim'
     if !(s:dir->isdirectory())
       execute '!git clone https://github.com/Shougo/dein.vim' s:dir
+      let s:_firstTimeInstall = v:true
     endif
   endif
   execute 'set runtimepath^='
@@ -82,6 +83,10 @@ if dein#load_state(s:dein_base)
   call dein#end()
   call dein#save_state()
 
+endif
+
+if exists("s:_firstTimeInstall")
+	call dein#install()
 endif
 
 " Open new vertical window to the right
