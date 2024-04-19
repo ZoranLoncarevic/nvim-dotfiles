@@ -1380,6 +1380,20 @@ function! MyRevealCurrentFileInNetrw()
 	endif
 endfunction
 
+function! GetNetrwfile()
+	if &filetype != "netrw"
+		return ""
+	endif
+	let abs_file = b:netrw_curdir . '/' . getline(".")
+	let rel_file = fnamemodify(abs_file,":.")
+	return fnameescape(rel_file)
+endfunction
+
+autocmd Filetype netrw nnoremap <buffer> ~ :edit ~/<CR>
+autocmd Filetype netrw nnoremap <buffer> <expr> . ":\<C-U> ".GetNetrwfile()."\<Home>"
+autocmd Filetype netrw nnoremap <buffer> <silent> y. :<C-U>:call setreg(v:register,b:netrw_curdir.'/'.getline("."))<CR>
+autocmd Filetype netrw cnoremap <buffer> <expr> <C-R><C-F> GetNetrwfile()
+
 " For text, markdown and orgmode filetypes, K looks up word in a dictionary
 autocmd FileType text,markdown,org,dictionary setlocal keywordprg=:WordDictionary
 autocmd BufReadCmd Dictionary:* call MyDictionaryWordLoad(expand('<afile>'))
