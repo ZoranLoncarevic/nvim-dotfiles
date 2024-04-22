@@ -134,6 +134,9 @@ let NERDTreeMinimalUI=1
 " Close NERDTree if it's the only window left
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" Resize splits if terminal window got resized
+autocmd VimResized * tabdo wincmd =
+
 " DelimitMate (autoclosing) plugin configuration
 let delimitMate_expand_space = 1
 let delimitMate_expand_cr = 1
