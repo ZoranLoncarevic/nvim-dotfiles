@@ -1369,6 +1369,18 @@ command! -bar -bang Unlink
        \ endif
 command! -bar -bang Remove Unlink<bang>
 
+" When writing file, automatically create parent directories if they do not exist
+autocmd BufWritePre,FileWritePre * call MyAutoMkdir()
+function! MyAutoMkdir()
+	let dir=expand("<afile>:p:h")
+	if dir !~ '^[^/:]*://' && dir !~ '^Dictionary:'
+		if !isdirectory(dir)
+			echo "Making directory ".dir."\n"
+			call mkdir(dir,"p")
+		endif
+	endif
+endfunction
+
 " Open current file's directory in Netrw like vinegar
 nmap <silent> <expr> - MyRevealCurrentFileInNetrw()
 function! MyRevealCurrentFileInNetrw()
