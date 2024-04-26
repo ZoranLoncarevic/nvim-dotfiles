@@ -1670,7 +1670,16 @@ function! MyBufferSelectionMenu()
 		endfor
 		call append('$','')
 		nnoremap <silent> <buffer> q :Bdelete<cr>
+		nnoremap <silent> <buffer> d :call MyBufferSelectionDelete()<cr>
 		call MyMenuFinish()
+	endif
+endfunction
+
+function! MyBufferSelectionDelete()
+	if has_key(b:MyMenu.entries, line('.'))
+		exe substitute(b:MyMenu.entries[line('.')].command,'^bu','Bdelete',"")
+		Bdelete
+		call MyBufferSelectionMenu()
 	endif
 endfunction
 
