@@ -454,7 +454,8 @@ function! MySwitchToWindowByBuffer(bufn)
 	endwhile
 endfunction
 
-function! MyCreateTerminalWrapper()
+function! MyCreateTerminalWrapper(directory)
+	exe "lcd" fnameescape(a:directory)
 	terminal
 endfunction
 
@@ -466,23 +467,40 @@ function! MyTerminalPostAction(action)
 	endif
 endfunction
 
-function! MyTerminalWrapper()
+function! MyTerminalSwitchTo(buffer)
 	let post_action=get(b:,'MyLinkedPostAction')
-	if has_key(b:,"MyLinkedTerminalWrapper") && bufexists(b:MyLinkedTerminalWrapper)
-		if !MySwitchToWindowByBuffer(b:MyLinkedTerminalWrapper)
-			vertical split
-			exe 'buffer ' . b:MyLinkedTerminalWrapper
-		endif
-		call MyTerminalPostAction(post_action)
-	else
-		let source_buffer=bufnr('%')
+	if !MySwitchToWindowByBuffer(a:buffer)
 		vertical split
-		call MyCreateTerminalWrapper()
-		let target_buffer=bufnr('%')
-		let b:MyLinkedSourceBuffer=source_buffer
-		exe 'buffer ' . source_buffer
-		let b:MyLinkedTerminalWrapper=target_buffer
-		exe 'buffer' . target_buffer
+		exe 'buffer ' . a:buffer
+	endif
+	call MyTerminalPostAction(post_action)
+endfunction
+
+let g:MyProjectsTerminalCache = {}
+
+function! MyTerminalWrapper()
+	if has_key(b:,"MyLinkedTerminalWrapper") && bufexists(b:MyLinkedTerminalWrapper)
+		call MyTerminalSwitchTo(b:MyLinkedTerminalWrapper)
+	else
+		let curr_dir = expand("%:p:h")
+		let base_dir = MyGetBaseProjectDirectory(curr_dir)
+		if base_dir == "" ||
+		 \ !has_key(g:MyProjectsTerminalCache,base_dir) ||
+		 \ !bufexists(g:MyProjectsTerminalCache[base_dir])
+			let source_buffer=bufnr('%')
+			vertical split
+			call MyCreateTerminalWrapper(curr_dir)
+			let target_buffer=bufnr('%')
+			let b:MyLinkedSourceBuffer=source_buffer
+			exe 'buffer ' . source_buffer
+			let b:MyLinkedTerminalWrapper=target_buffer
+			exe 'buffer' . target_buffer
+			if base_dir != ""
+				let g:MyProjectsTerminalCache[l:base_dir]=l:target_buffer
+			endif
+		else
+			call MyTerminalSwitchTo(g:MyProjectsTerminalCache[base_dir])
+		endif
 	endif
 endfunction
 
