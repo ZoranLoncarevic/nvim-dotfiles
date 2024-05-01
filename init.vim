@@ -2095,3 +2095,62 @@ auto FileType vim call <SID>_VimScriptAbbrev("for","endfor")
 auto FileType vim call <SID>_VimScriptAbbrev("while","endwhile")
 auto FileType vim call <SID>_VimScriptAbbrev("try","endtry")
 auto FileType vim call <SID>_VimScriptAbbrev("function!","endfunction")
+
+" Wcd integration
+function! MyWcd(arguments)
+	function! s:MyWcdOnTerminalExit() closure
+		exe 'silent! bd! ' . buffer_nr
+		let go_filename = (exists("$WCDHOME")?$WCDHOME:$HOME) . '/bin/wcd.go'
+		let result = readfile(go_filename,'',10)
+		for line in result
+			if line =~ '^cd '
+				call MyWcd_change2dir(line[3:])
+			endif
+		endfor
+	endfunction
+
+	if a:arguments =~ '^-g\>\|[\t ]-g\>'
+		bot split
+		enew
+		let buffer_nr = bufnr("%")
+		call termopen("wcd.exec " . a:arguments,
+		\    {'on_exit':{job,status -> s:MyWcdOnTerminalExit()}})
+		return
+	endif
+
+	let result=system("wcd.exec -o " . a:arguments)
+	if result =~ '^-> '
+		call MyWcd_change2dir(result[3:len(result)-2])
+		return
+	endif
+	let result = substitute(result,'\nPlease choose one[^\n]*',"","")
+	try
+		echo result
+	finally
+		echo "Please choose one:"
+		let response=input(":")
+	endtry
+	let lines=split(result,"\n")
+	for line in lines
+		let fields = matchlist(line,'\v^([0-9]+)[\t ]*(.*)$')
+		if !empty(fields)
+			if fields[1] == l:response ||
+			\  fields[1] == char2nr(l:response)-char2nr('a')+1
+				call MyWcd_change2dir(fields[2])
+			endif
+		endif
+	endfor
+endfunction
+
+function! MyWcd_change2dir(directory)
+	let s:MyDelayedMsg = a:directory
+	call timer_start(10, "<SID>MyShowDelayedMsg")
+	exe "cd" fnameescape(a:directory)
+endfunction
+
+function! s:MyShowDelayedMsg(timer_id)
+	echo s:MyDelayedMsg
+endfunction
+
+command! -nargs=1 Wcd call MyWcd('<args>')
+cabbr <expr> wcd getcmdtype() == ":" && getcmdpos() == 4?"Wcd":"wcd"
