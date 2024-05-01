@@ -2078,3 +2078,17 @@ function! ZetelkasttenCalendar_cb(date)
 	let filename=s:_padn(s:_padn(date_comp[2])."-".s:_padn(date_comp[3])."-".date_comp[1])
 	execute 'edit '.expand("~/Zetelkastten/Daily Log/").l:filename.".org"
 endfunction
+
+" Vimscript abbreviations
+function! s:_VimScriptAbbrev(opening,closing)
+	exe "iabbrev <buffer> <expr> " . a:opening . ' ' .
+	\   'getline(".")[:col(".")] =~ "^[\t ]*' . a:opening . '$"?' .
+	\   '"' . a:opening . '\<CR>.\<Backspace>\<CR>' . a:closing . '\<Up>\<Up>":' .
+	\   '"' . a:opening . '"'
+endfunction
+
+auto FileType vim call <SID>_VimScriptAbbrev("if","endif")
+auto FileType vim call <SID>_VimScriptAbbrev("for","endfor")
+auto FileType vim call <SID>_VimScriptAbbrev("while","endwhile")
+auto FileType vim call <SID>_VimScriptAbbrev("try","endtry")
+auto FileType vim call <SID>_VimScriptAbbrev("function!","endfunction")
