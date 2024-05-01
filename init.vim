@@ -219,9 +219,9 @@ nmap ž<Backspace> \<Backspace>
 nmap Ć "
 
 " Shebang abbreviations
-autocmd Filetype sh iabbr <expr> #! MyInsertShebang("#!/bin/bash")
-autocmd Filetype python iabbr <expr> #! MyInsertShebang("#!/usr/bin/python3")
-autocmd Filetype lua iabbr <expr> #! MyInsertShebang("#!/usr/bin/env lua")
+autocmd Filetype sh iabbr <buffer> <expr> #! MyInsertShebang("#!/bin/bash")
+autocmd Filetype python iabbr <buffer> <expr> #! MyInsertShebang("#!/usr/bin/python3")
+autocmd Filetype lua iabbr <buffer> <expr> #! MyInsertShebang("#!/usr/bin/env lua")
 autocmd BufWritePost * call IfShebangSetExecutableBit()
 
 " Utility functions
