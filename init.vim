@@ -199,6 +199,9 @@ nnoremap <silent> \\ :nohlsearch\|echon<CR>
 " e %. opens Netrw/NERDTree in current file's directory (like Explore)
 cabbr <expr> %. getcmdtype() == ':' && getcmdline() == "e %." ? expand("%:p:h") : "%."
 
+" I keep forgetting that, for Vim, bash is filetype sh
+cabbr <expr> bash getcmdtype() == ":" && getcmdline() == "set filetype=bash"?"sh":"bash"
+
 " additional mappings for git rebase
 auto FileType gitrebase nnoremap <buffer> <silent> ,e :Edit<cr>
 auto FileType gitrebase nnoremap <buffer> <silent> ,p :Pick<cr>
