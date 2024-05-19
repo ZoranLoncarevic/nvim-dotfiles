@@ -197,7 +197,7 @@ inoremap <c-]> <c-x><c-]>
 nnoremap <silent> \\ :nohlsearch\|echon<CR>
 
 " e %. opens Netrw/NERDTree in current file's directory (like Explore)
-cabbr <expr> %. getcmdtype() == ':' && getcmdline() == "e %." ? expand("%:p:h") : "%."
+cabbr <expr> %. getcmdtype() == ':' && getcmdline() =~ '^\(e\\|cd\) %.$' ? expand("%:p:h") : "%."
 
 " I keep forgetting that, for Vim, bash is filetype sh
 cabbr <expr> bash getcmdtype() == ":" && getcmdline() == "set filetype=bash"?"sh":"bash"
