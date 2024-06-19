@@ -24,9 +24,22 @@ Cd = function(path)
   cdPicker("Cd", { vim.o.shell,	"-c", "fdfind . " .. path .. " -t d" })
 end
 
+Project = function(path)
+  path = path or "."
+  cdPicker("Project", { vim.o.shell, "-c", "fdfind '.*\\.git$|.*\\.proj$' " .. path .. " -H -t d | sed 's@/\\.git/$\\|/\\.proj/$@@'" })
+end
+
 require("telescope").extensions["cd"] = {
   cd=function(opts)
   opts = opts or {}
   opts.cwd = opts.cwd or vim.env.HOME
   Cd(opts.cwd)
 end,}
+
+require("telescope").extensions["project"] = {
+  project=function(opts)
+    opts = opts or {}
+    opts.cwd = opts.cwd or vim.env.HOME
+    Project(opts.cwd)
+  end
+}
