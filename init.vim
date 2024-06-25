@@ -29,7 +29,7 @@ if dein#load_state(s:dein_base)
 
 " Commands
   call dein#add('godlygeek/tabular', {'on_cmd': 'Tabularize'})
-  call dein#add('vim-scripts/taglist.vim', {'on_cmd': [ 'TlistToggle', 'TlistOpen' ]})
+  call dein#add('yegappan/taglist', {'on_cmd': [ 'TlistToggle', 'TlistOpen' ]})
   call dein#add('scrooloose/nerdtree', {'on_cmd': 'NERDTreeToggle'})
   call dein#add('chrisbra/NrrwRgn', {'on_cmd': 'NR'})
   call dein#add('vim-scripts/foldutil.vim', {'on_cmd': ['FoldMatching', 'FoldShowLines', 'FoldShowRange']})
