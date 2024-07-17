@@ -1463,7 +1463,7 @@ function! MyDictionaryWordLoad(dict_url)
 	setlocal filetype=dictionary
 	setlocal nowrap
 	redraw
-	silent keepjumps exe "read" "!".b:dict_prg." ".l:word." 2>/dev/null"
+	silent keepjumps exe "read" "!".b:dict_prg." ".l:word
 	silent keepjumps norm gg
 endfunction
 
