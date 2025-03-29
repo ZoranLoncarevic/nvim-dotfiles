@@ -1168,6 +1168,8 @@ function! ZetelkasttenFrontEnd(...)
 	let files=split(system(cmd),"\n")
 	if len(files)>0
 		exe "edit ".fnameescape(files[0])
+	else
+		exe "edit ".fnameescape($HOME . "/Zetelkastten/" . a:1 . ".org")
 	endif
 endfunction
 
