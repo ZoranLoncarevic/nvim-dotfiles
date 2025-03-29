@@ -805,7 +805,7 @@ function! MyOrgModeFollowLink(linkString, alt)
 	elseif stridx(a:linkString,"/") == -1
 		call MyOrgModeEditLinkedFile(MyGetCannonicalZetelkasttenFile(a:linkString))
 	else
-		silent exe "!xdg-open \"" . a:linkString . "\" &"
+		call jobstart("xdg-open \"" . a:linkString . "\"", {'detach':1})
 	endif
 endfunction
 
