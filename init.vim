@@ -227,6 +227,10 @@ autocmd Filetype python iabbr <buffer> <expr> #! MyInsertShebang("#!/usr/bin/pyt
 autocmd Filetype lua iabbr <buffer> <expr> #! MyInsertShebang("#!/usr/bin/env lua")
 autocmd BufWritePost * call IfShebangSetExecutableBit()
 
+" Asymptote filetype detection
+autocmd BufNewFile,BufRead *.asy setfiletype asy
+autocmd Filetype asy nnoremap <buffer> <silent> <C-C><C-C> :update \| silent! !asy % ; evince %:r.eps &<cr>
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
