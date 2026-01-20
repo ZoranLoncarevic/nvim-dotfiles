@@ -231,6 +231,10 @@ autocmd BufWritePost * call IfShebangSetExecutableBit()
 autocmd BufNewFile,BufRead *.asy setfiletype asy
 autocmd Filetype asy nnoremap <buffer> <silent> <C-C><C-C> :update \| silent! !asy % ; evince %:r.eps &<cr>
 
+" Txr filetype detection
+autocmd BufNewFile,BufRead *.txr set filetype=txr | set lisp
+autocmd BufNewFile,BufRead *.tl,*.tlo set filetype=tl | set lisp
+
 " Utility functions
 function! MyError(msg)
 	echohl ErrorMsg
