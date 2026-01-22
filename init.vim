@@ -576,6 +576,25 @@ let g:codi#interpreters = {
 \      }
 \}
 
+" Txr support
+
+autocmd FileType txr,tl setl keywordprg=:TxrHelp
+
+let g:txr_index_file = $HOME . '/.config/nvim/data/txr-man.index'
+command! -nargs=1 TxrHelp :call MyTxrHelp(<q-args>)
+function! MyTxrHelp(word)
+	let l:xRefString = system(['fgrep', '-m1', a:word, g:txr_index_file])
+	if empty(l:xRefString)
+		call MyError("Sorry, no entry for ".a:word)
+	else
+		execute "Man txr"
+		let @/ = split(l:xRefString)[0]
+		set hlsearch
+		call search(@/, 'w')
+		redraw
+	endif
+endfunction
+
 " Scheme support
 
 autocmd FileType scheme setl tags+=$HOME/.config/nvim/ctags/guile

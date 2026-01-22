@@ -1,0 +1,1734 @@
+6.2.1 Basic Hash Bang
+6.2.2 Argument Generation with ‐‐args and ‐‐eargs
+6.2.3 Argument Generation with the Null Hack
+6.2.4 Passing Options to TXR via Hash‐Bang Null Hack
+6.2.5 Hash Bang and Setuid
+6.9.1 Variable Followed by Nothing
+6.9.2 Variable Followed by Text
+6.9.3 Variable Followed by a Function Call or Directive
+6.9.4 Consecutive Variables
+6.9.5 Consecutive Variables via Directive
+6.9.6 Longest Match
+7.3.1 The next Directive
+7.3.2 The skip Directive
+7.3.3 Reducing Backtracking with Blocks
+7.3.4 The trailer Directive
+7.3.5 The freeform Directive
+7.3.6 The fuzz Directive
+7.3.7 The line and chr Directives
+7.3.8 The name Directive
+7.3.9 The data Directive
+7.3.10 The eof Directive
+7.3.11 The some, all, none, maybe, cases and choose Directives
+7.3.12 The require Directive
+7.3.13 The if Directive
+7.3.14 The Lisp if versus TXR if
+7.3.15 The gather Directive
+7.3.16 The until / last clause in gather
+7.3.17 Keyword Parameters in gather
+7.3.18 The collect Directive
+7.3.19 The until / last clause in collect
+7.3.20 Keyword Parameters in collect
+7.3.21 Specifying Variables in collect
+7.3.22 Mandatory until and last
+7.3.23 The coll Directive
+7.3.24 Keyword Parameters in coll
+7.3.25 The flatten Directive
+7.3.26 The merge Directive
+7.3.27 The cat Directive
+7.3.28 The bind Directive
+7.3.29 Keywords in The bind Directive
+7.3.30 Lisp Forms in The bind Directive
+7.3.31 The set Directive
+7.3.32 The rebind Directive
+7.3.33 The forget Directive
+7.3.34 The do Directive
+7.3.35 The mdo Directive
+7.3.36 The in‐package Directive
+7.4.1 Overview
+7.4.2 The block Directive
+7.4.3 Block Scope
+7.4.4 Block Nesting
+7.4.5 Block Semantics
+7.4.6 Interaction Between The trailer and accept Directives
+7.4.7 Interaction Between The next and accept Directives
+7.4.8 Interaction Between Functions and the accept Directive
+7.4.9 Interaction Between finally and the accept directive
+7.4.10 Vertical‐Horizontal Mismatch Between block and accept
+7.4.11 Horizontal‐Horizontal Mismatch between block and accept
+7.5.1 Overview
+7.5.2 Definition Syntax
+7.5.3 Two Forms of The Horizontal Function
+7.5.4 Vertical‐Horizontal Overloading
+7.5.5 Call Syntax
+7.5.6 Vertical Versus Horizontal Calls
+7.5.7 Local Variables
+7.5.8 Nested Functions
+7.5.9 Indirect Calls
+7.6.1 The load and include Directives
+7.7.1 Introduction
+7.7.2 The output Directive
+7.7.3 The push Directive
+7.7.4 Output Text
+7.7.5 Output Variables
+7.7.6 Output Variables: Buffer Objects
+7.7.7 Output Variables: Separation
+7.7.8 Output Variables: Indexing
+7.7.9 Output Substitutions
+7.7.10 The repeat Directive
+7.7.11 Nested repeat directives
+7.7.12 The rep Directive
+7.7.13 repeat and rep Examples
+7.7.14 The close Directive
+7.7.15 Output Filtering
+7.7.16 Function Filters
+7.7.17 The deffilter Directive
+7.7.18 The filter Directive
+7.8.1 Introduction
+7.8.2 The try Directive
+7.8.3 The finally clause
+7.8.4 catch clauses
+7.8.5 catch Clauses with Parameters
+7.8.6 The throw Directive
+7.8.7 The defex Directive
+7.8.8 The assert Directive
+8.2.1 Symbol Tokens
+8.2.2 Package Prefixes
+8.2.3 Uninterned Symbols
+8.2.4 Meta‐Atoms and Meta‐Expressions
+8.2.5 Lambda Dot
+8.2.6 Referencing Dot
+8.2.7 Unbound Referencing Dot
+8.2.8 Quote and Quasiquote
+8.2.9 Quasiquoting non‐List Objects
+8.2.10 Quasiquoting combined with Quasiliterals
+8.2.11 Vector Literals
+8.2.12 Struct Literals
+8.2.13 Hash Literals
+8.2.14 Range Literals
+8.2.15 Buffer Literals
+8.2.16 Tree Node Literals
+8.2.17 Tree Literals
+8.2.18 JSON Literals
+8.2.19 The .. notation
+8.2.20 The DWIM Brackets
+8.2.21 Compound Forms
+8.2.22 Dot Position in Function Calls
+8.2.23 Improper Lists as Macro Calls
+8.2.24 Regular‐Expression Literals
+8.2.25 Notation for Circular and Shared Structure
+8.2.26 Notation for Erasing Objects
+8.7.1 Symbolic Places
+8.7.2 Compound Places
+8.7.3 Accessor Functions
+8.7.4 Macro Call Syntactic Places
+8.7.5 User‐Defined Syntactic Places and Place Operators
+8.7.6 Deletable Places
+8.7.7 Evaluation of Places
+8.7.8 Nested Places
+8.7.9 Built‐In Syntactic Places
+8.7.10 Built‐In Place‐Mutating Operators
+8.8.1 Global Functions and Operator Macros
+8.8.2 Global and Dynamic Variables
+8.8.3 Global Symbol Macros
+8.8.4 Lexical Environments
+8.8.5 Pattern Language and Lisp Scope Nesting
+9.2.1 Operator quote
+9.3.1 Operator defvar and Macro defparm
+9.3.2 Macros defvarl and defparml
+9.3.3 Operators let and let*
+9.3.4 Macro letrec
+9.3.5 Operator progv
+9.3.6 Operator in‐env‐above
+9.4.1 Operator defun
+9.4.2 Operator lambda
+9.4.3 Macros flet and labels
+9.4.4 Function call
+9.4.5 Functions apply and iapply
+9.4.6 Operator fun
+9.4.7 Operator dwim
+9.4.8 Function functionp
+9.4.9 Function copy‐fun
+9.5.1 Operators/Functions progn and prog1
+9.5.2 Macro/Function prog2
+9.5.3 Operator cond
+9.5.4 Macros case, caseq, caseql and casequal
+9.5.5 Macros case*, caseq*, caseql* and casequal*
+9.5.6 Macros ecase, ecaseq, ecaseql, ecasequal, ecase*, ecaseq*, ecaseql* and ecasequal*
+9.5.7 Operator/Function if
+9.5.8 Operator/Function and
+9.5.9 Macro/Function nand
+9.5.10 Operator/Function or
+9.5.11 Macro/Function nor
+9.5.12 Macros when and unless
+9.5.13 Macros while and until
+9.5.14 Macros while* and until*
+9.5.15 Macro whilet
+9.5.16 Macros iflet and whenlet
+9.5.17 Macro condlet
+9.5.18 Macro ifa
+9.5.19 Macro conda
+9.5.20 Macro whena
+9.5.21 Macro dotimes
+9.5.22 Operators each, each*, collect‐each, collect‐each*, append‐each and append‐each*
+9.5.23 Macros for and for*
+9.5.24 Macros doloop and doloop*
+9.5.25 Macros sum‐each, sum‐each*, mul‐each and mul‐each*
+9.5.26 Macros each‐true, some‐true, each‐false and some‐false
+9.5.27 Macros each‐prod, collect‐each‐prod and append‐each‐prod
+9.5.28 Macros each‐prod*, collect‐each‐prod* and append‐each‐prod*
+9.5.29 Macros sum‐each‐prod, sum‐each‐prod*, mul‐each‐prod and mul‐each‐prod*
+9.5.30 Operators block and block*
+9.5.31 Operators return and return‐from
+9.5.32 Function return*
+9.5.33 Macros tagbody and go
+9.5.34 Macros prog and prog*
+9.6.1 Function eval
+9.6.2 Function constantp
+9.6.3 Function make‐env
+9.6.4 Functions env‐vbind and env‐fbind
+9.6.5 Functions env‐vbindings, env‐fbindings and env‐next
+9.7.1 Accessors symbol‐function, symbol‐macro and symbol‐value
+9.7.2 Functions boundp, fboundp and mboundp
+9.7.3 Function makunbound
+9.7.4 Functions fmakunbound and mmakunbound
+9.7.5 Function func‐get‐form
+9.7.6 Function func‐get‐name
+9.7.7 Function func‐get‐env
+9.7.8 Functions fun‐fixparam‐count and fun‐optparam‐count
+9.7.9 Function fun‐variadic
+9.7.10 Function interp‐fun‐p
+9.7.11 Function vm‐fun‐p
+9.7.12 Function intrinsic‐fun‐p
+9.7.13 Function special‐var‐p
+9.7.14 Function special‐operator‐p
+9.7.15 Symbol Macro %fun%
+9.8.1 Function typeof
+9.8.2 Function subtypep
+9.8.3 Function typep
+9.8.4 Macro typecase
+9.8.5 Macro etypecase
+9.8.6 Function built‐in‐type‐p
+9.9.1 Functions identity, identity* and use
+9.9.2 Functions null, not and false
+9.9.3 Functions true and have
+9.9.4 Functions eq, eql and equal
+9.9.5 Functions neq, neql and nequal
+9.9.6 Functions meq, meql and mequal
+9.9.7 Function less
+9.9.8 Function greater
+9.9.9 Functions lequal and gequal
+9.9.10 Function copy
+9.10.1 Function cons
+9.10.2 Function atom
+9.10.3 Function consp
+9.10.4 Accessors car and first
+9.10.5 Accessors cdr and rest
+9.10.6 Functions rplaca and rplacd
+9.10.7 Accessors second, third, fourth, fifth, sixth, seventh, eighth, ninth and tenth
+9.10.8 Functions append and nconc
+9.10.9 Function append*
+9.10.10 Functions revappend and nreconc
+9.10.11 Function list
+9.10.12 Function list*
+9.10.13 Accessor sub‐list
+9.10.14 Function replace‐list
+9.10.15 Functions listp and proper‐list‐p
+9.10.16 Function endp
+9.10.17 Function length‐list
+9.10.18 Function copy‐list
+9.10.19 Function length‐list‐<
+9.10.20 Function copy‐cons
+9.10.21 Function copy‐tree
+9.10.22 Functions reverse and nreverse
+9.10.23 Accessor nthlast
+9.10.24 Accessor butlastn
+9.10.25 Accessor nth
+9.10.26 Accessor nthcdr
+9.10.27 Function tailp
+9.10.28 Accessors caar, cadr, cdar, cddr, ..., cdddddr
+9.10.29 Functions cyr and cxr
+9.10.30 Functions flatten and flatten*
+9.10.31 Functions flatcar and flatcar*
+9.10.32 Functions tree‐find and cons‐find
+9.10.33 Functions memq, memql and memqual
+9.10.34 Functions member and member‐if
+9.10.35 Functions rmemq, rmemql, rmemqual, rmember and rmember‐if
+9.10.36 Functions conses and conses*
+9.10.37 Function delcons
+9.11.1 Function assoc
+9.11.2 Functions assq and assql
+9.11.3 Functions rassq, rassql and rassoc
+9.11.4 Function acons
+9.11.5 Function acons‐new
+9.11.6 Function aconsql‐new
+9.11.7 Function alist‐remove
+9.11.8 Function alist‐nremove
+9.11.9 Function copy‐alist
+9.11.10 Function pairlis
+9.12.1 Function prop
+9.12.2 Function memp
+9.12.3 Functions plist‐to‐alist and improper‐plist‐to‐alist
+9.13.1 Function merge
+9.13.2 Function multi‐sort
+9.14.1 Function make‐lazy‐cons
+9.14.2 Function lconsp
+9.14.3 Function lcons‐fun
+9.14.4 Functions lcons‐car and lcons‐cdr
+9.14.5 Function lcons‐force
+9.14.6 Macro lcons
+9.14.7 Functions lazy‐stream‐cons and get‐lines
+9.14.8 Macro close‐lazy‐streams
+9.14.9 Macro delay
+9.14.10 Accessor force
+9.14.11 Function promisep
+9.14.12 Macro mlet
+9.14.13 Functions generate, giterate and ginterate
+9.14.14 Function expand‐right
+9.14.15 Functions expand‐left and nexpand‐left
+9.14.16 Function repeat
+9.14.17 Function pad
+9.14.18 Function weave
+9.14.19 Macros gen and gun
+9.14.20 Functions range and range*
+9.14.21 Functions rlist and rlist*
+9.15.1 Function rcons
+9.15.2 Function rangep
+9.15.3 Functions from and to
+9.15.4 Functions in‐range and in‐range*
+9.15.5 Function rangeref
+9.16.1 Functions mkstring and str
+9.16.2 Function copy‐str
+9.16.3 Function upcase‐str
+9.16.4 Function downcase‐str
+9.16.5 Function string‐extend
+9.16.6 Function string‐finish
+9.16.7 Function stringp
+9.16.8 Function length‐str
+9.16.9 Function coded‐length
+9.16.10 Function search‐str
+9.16.11 Function search‐str‐tree
+9.16.12 Function match‐str
+9.16.13 Function match‐str‐tree
+9.16.14 Accessor sub‐str
+9.16.15 Function replace‐str
+9.16.16 Functions cat‐str, join‐with and join
+9.16.17 Function split‐str
+9.16.18 Functions spl and spln
+9.16.19 Functions split‐str‐set and sspl
+9.16.20 Functions tok‐str and tok‐where
+9.16.21 Function tok
+9.16.22 Function list‐str
+9.16.23 Function trim‐str
+9.16.24 Function str‐esc
+9.16.25 Functions string‐set‐code and string‐get‐code
+9.16.26 Function chrp
+9.16.27 Function chr‐isalnum
+9.16.28 Function chr‐isalpha
+9.16.29 Function chr‐isascii
+9.16.30 Function chr‐iscntrl
+9.16.31 Functions chr‐isdigit and chr‐digit
+9.16.32 Function chr‐isgraph
+9.16.33 Function chr‐islower
+9.16.34 Function chr‐isprint
+9.16.35 Function chr‐ispunct
+9.16.36 Function chr‐isspace
+9.16.37 Function chr‐isblank
+9.16.38 Function chr‐isunisp
+9.16.39 Function chr‐isupper
+9.16.40 Functions chr‐isxdigit and chr‐xdigit
+9.16.41 Function chr‐toupper
+9.16.42 Function chr‐tolower
+9.16.43 Functions int‐chr and chr‐int
+9.16.44 Accessor chr‐str
+9.16.45 Function chr‐str‐set
+9.16.46 Function span‐str
+9.16.47 Function compl‐span‐str
+9.16.48 Function break‐str
+9.16.49 Function bexp
+9.17.1 Function lazy‐str
+9.17.2 Function lazy‐stringp
+9.17.3 Function lazy‐str‐force‐upto
+9.17.4 Function lazy‐str‐force
+9.17.5 Function lazy‐str‐get‐trailing‐list
+9.17.6 Functions length‐str‐>, length‐str‐>=, length‐str‐< and length‐str‐<=
+9.17.7 Function cmp‐str
+9.17.8 Functions str=, str<, str>, str>= and str<=
+9.17.9 Function string‐lt
+9.18.1 Function vector
+9.18.2 Function vec
+9.18.3 Function vectorp
+9.18.4 Function vec‐set‐length
+9.18.5 Accessor vecref
+9.18.6 Function vec‐push
+9.18.7 Function length‐vec
+9.18.8 Function size‐vec
+9.18.9 Function vec‐list
+9.18.10 Function list‐vec
+9.18.11 Function copy‐vec
+9.18.12 Accessor sub‐vec
+9.18.13 Function replace‐vec
+9.18.14 Function fill‐vec
+9.18.15 Function cat‐vec
+9.18.16 Functions nested‐vec and nested‐vec‐of
+9.19.1 The buf type
+9.19.2 Conventions Used by the buf‐put‐ Functions
+9.19.3 Conventions Used by the buf‐get‐ Functions
+9.19.4 Arithmetic Conventions of Buffers
+9.19.5 Fill Pattern Argument Conventions
+9.19.6 Function make‐buf
+9.19.7 Function bufp
+9.19.8 Function length‐buf
+9.19.9 Function buf‐alloc‐size
+9.19.10 Function buf‐trim
+9.19.11 Function buf‐set‐length
+9.19.12 Function copy‐buf
+9.19.13 Accessor sub‐buf
+9.19.14 Function replace‐buf
+9.19.15 Function buf‐list
+9.19.16 Function buf‐put‐buf
+9.19.17 Function buf‐put‐i8
+9.19.18 Function buf‐put‐u8
+9.19.19 Function buf‐put‐i16
+9.19.20 Function buf‐put‐u16
+9.19.21 Function buf‐put‐i32
+9.19.22 Function buf‐put‐u32
+9.19.23 Function buf‐put‐i64
+9.19.24 Function buf‐put‐u64
+9.19.25 Function buf‐put‐char
+9.19.26 Function buf‐put‐uchar
+9.19.27 Function buf‐put‐short
+9.19.28 Function buf‐put‐ushort
+9.19.29 Function buf‐put‐int
+9.19.30 Function buf‐put‐uint
+9.19.31 Function buf‐put‐long
+9.19.32 Function buf‐put‐ulong
+9.19.33 Function buf‐put‐float
+9.19.34 Function buf‐put‐double
+9.19.35 Function buf‐put‐cptr
+9.19.36 Function buf‐get‐i8
+9.19.37 Function buf‐get‐u8
+9.19.38 Function buf‐get‐i16
+9.19.39 Function buf‐get‐u16
+9.19.40 Function buf‐get‐i32
+9.19.41 Function buf‐get‐u32
+9.19.42 Function buf‐get‐i64
+9.19.43 Function buf‐get‐u64
+9.19.44 Function buf‐get‐char
+9.19.45 Function buf‐get‐uchar
+9.19.46 Function buf‐get‐short
+9.19.47 Function buf‐get‐ushort
+9.19.48 Function buf‐get‐int
+9.19.49 Function buf‐get‐uint
+9.19.50 Function buf‐get‐long
+9.19.51 Function buf‐get‐ulong
+9.19.52 Function buf‐get‐float
+9.19.53 Function buf‐get‐double
+9.19.54 Function buf‐get‐cptr
+9.19.55 Function put‐buf
+9.19.56 Functions fill‐buf and fill‐buf‐adjust
+9.19.57 Function get‐line‐as‐buf
+9.19.58 Function get‐buf
+9.19.59 Functions file‐get‐buf and command‐get‐buf
+9.19.60 Functions file‐put‐buf, file‐append‐buf and command‐put‐buf
+9.19.61 Functions buf‐str and str‐buf
+9.19.62 Functions buf‐int and buf‐uint
+9.19.63 Functions int‐buf and uint‐buf
+9.19.64 Function buf‐ash
+9.19.65 Function buf‐fash
+9.19.66 Functions buf‐and, buf‐or, buf‐xor and buf‐test
+9.19.67 Function buf‐not
+9.19.68 Function buf‐trunc
+9.19.69 Function buf‐bitset
+9.19.70 Function buf‐bit
+9.19.71 Function buf‐zero‐p
+9.19.72 Function buf‐count‐ones
+9.19.73 Function buf‐binary‐width
+9.19.74 Function buf‐xor‐pattern
+9.19.75 Functions buf‐compress and buf‐decompress
+9.19.76 Functions str‐compress and str‐decompress
+9.20.1 Static Slots
+9.20.2 Multiple Inheritance
+9.20.3 Duplicate Supertypes
+9.20.4 Dirty Flags
+9.20.5 Equality Substitution
+9.20.6 Custom Slot Expansion
+9.20.7 Custom Preludes
+9.20.8 Macro defstruct
+9.20.9 Macro defmeth
+9.20.10 Macros new and lnew
+9.20.11 Macros new* and lnew*
+9.20.12 Macro with‐slots
+9.20.13 Macro qref
+9.20.14 Macro uref
+9.20.15 Macro meth
+9.20.16 Macro umeth
+9.20.17 Macro usl
+9.20.18 Function make‐struct‐type
+9.20.19 Function find‐struct‐type
+9.20.20 Function struct‐type‐p
+9.20.21 Function struct‐type‐name
+9.20.22 Function super
+9.20.23 Function make‐struct
+9.20.24 Function make‐lazy‐struct
+9.20.25 Functions struct‐from‐plist and struct‐from‐args
+9.20.26 Function allocate‐struct
+9.20.27 Function copy‐struct
+9.20.28 Accessor slot
+9.20.29 Function slotset
+9.20.30 Functions test‐dirty, clear‐dirty and test‐clear‐dirty
+9.20.31 Function structp
+9.20.32 Function struct‐type
+9.20.33 Function clear‐struct
+9.20.34 Function reset‐struct
+9.20.35 Function replace‐struct
+9.20.36 Function method
+9.20.37 Function super‐method
+9.20.38 Function umethod
+9.20.39 Function uslot
+9.20.40 Function slots
+9.20.41 Function slotp
+9.20.42 Function static‐slot‐p
+9.20.43 Function static‐slot
+9.20.44 Function static‐slot‐set
+9.20.45 Function static‐slot‐ensure
+9.20.46 Function static‐slot‐home
+9.20.47 Function call‐super‐method
+9.20.48 Function call‐super‐fun
+9.20.49 Functions struct‐get‐initfun and struct‐get‐postinitfun
+9.20.50 Functions struct‐set‐initfun and struct‐set‐postinitfun
+9.20.51 Macro with‐objects
+9.20.52 Macro define‐struct‐clause
+9.20.53 Struct Clause Macro :delegate
+9.20.54 Struct Clause Macro :mass‐delegate
+9.20.55 Function macroexpand‐struct‐clause
+9.20.56 Special Variable *struct‐clause‐expander*
+9.20.57 Macro define‐struct‐prelude
+9.21.1 Method copy
+9.21.2 Method equal
+9.21.3 Method print
+9.21.4 Methods slot and slot‐set
+9.21.5 Functions static‐slot and static‐slot‐set
+9.21.6 Method lambda
+9.21.7 Method lambda‐set
+9.21.8 Method length
+9.21.9 Method length‐<
+9.21.10 Methods car, cdr and nullify
+9.21.11 Methods rplaca and rplacd
+9.21.12 Function from‐list
+9.21.13 Function derived
+9.21.14 Methods iter‐begin and iter‐reset
+9.21.15 Method iter‐item
+9.21.16 Method iter‐step
+9.21.17 Method iter‐more
+9.22.1 Function seqp
+9.22.2 Function iterable
+9.22.3 Functions make‐like and seq‐like
+9.22.4 Functions list‐seq, vec‐seq and str‐seq
+9.22.5 Functions length and len
+9.22.6 Function length‐<
+9.22.7 Function empty
+9.22.8 Function nullify
+9.22.9 Accessor sub
+9.22.10 Function replace
+9.22.11 Function take
+9.22.12 Functions take‐while and take‐until
+9.22.13 Function drop
+9.22.14 Functions drop‐while and drop‐until
+9.22.15 Accessor last
+9.22.16 Accessor butlast
+9.22.17 Function ldiff
+9.22.18 Function search
+9.22.19 Function contains
+9.22.20 Function rsearch
+9.22.21 Function search‐all
+9.22.22 Accessor ref
+9.22.23 Function refset
+9.22.24 Accessor mref
+9.22.25 Function update
+9.22.26 Functions remq, remql and remqual
+9.22.27 Functions remq*, remql* and remqual*
+9.22.28 Functions keepq, keepql and keepqual
+9.22.29 Functions remove, remove‐if, keep, keep‐if, separate, remove‐if* and keep‐if*
+9.22.30 Function separate
+9.22.31 Functions remove‐if* and keep‐if*
+9.22.32 Functions keep‐keys‐if and separate‐keys
+9.22.33 Functions countqual, countql and countq
+9.22.34 Functions count and count‐if
+9.22.35 Function cons‐count
+9.22.36 Functions posq, posql and posqual
+9.22.37 Functions pos and pos‐if
+9.22.38 Functions rposq, rposql, rposqual, rpos and rpos‐if
+9.22.39 Functions pos‐max and pos‐min
+9.22.40 Function subst
+9.22.41 Functions subq, subql and subqual
+9.22.42 Function mismatch
+9.22.43 Function where
+9.22.44 Function wheref
+9.22.45 Functions whereq, whereql and wherequal
+9.22.46 Function rmismatch
+9.22.47 Functions starts‐with and ends‐with
+9.22.48 Function select
+9.22.49 Function reject
+9.22.50 Function relate
+9.22.51 Function in
+9.22.52 Function partition
+9.22.53 Functions split and split*
+9.22.54 Function partition*
+9.22.55 Functions find, find‐if and find‐true
+9.22.56 Functions rfind and rfind‐if
+9.22.57 Functions find‐max and find‐min
+9.22.58 Functions find‐maxes and find‐mins
+9.22.59 Functions find‐max‐key and find‐min‐key
+9.22.60 Functions uni, isec, isecp, diff and symdiff
+9.22.61 Functions mapcar, map, mappend, mapcar* and mappend*
+9.22.62 Functions maprod, maprend and maprodo
+9.22.63 Function mapdo
+9.22.64 Functions transpose and zip
+9.22.65 Functions window‐map, window‐mappend and window‐mapdo
+9.22.66 Function interpose
+9.22.67 Functions reduce‐left and reduce‐right
+9.22.68 Functions some, all and none
+9.22.69 Function multi
+9.22.70 Functions sort, nsort, ssort and snsort
+9.22.71 Functions csort, cnsort, cssort and csnsort
+9.22.72 Function grade
+9.22.73 Functions shuffle, nshuffle, cshuffle and cnshuffle
+9.22.74 Functions rot and nrot
+9.22.75 Functions sort‐group and csort‐group
+9.22.76 Function uniq
+9.22.77 Function unique
+9.22.78 Function tuples
+9.22.79 Function tuples*
+9.22.80 Function partition‐by
+9.22.81 Function partition‐if
+9.23.1 Function iter‐begin
+9.23.2 Function iterp
+9.23.3 Function iter‐more
+9.23.4 Function iter‐item
+9.23.5 Function iter‐step
+9.23.6 Function iter‐reset
+9.23.7 Function copy‐iter
+9.23.8 Function iter‐cat
+9.23.9 Function seq‐begin
+9.23.10 Function seq‐next
+9.23.11 Function seq‐reset
+9.24.1 Structure list‐builder
+9.24.2 Function build‐list
+9.24.3 Methods add and add*
+9.24.4 Methods pend and pend*
+9.24.5 Methods ncon and ncon*
+9.24.6 Method oust
+9.24.7 Method get
+9.24.8 Methods del and del*
+9.24.9 Macros build and buildn
+9.25.1 Functions perm and permi
+9.25.2 Functions rperm and rpermi
+9.25.3 Functions comb and combi
+9.25.4 Functions rcomb and rcombi
+9.26.1 Macro parameter lists
+9.26.2 The Macro Expansion Process
+9.26.3 Operator defmacro
+9.26.4 Operator macrolet
+9.26.5 Function macro‐form‐p
+9.26.6 Functions macroexpand‐1 and macroexpand
+9.26.7 Functions macroexpand‐1‐lisp1 and macroexpand‐lisp1
+9.26.8 Functions expand and expand*
+9.26.9 Function expand‐with‐free‐refs
+9.26.10 Function noexpand
+9.26.11 Functions lexical‐var‐p, lexical‐fun‐p, lexical‐symacro‐p and lexical‐macro‐p
+9.26.12 Function lexical‐binding‐kind
+9.26.13 Function lexical‐fun‐binding‐kind
+9.26.14 Function lexical‐lisp1‐binding
+9.26.15 Operator defsymacro
+9.26.16 Operator symacrolet
+9.26.17 Macros placelet and placelet*
+9.26.18 Operator expander‐let
+9.26.19 Macro macro‐time
+9.26.20 Macro equot
+9.26.21 Operators tree‐bind, mac‐param‐bind and mac‐env‐param‐bind
+9.26.22 Operator tree‐case
+9.26.23 Macro tb
+9.26.24 Macro tc
+9.26.25 Macro with‐gensyms
+9.26.26 Function expand‐hook‐combine
+9.26.27 Special Variable *expand‐hook*
+9.26.28 The load Directive
+9.26.29 The include Directive
+9.27.1 Special Variable *param‐macro*
+9.27.2 Macro define‐param‐expander
+9.27.3 Parameter List Macro :key
+9.27.4 Function macroexpand‐params
+9.28.1 Macro set
+9.28.2 Macro pset
+9.28.3 Macro zap
+9.28.4 Macro flip
+9.28.5 Macros test‐set and test‐clear
+9.28.6 Macro compare‐swap
+9.28.7 Macro ensure
+9.28.8 Macros inc and dec
+9.28.9 Macros pinc and pdec
+9.28.10 Macros test‐inc and test‐dec
+9.28.11 Macros mul and div
+9.28.12 Macro swap
+9.28.13 Macro push
+9.28.14 Macro pop
+9.28.15 Macro pushnew
+9.28.16 Macro shift
+9.28.17 Macro rotate
+9.28.18 Macro del
+9.28.19 Macro lset
+9.28.20 Macro upd
+9.29.1 Place‐Expander Functions
+9.29.2 The Update Expander
+9.29.3 The Clobber Expander
+9.29.4 The Delete Expander
+9.29.5 Macro with‐update‐expander
+9.29.6 Macro with‐clobber‐expander
+9.29.7 Macro with‐delete‐expander
+9.29.8 Function call‐update‐expander
+9.29.9 Function call‐clobber‐expander
+9.29.10 Function call‐delete‐expander
+9.29.11 Macro define‐modify‐macro
+9.29.12 Macro defplace
+9.29.13 Macro defset
+9.29.14 Macro define‐place‐macro
+9.29.15 Functions macroexpand‐place and macroexpand‐1‐place
+9.29.16 Macro rlet
+9.29.17 Macro slet
+9.29.18 Macro alet
+9.29.19 Macro define‐accessor
+9.29.20 Accessor read‐once
+9.29.21 Special Variables *place‐update‐expander*, *place‐clobber‐expander* and *place‐delete‐expander*
+9.29.22 Special Variable *place‐macro*
+9.30.1 Introduction
+9.30.2 Pattern‐Matching Operators
+9.30.3 Syntax and Key Concepts
+9.30.4 Variables in Patterns
+9.30.5 Comparison to Macro Parameter Lists
+9.30.6 User‐Defined Patterns
+9.31.1 Atom match
+9.31.2 Variable match
+9.31.3 List match
+9.31.4 Vector match
+9.31.5 Range match
+9.31.6 Quasiliteral match
+9.31.7 Quasiquote matching notation
+9.31.8 Pattern Operator struct
+9.31.9 Pattern Operator hash
+9.31.10 Pattern Operator as
+9.31.11 Pattern Operator with
+9.31.12 Pattern Operator require
+9.31.13 Pattern Operators all and all*
+9.31.14 Pattern Operator some
+9.31.15 Pattern Operator coll
+9.31.16 Pattern Operators scan and scan‐all
+9.31.17 Pattern Operators and and or
+9.31.18 Pattern Operator not
+9.31.19 Pattern predicate operator
+9.31.20 Pattern Macro sme
+9.31.21 Pattern Macro end
+9.32.1 Macros when‐match, match and if‐match
+9.32.2 Macros match‐case and match‐ecase
+9.32.3 Macro match‐cond
+9.32.4 Macro lambda‐match
+9.32.5 Macro match‐tuple‐case
+9.32.6 Macro defun‐match
+9.32.7 Parameter List Macro :match
+9.32.8 Macro defmatch
+9.32.9 Function macroexpand‐match
+9.32.10 Special Variable *match‐macro*
+9.32.11 Macros each‐match and each‐match‐product
+9.32.12 Macros append‐matches and append‐match‐products
+9.32.13 Macros keep‐matches and keep‐match‐products
+9.32.14 Macros each‐match‐case and each‐match‐case‐product
+9.32.15 Macros collect‐match‐cases and collect‐match‐case‐products
+9.32.16 Macros append‐match‐cases and append‐match‐case‐products
+9.32.17 Macros keep‐match‐cases and keep‐match‐case‐products
+9.32.18 Macro while‐match
+9.32.19 Macros while‐match‐case and while‐true‐match‐case
+9.33.1 Macro qquote
+9.33.2 Operator unquote
+9.33.3 Operator splice
+9.34.1 Functions +, ‐ and *
+9.34.2 Function /
+9.34.3 Functions sum and prod
+9.34.4 Functions wrap and wrap*
+9.34.5 Functions gcd and lcm
+9.34.6 Function divides
+9.34.7 Function abs
+9.34.8 Function signum
+9.34.9 Functions trunc, floor, ceil and round
+9.34.10 Function mod
+9.34.11 Functions trunc‐rem, floor‐rem, ceil‐rem and round‐rem
+9.34.12 Functions sin, cos, tan, asin, acos, atan and atan2
+9.34.13 Functions sinh, cosh, tanh, asinh, acosh and atanh
+9.34.14 Functions exp, log, log10 and log2
+9.34.15 Functions expt, sqrt and isqrt
+9.34.16 Function exptmod
+9.34.17 Function square
+9.34.18 Function cum‐norm‐dist
+9.34.19 Function inv‐cum‐norm
+9.34.20 Functions n‐choose‐k and n‐perm‐k
+9.34.21 Functions fixnump, bignump, integerp, floatp and numberp
+9.34.22 Function arithp
+9.34.23 Functions zerop and nzerop
+9.34.24 Functions plusp and minusp
+9.34.25 Functions evenp and oddp
+9.34.26 Functions succ, ssucc, sssucc, pred, ppred and pppred
+9.34.27 Functions >, <, >=, <= and =
+9.34.28 Function /=
+9.34.29 Functions max and min
+9.34.30 Function clamp
+9.34.31 Function bracket
+9.34.32 Functions int‐str, flo‐str and num‐str
+9.34.33 Functions int‐flo and flo‐int
+9.34.34 Functions tofloat and toint
+9.34.35 Variables fixnum‐min and fixnum‐max
+9.34.36 Functions tofloatz and tointz
+9.34.37 Variables flo‐min, flo‐max and flo‐epsilon
+9.34.38 Variable flo‐dig
+9.34.39 Variable flo‐max‐dig
+9.34.40 Variables %pi% and %e%
+9.34.41 Function digits
+9.34.42 Function digpow
+9.34.43 Functions poly and rpoly
+9.34.44 Function bignum‐len
+9.34.45 Function quantile
+9.34.46 Variables flo‐near, flo‐down, flo‐up and flo‐zero
+9.34.47 Functions flo‐get‐round‐mode and flo‐set‐round‐mode
+9.35.1 Functions cbrt, erf, erfc, exp10, exp2, expm1, gamma, j0, j1, lgamma, log1p, logb, nearbyint, rint, significand, tgamma, y0 and y1
+9.35.2 Functions copysign, drem, fdim, fmax, fmin, hypot, jn, ldexp, nextafter, remainder, scalb, scalbln and yn
+9.36.1 Functions logand, logior and logxor
+9.36.2 Function logtest
+9.36.3 Functions lognot and logtrunc
+9.36.4 Function sign‐extend
+9.36.5 Function ash
+9.36.6 Function bit
+9.36.7 Function mask
+9.36.8 Function bitset
+9.36.9 Function width
+9.36.10 Function logcount
+9.36.11 Macros set‐mask and clear‐mask
+9.37.1 Method tofloat
+9.37.2 Method toint
+9.37.3 Method +
+9.37.4 Method ‐
+9.37.5 Method ‐‐
+9.37.6 Method neg
+9.37.7 Method *
+9.37.8 Method /
+9.37.9 Method //
+9.37.10 Method recip
+9.37.11 Method abs
+9.37.12 Method signum
+9.37.13 Method trunc
+9.37.14 Method r‐trunc
+9.37.15 Method trunc1
+9.37.16 Method mod
+9.37.17 Method r‐mod
+9.37.18 Method expt
+9.37.19 Method r‐expt
+9.37.20 Method exptmod
+9.37.21 Method isqrt
+9.37.22 Method square
+9.37.23 Method >
+9.37.24 Method <
+9.37.25 Method >=
+9.37.26 Method <=
+9.37.27 Method =
+9.37.28 Method zerop
+9.37.29 Method plusp
+9.37.30 Method minusp
+9.37.31 Method evenp
+9.37.32 Method oddp
+9.37.33 Method floor
+9.37.34 Method r‐floor
+9.37.35 Method floor1
+9.37.36 Method ceil
+9.37.37 Method r‐ceil
+9.37.38 Method ceil1
+9.37.39 Method round
+9.37.40 Method r‐round
+9.37.41 Method round1
+9.37.42 Method sin
+9.37.43 Method cos
+9.37.44 Method tan
+9.37.45 Method asin
+9.37.46 Method acos
+9.37.47 Method atan
+9.37.48 Method atan2
+9.37.49 Method r‐atan2
+9.37.50 Method sinh
+9.37.51 Method cosh
+9.37.52 Method tanh
+9.37.53 Method asinh
+9.37.54 Method acosh
+9.37.55 Method atanh
+9.37.56 Method log
+9.37.57 Method log2
+9.37.58 Method log10
+9.37.59 Method exp
+9.37.60 Method sqrt
+9.37.61 Method logand
+9.37.62 Method logior
+9.37.63 Method lognot
+9.37.64 Method r‐lognot
+9.37.65 Method lognot1
+9.37.66 Method logtrunc
+9.37.67 Method r‐logtrunc
+9.37.68 Method sign‐extend
+9.37.69 Method cbrt
+9.37.70 Method erf
+9.37.71 Method erfc
+9.37.72 Method exp10
+9.37.73 Method exp2
+9.37.74 Method expm1
+9.37.75 Method gamma
+9.37.76 Method j0
+9.37.77 Method j1
+9.37.78 Method lgamma
+9.37.79 Method log1p
+9.37.80 Method logb
+9.37.81 Method nearbyint
+9.37.82 Method rint
+9.37.83 Method significand
+9.37.84 Method tgamma
+9.37.85 Method y0
+9.37.86 Method y1
+9.37.87 Method r‐copysign
+9.37.88 Method r‐drem
+9.37.89 Method r‐fdim
+9.37.90 Method r‐fmax
+9.37.91 Method r‐fmin
+9.37.92 Method r‐hypot
+9.37.93 Method r‐jn
+9.37.94 Method r‐ldexp
+9.37.95 Method r‐nextafter
+9.37.96 Method r‐remainder
+9.37.97 Method r‐scalb
+9.37.98 Method r‐scalbln
+9.37.99 Method r‐yn
+9.37.100 Method ash
+9.37.101 Method bit
+9.37.102 Method width
+9.37.103 Method logcount
+9.37.104 Method bitset
+9.38.1 Overview
+9.38.2 Infix Auto‐Detection Algorithm
+9.38.3 Operator Table
+9.38.4 Compound Relational Expressions
+9.38.5 Precedence Demotion Rule
+9.38.6 Function parse‐infix
+9.38.7 Function finish‐infix
+9.38.8 Macro ifx
+9.39.1 Macro defenum
+9.39.2 Macro enumlet
+9.40.1 Catches and Handlers
+9.40.2 Handlers and Sandboxing
+9.40.3 Exception Type Hierarchy
+9.40.4 Dialect Notes
+9.40.5 Treatment of errno In Built‐in Exceptions
+9.40.6 Functions throw, throwf and error
+9.40.7 Macros catch, catch* and catch**
+9.40.8 Operator unwind‐protect
+9.40.9 Macro ignerr
+9.40.10 Macro ignwarn
+9.40.11 Operator handler‐bind
+9.40.12 Macros handle and handle*
+9.40.13 Macro with‐resources
+9.40.14 Special Variable *unhandled‐hook*
+9.40.15 Macro defex
+9.40.16 Function register‐exception‐subtypes
+9.40.17 Function exception‐subtype‐p
+9.40.18 Function exception‐subtype‐map
+9.40.19 Structures frame, catch‐frame and handle‐frame
+9.40.20 Function get‐frames
+9.40.21 Functions find‐frame and find‐frames
+9.40.22 Function invoke‐catch
+9.40.23 Macro assert
+9.41.1 Error Exceptions
+9.41.2 Warning Exceptions
+9.41.3 Deferrable Warnings
+9.41.4 Functions compile‐error and compile‐warning
+9.41.5 Function compile‐defr‐warning
+9.41.6 Function purge‐deferred‐warning
+9.41.7 Function register‐tentative‐def
+9.41.8 Function tentative‐def‐exists
+9.41.9 Function defer‐warning
+9.41.10 Function release‐deferred‐warnings
+9.41.11 Function dump‐deferred‐warnings
+9.42.1 Comparison with Lexical Closures
+9.42.2 Differences in Compiled vs. Interpreted Behavior
+9.42.3 Function sys:capture‐cont
+9.42.4 Operator sys:abscond‐from
+9.42.5 Function sys:abscond*
+9.42.6 Macros obtain and yield‐from
+9.42.7 Macro obtain‐block
+9.42.8 Macro yield
+9.42.9 Macros obtain* and obtain*‐block
+9.42.10 Macro suspend
+9.42.11 Macros hlet and hlet*
+9.43.1 Regular Expressions as Functions
+9.43.2 Functions search‐regex, range‐regex and search‐regst
+9.43.3 Functions match‐regex and match‐regst
+9.43.4 Functions match‐regex‐right and match‐regst‐right
+9.43.5 Function regex‐prefix‐match
+9.43.6 Function regsub
+9.43.7 Function regexp
+9.43.8 Functions trim‐left and trim‐right
+9.43.9 Function regex‐compile
+9.43.10 Function regex‐source
+9.43.11 Function regex‐parse
+9.43.12 Function regex‐optimize
+9.43.13 Function read‐until‐match
+9.43.14 Functions scan‐until‐match and count‐until‐match
+9.43.15 Functions m^$, m^ and m$
+9.43.16 Functions r^$, r^, r$ and rr
+9.43.17 Function rra
+9.43.18 Functions f^$, f^ and f$
+9.43.19 Functions fr^$, fr^, fr$ and frr
+9.44.1 Functions make‐hash and hash
+9.44.2 Functions hash‐construct, hash‐from‐pairs and hash‐from‐alist
+9.44.3 Functions hash‐list and hash‐seq
+9.44.4 Function hash‐zip
+9.44.5 Function hash‐props
+9.44.6 Function hash‐map
+9.44.7 Function hash‐update
+9.44.8 Function hash‐update‐1
+9.44.9 Functions group‐by and group‐map
+9.44.10 Function group‐reduce
+9.44.11 Functions hist‐sort and hist‐sort‐by
+9.44.12 Functions make‐similar‐hash and copy‐hash
+9.44.13 Function inhash
+9.44.14 Accessor gethash
+9.44.15 Function sethash
+9.44.16 Function pushhash
+9.44.17 Function remhash
+9.44.18 Function clearhash
+9.44.19 Function hash‐count
+9.44.20 Accessor hash‐userdata
+9.44.21 Function get‐hash‐userdata
+9.44.22 Function set‐hash‐userdata
+9.44.23 Function hashp
+9.44.24 Function maphash
+9.44.25 Functions hash‐revget and hash‐keys‐of
+9.44.26 Function hash‐invert
+9.44.27 Functions hash‐eql and hash‐equal
+9.44.28 Functions hash‐keys, hash‐values, hash‐pairs and hash‐alist
+9.44.29 Operator dohash
+9.44.30 Functions hash‐uni, hash‐diff, hash‐symdiff and hash‐isec
+9.44.31 Functions hash‐subset and hash‐proper‐subset
+9.44.32 Functions hash‐begin, hash‐reset, hash‐next and hash‐peek
+9.44.33 Macro with‐hash‐iter
+9.44.34 Function copy‐hash‐iter
+9.44.35 Special Variable *hash‐seed*
+9.44.36 Function gen‐hash‐seed
+9.45.1 Function tnode
+9.45.2 Function tnodep
+9.45.3 Accessors key, left and right
+9.45.4 Functions set‐key, set‐left and set‐right
+9.45.5 Function copy‐tnode
+9.45.6 Function tree
+9.45.7 Function treep
+9.45.8 Function tree‐count
+9.45.9 Function tree‐insert‐node
+9.45.10 Function tree‐insert
+9.45.11 Function tree‐lookup‐node
+9.45.12 Function tree‐lookup
+9.45.13 Function tree‐delete‐node
+9.45.14 Function tree‐delete
+9.45.15 Function tree‐delete‐specific‐node
+9.45.16 Functions tree‐min‐node and tree‐min
+9.45.17 Functions tree‐del‐min‐node and tree‐del‐min
+9.45.18 Function tree‐root
+9.45.19 Function tree‐clear
+9.45.20 Function copy‐search‐tree
+9.45.21 Function make‐similar‐tree
+9.45.22 Function tree‐begin
+9.45.23 Function tree‐reset
+9.45.24 Functions tree‐next and tree‐peek
+9.45.25 Function sub‐tree
+9.45.26 Function copy‐tree‐iter
+9.45.27 Function replace‐tree‐iter
+9.45.28 Special Variable *tree‐fun‐whitelist*
+9.46.1 Macros op and do
+9.46.2 Macro lop
+9.46.3 Macro lop1
+9.46.4 Macro ldo
+9.46.5 Macros ap, ip, ado and ido
+9.46.6 Macros opip, oand, lopip and loand
+9.46.7 Macros opf and lopf
+9.46.8 Macros flow and lflow
+9.46.9 Macro ret
+9.46.10 Macro aret
+9.46.11 Macro tap
+9.46.12 Function dup
+9.46.13 Function flipargs
+9.46.14 Functions chain and chand
+9.46.15 Function juxt
+9.46.16 Functions andf and orf
+9.46.17 Function notf
+9.46.18 Functions nandf and norf
+9.46.19 Functions iff and iffi
+9.46.20 Functions tf, nilf and ignore
+9.46.21 Function retf
+9.46.22 Functions apf and ipf
+9.46.23 Function callf
+9.46.24 Function mapf
+9.46.25 Function progf
+9.47.1 Special Variables *stdout*, *stddebug*, *stdin*, *stderr* and *stdnull*
+9.47.2 Special Variables *print‐flo‐format* and *pprint‐flo‐format*
+9.47.3 Special Variable *print‐flo‐precision*
+9.47.4 Special Variable *print‐flo‐digits*
+9.47.5 Special Variable *print‐base*
+9.47.6 Special Variable *print‐circle*
+9.47.7 Special Variable *read‐unknown‐structs*
+9.47.8 Function format
+9.47.9 Function fmt
+9.47.10 Macro pic
+9.47.11 Functions print, pprint, prinl, pprinl, tostring and tostringp
+9.47.12 Function tprint
+9.47.13 Function display‐width
+9.47.14 Function streamp
+9.47.15 Function real‐time‐stream‐p
+9.47.16 Function open‐file
+9.47.17 Function open‐tail
+9.47.18 Function open‐directory
+9.47.19 Function tmpfile
+9.47.20 Function make‐string‐input‐stream
+9.47.21 Function make‐string‐byte‐input‐stream
+9.47.22 Function make‐strlist‐input‐stream
+9.47.23 Function make‐string‐output‐stream
+9.47.24 Function get‐string‐from‐stream
+9.47.25 Function make‐strlist‐output‐stream
+9.47.26 Function get‐list‐from‐stream
+9.47.27 Macro with‐in‐string‐stream
+9.47.28 Macro with‐in‐string‐byte‐stream
+9.47.29 Macro with‐out‐string‐stream
+9.47.30 Macro with‐out‐strlist‐stream
+9.47.31 Function make‐byte‐input‐stream
+9.47.32 Function close‐stream
+9.47.33 Macro with‐stream
+9.47.34 Functions get‐error, get‐error‐str and clear‐error
+9.47.35 Functions get‐line, get‐char and get‐byte
+9.47.36 Function get‐string
+9.47.37 Function get‐delimited‐string
+9.47.38 Functions unget‐char and unget‐byte
+9.47.39 Functions put‐string, put‐line, put‐char and put‐byte
+9.47.40 Functions put‐strings and put‐lines
+9.47.41 Function flush‐stream
+9.47.42 Function seek‐stream
+9.47.43 Function truncate‐stream
+9.47.44 Functions stream‐get‐prop and stream‐set‐prop
+9.47.45 Functions make‐catenated‐stream and cat‐streams
+9.47.46 Function catenated‐stream‐p
+9.47.47 Function catenated‐stream‐push
+9.47.48 Functions open‐files and open‐files*
+9.47.49 Function path‐equal
+9.47.50 Functions abs‐path‐p and portable‐abs‐path‐p
+9.47.51 Function pure‐rel‐path‐p
+9.47.52 Functions dir‐name and base‐name
+9.47.53 Functions long‐suffix and short‐suffix
+9.47.54 Functions trim‐long‐suffix and trim‐short‐suffix
+9.47.55 Function add‐suffix
+9.47.56 Function path‐cat
+9.47.57 Function trim‐path‐seps
+9.47.58 Function rel‐path
+9.47.59 Variable path‐sep‐chars
+9.47.60 Functions read and iread
+9.47.61 Function read‐objects
+9.47.62 Function parse‐errors
+9.47.63 Function record‐adapter
+9.48.1 Variables indent‐off, indent‐data, indent‐code and indent‐foff
+9.48.2 Functions get‐indent‐mode and set‐indent‐mode
+9.48.3 Functions test‐set‐indent‐mode and test‐neq‐set‐indent‐mode
+9.48.4 Functions get‐indent, set‐indent, inc‐indent and inc‐indent‐abs
+9.48.5 Function width‐check
+9.48.6 Function force‐break
+9.49.1 Function set‐max‐length
+9.49.2 Function set‐max‐depth
+9.50.1 Functions open‐command, open‐process and open‐subprocess
+9.50.2 Functions map‐command‐lines, map‐command‐str and map‐command‐buf
+9.50.3 Functions map‐process‐lines, map‐process‐str and map‐process‐buf
+9.51.1 Functions file‐get, file‐get‐string and file‐get‐lines
+9.51.2 Functions file‐put, file‐put‐string and file‐put‐lines
+9.51.3 Functions file‐append, file‐append‐string and file‐append‐lines
+9.51.4 Function file‐get‐objects
+9.51.5 Functions file‐put‐objects and file‐append‐objects
+9.51.6 Functions command‐get, command‐get‐string and command‐get‐lines
+9.51.7 Functions command‐put, command‐put‐string and command‐put‐lines
+9.52.1 Function make‐buf‐stream
+9.52.2 Function get‐buf‐from‐stream
+9.52.3 Macros with‐out‐buf‐stream and with‐in‐buf‐stream
+9.53.1 The cptr type
+9.53.2 Function cptr‐int
+9.53.3 Function cptr‐obj
+9.53.4 Function int‐cptr
+9.53.5 Function cptr‐buf
+9.53.6 Function cptr‐cast
+9.53.7 Function copy‐cptr
+9.53.8 Function cptr‐zap
+9.53.9 Function cptr‐free
+9.53.10 Function cptrp
+9.53.11 Function cptr‐type
+9.53.12 Function cptr‐get
+9.53.13 Function cptr‐out
+9.53.14 Variable cptr‐null
+9.53.15 Function cptr‐size‐hint
+9.54.1 Function make‐struct‐delegate‐stream
+9.54.2 Method put‐string
+9.54.3 Method put‐char
+9.54.4 Method put‐byte
+9.54.5 Method get‐string
+9.54.6 Method get‐char
+9.54.7 Method get‐byte
+9.54.8 Method unget‐char
+9.54.9 Method unget‐byte
+9.54.10 Method put‐buf
+9.54.11 Method fill‐buf
+9.54.12 Method close
+9.54.13 Method flush
+9.54.14 Method seek
+9.54.15 Method truncate
+9.54.16 Method get‐prop
+9.54.17 Method set‐prop
+9.54.18 Method get‐error
+9.54.19 Method get‐error‐str
+9.54.20 Method clear‐error
+9.54.21 Method get‐fd
+9.54.22 Structure stream‐wrap
+9.55.1 Package Examples
+9.55.2 Packages and the Extraction Language
+9.55.3 Package Library Conventions
+9.55.4 Variables user‐package, keyword‐package and system‐package
+9.55.5 Special Variable *package*
+9.55.6 The load Directive
+9.55.7 The include Directive
+9.55.8 Function make‐sym
+9.55.9 Function gensym
+9.55.10 Special Variable *gensym‐counter*
+9.55.11 Function make‐package
+9.55.12 Function delete‐package
+9.55.13 Function merge‐delete‐package
+9.55.14 Function packagep
+9.55.15 Function find‐package
+9.55.16 Special Variable *package‐alist*
+9.55.17 Function package‐alist
+9.55.18 Function package‐name
+9.55.19 Function package‐symbols
+9.55.20 Functions package‐local‐symbols and package‐foreign‐symbols
+9.55.21 Functions package‐fallback‐list and set‐package‐fallback‐list
+9.55.22 Functions intern and intern‐fb
+9.55.23 Function unintern
+9.55.24 Functions find‐symbol and find‐symbol‐fb
+9.55.25 Function rehome‐sym
+9.55.26 Function symbolp
+9.55.27 Function symbol‐name
+9.55.28 Function symbol‐package
+9.55.29 Function keywordp
+9.55.30 Function bindable
+9.55.31 Functions use‐sym and use‐sym‐as
+9.55.32 Function unuse‐sym
+9.55.33 Functions use‐package and unuse‐package
+9.55.34 Macro defpackage
+9.55.35 Macro in‐package
+9.56.1 Special Variable *random‐state*
+9.56.2 Special Variable *random‐warmup*
+9.56.3 Function make‐random‐state
+9.56.4 Function random‐state‐p
+9.56.5 Function random‐state‐get‐vec
+9.56.6 Functions random‐fixnum, random and rand
+9.56.7 Functions random‐float and random‐float‐incl
+9.56.8 Function random‐buf
+9.56.9 Function random‐sample
+9.57.1 Functions time, time‐usec and time‐nsec
+9.57.2 Functions time‐string‐local and time‐string‐utc
+9.57.3 Functions time‐str‐local and time‐str‐utc
+9.57.4 Functions time‐fields‐local and time‐fields‐utc
+9.57.5 Structure time
+9.57.6 Functions time‐struct‐local and time‐struct‐utc
+9.57.7 Functions time‐parse, time‐parse‐local and time‐parse‐utc
+9.57.8 Methods time‐local and time‐utc
+9.57.9 Method time‐string
+9.57.10 Method time‐parse
+9.57.11 Functions make‐time and make‐time‐utc
+9.58.1 Function crc32‐stream
+9.58.2 Function crc32
+9.58.3 Functions sha1‐stream, sha256‐stream and md5‐stream
+9.58.4 Functions sha1, sha256 and md5
+9.58.5 Functions sha1‐begin, sha1‐hash and sha1‐end
+9.58.6 Functions sha256‐begin, sha256‐hash and sha256‐end
+9.58.7 Functions md5‐begin, md5‐hash and md5‐end
+9.58.8 Functions hmac‐sha1, hmac‐sha256 and hmac‐md5
+9.59.1 Macro awk
+9.59.2 Variables rec and orec
+9.59.3 Variable f
+9.59.4 Variable nf
+9.59.5 Variable nr
+9.59.6 Variable fnr
+9.59.7 Variable arg
+9.59.8 Variable fname
+9.59.9 Variable rs
+9.59.10 Variable krs
+9.59.11 Variables fs and ft
+9.59.12 Variable kfs
+9.59.13 Variable fw
+9.59.14 Variable ofs
+9.59.15 Variable ors
+9.59.16 Variable res
+9.59.17 Function prn
+9.59.18 Macro next
+9.59.19 Macro again
+9.59.20 Macro next‐file
+9.59.21 Macros rng, ‐rng, rng‐, ‐rng‐, ‐‐rng, ‐‐rng‐, rng+, ‐rng+ and ‐‐rng+
+9.59.22 Macro ff
+9.59.23 Macro mf
+9.59.24 Macro fconv
+9.59.25 Macros ‐>, ‐>>, <‐, !> and <!
+9.59.26 Examples of awk Macro Usage
+9.60.1 Special Variables *args‐full*, *args‐eff* and *args*
+9.60.2 Function env
+9.60.3 Function env‐hash
+9.60.4 Functions getenv, setenv and unsetenv
+9.60.5 Function replace‐env
+9.60.6 Special Variable *child‐env*
+9.61.1 Command‐Line‐Option Conventions
+9.61.2 Command‐Line Processing Examples
+9.61.3 Structure opt‐desc
+9.61.4 Function opt
+9.61.5 Structure opts
+9.61.6 Function getopts
+9.61.7 Functions opthelp, opthelp‐types and opthelp‐conventions
+9.61.8 Macro define‐option‐struct
+9.62.1 Accessor errno
+9.62.2 Function strerror
+9.62.3 Function exit
+9.62.4 Variables e2big, eacces, eaddrinuse, eaddrnotavail, eafnosupport, eagain, ealready, ebadf, ebadmsg, ebusy, ecanceled, echild, econnaborted, econnrefused, econnre‐
+9.62.5 Function abort
+9.62.6 Functions at‐exit‐call and at‐exit‐do‐not‐call
+9.62.7 Function usleep
+9.62.8 Functions mkdir and ensure‐dir
+9.62.9 Function chdir
+9.62.10 Function pwd
+9.62.11 Function rmdir
+9.62.12 Function remove‐path
+9.62.13 Function rename‐path
+9.62.14 Functions sh and run
+9.62.15 Functions sh‐esc, sh‐esc‐all, sh‐esc‐dq and sh‐esc‐sq
+9.63.1 Structure stat
+9.63.2 Functions stat, lstat and fstat
+9.63.3 Variables s‐ifmt, s‐iflnk, s‐ifreg, s‐ifblk, ..., s‐ixoth
+9.63.4 Function umask
+9.63.5 Functions makedev, minor and major
+9.63.6 Function chmod
+9.63.7 Functions chown and lchown
+9.63.8 Functions utimes and lutimes
+9.63.9 Function mknod
+9.63.10 Function mkfifo
+9.63.11 Functions symlink, link and rlink
+9.63.12 Function readlink
+9.63.13 Function realpath
+9.64.1 Functions copy‐file and copy‐files
+9.64.2 Function cat‐files
+9.64.3 Function copy‐path‐rec
+9.64.4 Function remove‐path‐rec
+9.64.5 Functions chmod‐rec and chown‐rec
+9.64.6 Function touch
+9.64.7 Function mkdtemp
+9.64.8 Function mkstemp
+9.65.1 Function path‐exists‐p
+9.65.2 Functions path‐file‐p, path‐dir‐p, path‐symlink‐p, path‐blkdev‐p, path‐chrdev‐p, path‐sock‐p and path‐pipe‐p
+9.65.3 Function path‐dir‐empty
+9.65.4 Functions path‐setgid‐p, path‐setuid‐p and path‐sticky‐p
+9.65.5 Functions path‐mine‐p and path‐my‐group‐p
+9.65.6 Function path‐readable‐to‐me‐p
+9.65.7 Function path‐writable‐to‐me‐p
+9.65.8 Function path‐read‐writable‐to‐me‐p
+9.65.9 Function path‐executable‐to‐me‐p
+9.65.10 Functions path‐private‐to‐me‐p and path‐strictly‐private‐to‐me‐p
+9.65.11 Function path‐components‐safe
+9.65.12 Functions path‐newer and path‐older
+9.65.13 Function path‐same‐object
+9.65.14 Function path‐search
+9.66.1 Functions getuid, geteuid, getgid and getegid
+9.66.2 Functions setuid, seteuid, setgid and setegid
+9.66.3 Function getgroups
+9.66.4 Function setgroups
+9.66.5 Functions getresuid and getresgid
+9.66.6 Functions setresuid and setresgid
+9.67.1 Structure passwd
+9.67.2 Functions getpwent, setpwent and endpwent
+9.67.3 Function getpwuid
+9.67.4 Function getpwnam
+9.68.1 Structure group
+9.68.2 Functions getgrent, setgrent and endgrent
+9.68.3 Function getgrgid
+9.68.4 Function getgrnam
+9.69.1 Function crypt
+9.70.1 Variables sig‐hup, sig‐int, sig‐quit, sig‐ill, sig‐trap, sig‐abrt, sig‐bus, sig‐fpe, sig‐kill, sig‐usr1, sig‐segv, sig‐usr2, sig‐pipe, sig‐alrm, sig‐term, sig‐chld,
+9.70.2 Functions set‐sig‐handler and get‐sig‐handler
+9.70.3 Function sig‐check
+9.70.4 Function raise
+9.70.5 Function kill
+9.70.6 Function strsignal
+9.71.1 Functions fork and wait
+9.71.2 Functions w‐ifexited, w‐exitstatus, w‐ifsignaled, w‐termsig, w‐coredump, w‐ifstopped and w‐stopsig
+9.71.3 Function exec
+9.71.4 Function exit*
+9.71.5 Functions getpid and getppid
+9.71.6 Function daemon
+9.72.1 Function open‐fileno
+9.72.2 Function fileno
+9.72.3 Function dupfd
+9.72.4 Function pipe
+9.72.5 Function close
+9.72.6 Function poll
+9.72.7 Function isatty
+9.73.1 Variables o‐accmode, o‐rdonly, o‐wronly, o‐rdwr, o‐creat, o‐noctty, o‐trunc, o‐append, o‐nonblock, o‐sync, o‐async, o‐directory, o‐nofollow, o‐cloexec, o‐direct, o‐
+9.73.2 Variables seek‐set, seek‐cur and seek‐end
+9.73.3 Variables f‐dupfd, f‐dupfd‐cloexec, f‐getfd, f‐setfd, f‐getfl, f‐setfl, f‐getlk, f‐setlk and f‐setlkw
+9.73.4 Variable fd‐cloexec
+9.73.5 Variables f‐rdlck, f‐wrlck and f‐unlck
+9.73.6 Structure flock
+9.73.7 Function fcntl
+9.74.1 Variables itimer‐real, itimer‐virtual and itimer‐prof
+9.74.2 Functions getitimer and setitimer
+9.75.1 Variables log‐pid, log‐cons, log‐ndelay, log‐odelay, log‐nowait and log‐perror
+9.75.2 Special Variables log‐user, log‐daemon, log‐auth and log‐authpriv
+9.75.3 Variables log‐emerg, log‐alert, log‐crit, log‐err, log‐warning, log‐notice, log‐info and log‐debug
+9.75.4 Special Variable *stdlog*
+9.75.5 Function openlog
+9.75.6 Function closelog
+9.75.7 Function setlogmask
+9.75.8 Function syslog
+9.76.1 Variables glob‐err, glob‐mark, glob‐nosort, glob‐nocheck, glob‐noescape, glob‐period, glob‐altdirfunc, glob‐brace, glob‐nomagic, glob‐tilde, glob‐tilde‐check and
+9.76.2 Variable glob‐xnobrace
+9.76.3 Functions glob and glob*
+9.76.4 Variables fnm‐pathname, fnm‐noescape, fnm‐period, fnm‐leading‐dir, fnm‐casefold and fnm‐extmatch
+9.76.5 Function fnmatch
+9.77.1 Variables ftw‐phys, ftw‐mount, ftw‐chdir, ftw‐depth and ftw‐actionretval
+9.77.2 Variables ftw‐f, ftw‐d, ftw‐dnr, ftw‐ns, ftw‐sl, ftw‐dp and ftw‐sln
+9.77.3 Variables ftw‐continue, ftw‐stop, ftw‐skip‐subtree and ftw‐skip‐siblings
+9.77.4 Function ftw
+9.77.5 Structure dirent
+9.77.6 Variables dt‐blk, dt‐chr, dt‐dir, dt‐fifo, dt‐lnk, dt‐reg, dt‐sock and dt‐unknown
+9.77.7 Function opendir
+9.77.8 Function readdir
+9.77.9 Function closedir
+9.77.10 Function dirstat
+9.78.1 Datagram Socket Streams
+9.78.2 Structure sockaddr
+9.78.3 Structure sockaddr‐in
+9.78.4 Structure sockaddr‐in6
+9.78.5 Structure sockaddr‐un
+9.78.6 Structure addrinfo
+9.78.7 Function getaddrinfo
+9.78.8 Variables af‐unix, af‐inet and af‐inet6
+9.78.9 Variables sock‐stream and sock‐dgram
+9.78.10 Variables ai‐passive, ai‐numerichost, ai‐v4mapped, ai‐all, ai‐addrconfig and ai‐numericserv
+9.78.11 Variables inaddr‐any, inaddr‐loopback, in6addr‐any and in6addr‐loopback
+9.78.12 Function open‐socket
+9.78.13 Function open‐socket‐pair
+9.78.14 Functions sock‐family and sock‐type
+9.78.15 Accessor sock‐peer
+9.78.16 Function sock‐set‐peer
+9.78.17 Function sock‐connect
+9.78.18 Function sock‐bind
+9.78.19 Function sock‐listen
+9.78.20 Function sock‐accept
+9.78.21 Variables shut‐rd, shut‐wr and shut‐rdwr
+9.78.22 Function sock‐shutdown
+9.78.23 Functions sock‐recv‐timeout and sock‐send‐timeout
+9.78.24 Variables sol‐socket, ipproto‐ip, ipproto‐ipv6, ipproto‐tcp and ipproto‐udp
+9.78.25 Variables so‐acceptconn, so‐broadcast, so‐debug, so‐dontroute, so‐error, so‐keepalive, so‐linger, so‐oobinline, so‐rcvbuf, so‐rcvlowat, so‐rcvtimeo, so‐reuseaddr,
+9.78.26 Variables ipv6‐join‐group, ipv6‐leave‐group, ipv6‐multicast‐hops, ipv6‐multicast‐if, ipv6‐multicast‐loop, ipv6‐unicast‐hops and ipv6‐v6only
+9.78.27 Variable tcp‐nodelay
+9.78.28 Accessor sock‐opt
+9.78.29 Function sock‐set‐opt
+9.78.30 Functions str‐inaddr and str‐in6addr
+9.78.31 Functions str‐inaddr‐net and str‐in6addr‐net
+9.78.32 Functions inaddr‐str and in6addr‐str
+9.78.33 Function sockaddr‐str
+9.78.34 Method str‐addr
+9.79.1 Structure termios
+9.79.2 Variables ignbrk, brkint, ignpar, parmrk, inpck, istrip, inlcr, igncr, icrnl, iuclc, ixon, ixany, ixoff, imaxbel and iutf8
+9.79.3 Variables opost, olcuc, onlcr, ocrnl, onocr, onlret, ofill, ofdel, vtdly, vt0, vt1, nldly, nl0, nl1, crdly, cr0, cr1, cr2, cr3, tabdly, tab0, tab1, tab2, tab3, bs‐
+9.79.4 Variables csize, cs5, cs6, cs7, cs8, cstopb, cread, parenb, parodd, hupcl, clocal, cbaud, cbaudex, cmspar and crtscts
+9.79.5 Variables isig, icanon, echo, echoe, echok, echonl, noflsh, tostop, iexten, xcase, echoctl, echoprt, echoke, flusho, pendin and extproc
+9.79.6 Variables vintr, vquit, verase, vkill, veof, vtime, vmin, vswtc, vstart, vstop, vsusp, veol, vreprint, vdiscard, vwerase, vlnext and veol2
+9.79.7 Variables tcooff, tcoon, tcioff and tcion
+9.79.8 Variables tciflush, tcoflush and tcioflush
+9.79.9 Variables tcsanow, tcsadrain and tcsaflush
+9.79.10 Functions tcgetattr and tcsetattr
+9.79.11 Function tcsendbreak
+9.79.12 Function tcdrain
+9.79.13 Function tcflush
+9.79.14 Function tcflow
+9.79.15 Methods set‐iflags, set‐oflags, set‐cflags, set‐lflags, clear‐iflags, clear‐oflags, clear‐cflags and clear‐lflags
+9.79.16 Methods go‐raw and go‐cbreak
+9.79.17 Methods string‐encode and string‐decode
+9.80.1 Structure utsname
+9.80.2 Function uname
+9.81.1 Structure rlim
+9.81.2 Variables rlim‐saved‐max, rlim‐saved‐cur and rlim‐infinity
+9.81.3 Functions getrlimit and setrlimit
+9.82.1 Function mmap
+9.82.2 Function munmap
+9.82.3 Functions mprotect, madvise and msync
+9.82.4 Variables map‐shared, map‐private, map‐anon and map‐fixed
+9.82.5 Variables prot‐none, prot‐read, prot‐write and prot‐exec
+9.82.6 Variables madv‐normal, madv‐random, madv‐sequential, madv‐willneed and madv‐dontneed
+9.82.7 Variables ms‐async, ms‐sync and ms‐invalidate
+9.83.1 Functions url‐encode and url‐decode
+9.83.2 Functions html‐encode, html‐encode* and html‐decode
+9.83.3 Functions base64‐encode, base64‐decode and base64‐decode‐buf
+9.83.4 Functions base64‐stream‐enc and base64‐stream‐dec
+9.83.5 Functions base64url‐encode, base64url‐decode and base64url‐decode‐buf
+9.83.6 Functions base64url‐stream‐enc and base64url‐stream‐dec
+9.84.1 Function make‐trie
+9.84.2 Function trie‐add
+9.84.3 Function trie‐compress
+9.84.4 Function trie‐lookup‐begin
+9.84.5 Function trie‐lookup‐feed‐char
+9.84.6 Function trie‐value‐at
+9.84.7 Function filter‐string‐tree
+9.84.8 Function filter‐equal
+9.84.9 Function regex‐from‐trie
+9.84.10 Special Variable *filters*
+9.85.1 Function match‐fun
+9.85.2 Function match‐fboundp
+9.85.3 Macro txr‐if
+9.85.4 Macro txr‐when
+9.85.5 Macro txr‐case
+9.85.6 Function txr‐parse
+9.86.1 Functions source‐loc and source‐loc‐str
+9.86.2 Functions rlcp and rlcp‐tree
+9.86.3 Special Variable *rec‐source‐loc*
+9.86.4 Function macro‐ancestor
+9.87.1 Operator prof
+9.87.2 Macro pprof
+9.88.1 Function sys:gc
+9.88.2 Function sys:gc‐set‐delta
+9.88.3 Function finalize
+9.88.4 Function call‐finalizers
+9.89.1 Functions get‐stack‐limit and set‐stack‐limit
+9.90.1 Variable self‐path
+9.90.2 Variable stdlib
+9.90.3 Function load
+9.90.4 Special Variable *load‐path*
+9.90.5 Special Variable *load‐search‐dirs*
+9.90.6 Special Variable *load‐hooks*
+9.90.7 Function load‐args‐recurse
+9.90.8 Function load‐args‐process
+9.90.9 Macros push‐after‐load and pop‐after‐load
+9.90.10 Macro load‐for
+9.90.11 Variable txr‐exe‐path
+9.91.1 Special Variable *trace‐output*
+9.91.2 Macros trace and untrace
+9.91.3 Parameter List Macro :trace
+9.92.1 Function dlopen
+9.92.2 Function dlclose
+9.92.3 Functions dlsym and dlvsym
+9.92.4 Functions dlsym‐checked and dlvsym‐checked
+9.92.5 Variables rtld‐lazy, rtld‐now, rtld‐global, rtld‐local, rtld‐nodelete, rtld‐noload and rtld‐deepbind
+9.93.1 Macro json
+9.93.2 Functions put‐json and put‐jsonl
+9.93.3 Function tojson
+9.93.4 Function get‐json
+9.93.5 Function put‐jsons
+9.93.6 Function get‐jsons
+9.93.7 Functions file‐get‐json and file‐get‐jsons
+9.93.8 Functions file‐put‐json and file‐put‐jsons
+9.93.9 Functions file‐put‐json and file‐put‐jsons
+9.93.10 Functions command‐get‐json and command‐get‐jsons
+9.93.11 Functions command‐put‐json and command‐put‐jsons
+9.93.12 Special Variable *print‐json‐format*
+9.93.13 Special Variable *print‐json‐type*
+9.93.14 Special Variable *read‐bad‐json*
+9.93.15 Special Variable *read‐json‐int*
+9.94.1 Function get‐csv
+9.94.2 Functions put‐csv and tocsv
+10.2.1 The put operation
+10.2.2 The in operation
+10.2.3 The get operation
+10.2.4 The out operation
+10.4.1 FFI types char, zchar, uchar and bchar
+10.4.2 FFI types short, ushort, int, uint, long and ulong
+10.4.3 FFI types longlong and ulonglong
+10.4.4 FFI types int8 and uint8
+10.4.5 FFI types int16, uint16, int32, uint32, int64 and uint64
+10.4.6 FFI types float and double
+10.4.7 FFI type bool
+10.4.8 FFI type val
+10.4.9 FFI type cptr
+10.4.10 FFI types str, str‐d and str‐s
+10.4.11 FFI types bstr, bstr‐d and bstr‐s
+10.4.12 FFI types wstr, wstr‐d and wstr‐s
+10.4.13 FFI types buf and buf‐d
+10.4.14 FFI type closure
+10.4.15 FFI type void
+10.5.1 FFI type enum
+10.5.2 FFI type enumed
+10.5.3 FFI type struct
+10.5.4 FFI type union
+10.5.5 FFI type array
+10.5.6 FFI type zarray
+10.5.7 FFI type ptr
+10.5.8 FFI type ptr‐in
+10.5.9 FFI type ptr‐out
+10.5.10 FFI type ptr‐in‐d
+10.5.11 FFI type ptr‐out‐d
+10.5.12 FFI type ptr‐out‐s
+10.5.13 FFI type bool
+10.5.14 FFI types ubit and sbit
+10.5.15 FFI type bit
+10.5.16 FFI types buf and buf‐d
+10.5.17 FFI type carray
+10.5.18 FFI type cptr
+10.5.19 FFI types align and pack
+10.6.1 FFI types size‐t, ptrdiff‐t, int‐ptr‐t, uint‐ptr‐t, intmax‐t, uintmax‐t, wint‐t sig‐atomic‐t, time‐t and clock‐t
+10.6.2 FFI type qref
+10.6.3 FFI type elemtype
+10.6.4 FFI types blkcnt‐t, blksize‐t, clockid‐t, dev‐t, fsblkcnt‐t, fsfilcnt‐t, gid‐t, id‐t, ino‐t, key‐t, loff‐t, mode‐t, nlink‐t, off‐t, pid‐t, ssize‐t, uid‐t and
+10.13.1 Function ffi‐type‐compile
+10.13.2 Function ffi‐make‐call‐desc
+10.13.3 Function ffi‐type‐operator‐p
+10.13.4 Function ffi‐type‐p
+10.13.5 Function ffi‐make‐closure
+10.13.6 Function ffi‐call
+10.13.7 Function ffi‐typedef
+10.13.8 Function ffi‐size
+10.13.9 Function ffi‐alignof
+10.13.10 Function ffi‐offsetof
+10.13.11 Function ffi‐arraysize
+10.13.12 Function ffi‐elemsize
+10.13.13 Function ffi‐elemtype
+10.14.1 Macro with‐dyn‐lib
+10.14.2 Macro deffi
+10.14.3 Macros deffi‐cb and deffi‐cb‐unsafe
+10.14.4 Macro deffi‐var
+10.14.5 Macro deffi‐sym
+10.14.6 Macro typedef
+10.14.7 Macros deffi‐struct and deffi‐union
+10.14.8 Macro sizeof
+10.14.9 Macro alignof
+10.14.10 Macro offsetof
+10.14.11 Macro arraysize
+10.14.12 Macro elemsize
+10.14.13 Macro elemtype
+10.14.14 Macro ffi
+10.15.1 Function make‐zstruct
+10.15.2 Macro znew
+10.15.3 Function zero‐fill
+10.16.1 Function make‐union
+10.16.2 Function union‐members
+10.16.3 Function union‐get
+10.16.4 Function union‐put
+10.16.5 Functions union‐in and union‐out
+10.17.1 Function put‐obj
+10.17.2 Function get‐obj
+10.17.3 Function fill‐obj
+10.18.1 Functions ffi‐put and ffi‐put‐into
+10.18.2 Function ffi‐out
+10.18.3 Function ffi‐in
+10.18.4 Function ffi‐get
+10.19.1 Functions carray‐vec and carray‐list
+10.19.2 Function carrayp
+10.19.3 Function carray‐blank
+10.19.4 Function carray‐buf
+10.19.5 Function carray‐buf‐sync
+10.19.6 Function buf‐carray
+10.19.7 Function carray‐cptr
+10.19.8 Function cptr‐carray
+10.19.9 Function length‐carray
+10.19.10 Function copy‐carray
+10.19.11 Function carray‐set‐length
+10.19.12 Accessor carray‐ref
+10.19.13 Function carray‐refset
+10.19.14 Functions carray‐dup and carray‐own
+10.19.15 Function carray‐free
+10.19.16 Function carray‐type
+10.19.17 Functions vec‐carray and list‐carray
+10.19.18 Functions carray‐get and carray‐getz
+10.19.19 Functions carray‐put and carray‐putz
+10.19.20 Accessor carray‐sub
+10.19.21 Function carray‐replace
+10.19.22 Function carray‐pun
+10.19.23 Functions carray‐uint and carray‐int
+10.19.24 Functions uint‐carray and int‐carray
+10.19.25 Functions fill‐carray and put‐carray
+10.19.26 C Non‐Local Jumps
+10.19.27 Function jmp‐buf
+10.19.28 Function longjmp
+10.19.29 Macro setjmp
+11.9.1 Treatment of Blocks
+11.9.2 Tail Calls
+11.9.3 Differences Due to load‐time
+11.9.4 Treatment of literals
+11.9.5 Treatment of symbols
+11.9.6 Treatment of unbound variables
+11.9.7 Unbound Symbols in dwim
+11.9.8 Bound symbols in dwim
+11.9.9 File‐Wide Insertion of Gensyms
+11.9.10 Delimited Continuations
+11.9.11 The in‐env‐above operator
+11.10.1 Function compile‐toplevel
+11.10.2 Function compile
+11.10.3 Functions compile‐file and compile‐update‐file
+11.10.4 Special Variable *opt‐level*
+11.10.5 Function clean‐file
+11.10.6 Macro with‐compilation‐unit
+11.10.7 Operators compile‐only and eval‐only
+11.10.8 Structure compile‐opts
+11.10.9 Special Variable *compile‐opts*
+11.10.10 Macro with‐compile‐opts
+11.10.11 Operator compiler‐let
+11.10.12 Macro load‐time
+11.10.13 Function disassemble
+11.10.14 Function dump‐compiled‐objects
+12.6.1 Variables *0, *1, *2, ..., *99
+12.6.2 Symbol Macros *‐1, *‐2, ..., *‐20
+12.6.3 Variable *n
+12.6.4 Variable *v
+12.6.5 Variable *r
+12.8.1 Move Left and Right
+12.8.2 Jump to Beginning and End of Line
+12.8.3 Jump to Matching Parenthesis
+12.8.4 Character Swap
+12.8.5 Delete Character Left
+12.8.6 Delete Character Right
+12.8.7 Delete Word Left
+12.8.8 Delete to Beginning of Line
+12.8.9 Delete to End of Line
+12.8.10 Verbatim Character Insert
+12.8.11 Verbatim Insert Mode
+12.8.12 Delete Current Line
+12.8.13 History Recall
+12.8.14 History Search
+12.8.15 Submit and Stay in History
+12.8.16 Insert Previous Word
+12.8.17 Insert Previous Atom
+12.8.18 Insert Previous Line
+12.8.19 Symbolic Completion
+12.8.20 Edit with External Editor
+12.8.21 Undo Editing
+12.9.1 Making a Selection
+12.9.2 Selection Endpoint Toggle
+12.9.3 Visual Copy
+12.9.4 Visual Cut
+12.9.5 Clipboard Paste
+12.9.6 Clipboard Swap Paste
+12.9.7 Visual Replace
+12.9.8 Delete in Selection Mode
+12.20.1 Special Variable *listener‐hist‐len*
+12.20.2 Special Variable *listener‐multi‐line‐p*
+12.20.3 Special Variable *listener‐sel‐inclusive‐p*
+12.20.4 Special Variable *listener‐pprint‐p*
+12.20.5 Special Variable *listener‐greedy‐eval‐p*
+12.20.6 Special Variable *listener‐auto‐compound‐p*
+12.20.7 Special Variable *listener‐auto‐infix‐p*
+12.20.8 Special Variable *listener‐ignore‐eof*
+12.20.9 Special Variable *doc‐url*
+12.21.1 Function doc
+12.21.2 Function quip
