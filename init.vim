@@ -56,6 +56,9 @@ if dein#load_state(s:dein_base)
   call dein#add('terryma/vim-expand-region')
   call dein#add('matze/vim-move')
 
+" Color schemes
+  call dein#add('catppuccin/nvim')
+
 " Writing prose
 "  call dein#add('junegunn/goyo.vim', {'on_cmd': 'Goyo'})
 "  call dein#add('reedes/vim-pencil', {'on_cmd': ['Pencil', 'SoftPencil', 'HardPencil']})
