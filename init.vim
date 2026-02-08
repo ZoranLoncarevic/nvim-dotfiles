@@ -547,6 +547,7 @@ endfunction
 
 command! -nargs=1 TerminalWrapperMode call SetTerminalWrapperMode('<args>')
 nnoremap <C-C><C-C> :call MyTerminalWrapper(v:true,"")<cr>
+nnoremap <Esc><C-C><C-C> :call MyTerminalWrapper(v:true,"")<cr>
 vnoremap <silent> <C-C><C-C> :<c-u>call MyTerminalWrapperSendBlock()<cr>
 
 " Codi configuration
