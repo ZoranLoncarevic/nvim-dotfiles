@@ -468,9 +468,9 @@ function! MySwitchToWindowByBuffer(bufn)
 	endwhile
 endfunction
 
-function! MyCreateTerminalWrapper(directory)
+function! MyCreateTerminalWrapper(directory,cmd)
 	exe "lcd" fnameescape(a:directory)
-	terminal
+	exe "terminal" a:cmd
 endfunction
 
 function! MyTerminalPostAction(action)
@@ -492,18 +492,18 @@ endfunction
 
 let g:MyProjectsTerminalCache = {}
 
-function! MyTerminalWrapper()
+function! MyTerminalWrapper(base_dir,cmd)
 	if has_key(b:,"MyLinkedTerminalWrapper") && bufexists(b:MyLinkedTerminalWrapper)
 		call MyTerminalSwitchTo(b:MyLinkedTerminalWrapper)
 	else
 		let curr_dir = expand("%:p:h")
 		let base_dir = MyGetBaseProjectDirectory(curr_dir)
-		if base_dir == "" ||
+		if base_dir == "" || !a:base_dir ||
 		 \ !has_key(g:MyProjectsTerminalCache,base_dir) ||
 		 \ !bufexists(g:MyProjectsTerminalCache[base_dir])
 			let source_buffer=bufnr('%')
 			vertical split
-			call MyCreateTerminalWrapper(curr_dir)
+			call MyCreateTerminalWrapper(curr_dir,a:cmd)
 			let target_buffer=bufnr('%')
 			let b:MyLinkedSourceBuffer=source_buffer
 			exe 'buffer ' . source_buffer
@@ -535,7 +535,7 @@ function! MyTerminalWrapperSendBlock()
 	let [line_end, column_end]     = getpos("'>")[1:2]
 	let lines = getline(line_start, line_end)
 
-	call MyTerminalWrapper()
+	call MyTerminalWrapper(v:true,"")
 	if !exists('b:terminal_job_id')
 		return ""
 	endif
@@ -546,7 +546,7 @@ function! MyTerminalWrapperSendBlock()
 endfunction
 
 command! -nargs=1 TerminalWrapperMode call SetTerminalWrapperMode('<args>')
-nnoremap <C-C><C-C> :call MyTerminalWrapper()<cr>
+nnoremap <C-C><C-C> :call MyTerminalWrapper(v:true,"")<cr>
 vnoremap <silent> <C-C><C-C> :<c-u>call MyTerminalWrapperSendBlock()<cr>
 
 " Codi configuration
@@ -2186,3 +2186,7 @@ endfunction
 
 command! -nargs=1 Wcd call MyWcd('<args>')
 cabbr <expr> wcd getcmdtype() == ":" && getcmdpos() == 4?"Wcd":"wcd"
+
+" TeX/Latex support
+let g:MyLatexCmd = "latexmk -pdf -pvc"
+auto FileType tex nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyLatexCmd . " " . expand("%"))<CR>
