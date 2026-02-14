@@ -109,12 +109,14 @@ highlight VertSplit ctermfg=7
 highlight StatusLineNC ctermfg=7
 highlight TabLine cterm=NONE
 highlight TabLineFill cterm=NONE
+highlight NormalFloat ctermbg=234
 
 " Gitgutter plugin configuration
 highlight! link SignColumn LineNr
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+autocmd User GitGutter ++once let g:gitgutter_floating_window_options['border'] = 'single'
 
 " Configure tabline
 lua require('tabline_configuration').setup({})
