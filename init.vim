@@ -2202,8 +2202,8 @@ cabbr <expr> wcd getcmdtype() == ":" && getcmdpos() == 4?"Wcd":"wcd"
 
 " TeX/Latex support
 let g:MyLatexCmd = "latexmk -pdf -pvc"
-auto FileType tex nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyLatexCmd . " " . expand("%"))<CR>
+auto FileType tex nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyLatexCmd . " " . shellescape(expand("%")))<CR>
 
 " Graphviz support
 let g:MyGraphvizCmd = "graphvizmk -pvc"
-auto FileType dot nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyGraphvizCmd . " " . expand("%"))<CR>
+auto FileType dot nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyGraphvizCmd . " " . shellescape(expand("%")))<CR>
