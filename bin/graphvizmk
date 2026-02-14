@@ -1,0 +1,9 @@
+#!/bin/bash
+# Continuously proces Graphviz dot files into pdf/ps
+
+case "$1" in
+	"-pvc")	shift
+		watchexec -w "$(dirname "$1")" --filter "$(basename "$1")" -o queue -- "$0" \""$1\"" ;;
+	     *)	dot -Tpdf "$1" > "${1%.dot}.pdf"
+		evince "${1%.dot}.pdf" & ;;
+esac
