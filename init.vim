@@ -318,6 +318,16 @@ tnoremap <silent> <C-Space>j <C-\><C-N>:call MyNavigateWindows('j')<cr>
 tnoremap <silent> <C-Space>k <C-\><C-N>:call MyNavigateWindows('k')<cr>
 tnoremap <silent> <C-Space>l <C-\><C-N>:call MyNavigateWindows('l')<cr>
 
+" Change vertical splits to horizontal
+nnoremap <C-W>e :call ChangeVerticalToHorizontalSplit()<CR>
+function! ChangeVerticalToHorizontalSplit()
+	let l:buffer = bufnr("%")
+	wincmd c
+	split
+	wincmd j
+	exe 'buffer ' . l:buffer
+endfunction
+
 " Delete buffer without closing any windows
 " Taken from https://github.com/moll/vim-bbye
 function! s:mystr2bufnr(buffer)
