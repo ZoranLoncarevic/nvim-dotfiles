@@ -4,6 +4,28 @@
 case "$1" in
 	"-pvc")	shift
 		watchexec -w "$(dirname "$1")" --filter "$(basename "$1")" -o queue -- "$0" \""$1\"" ;;
-	     *)	dot -Tpdf "$1" > "${1%.dot}.pdf"
-		evince "${1%.dot}.pdf" & ;;
+	     *)	output_pdf=${1%.dot}.pdf
+		magic_line=$(head -n 1 "$1")
+		case "$magic_line" in
+			\/\/\ dot*)	;&
+			\/\/\ neato*)	;&
+			\/\/\ fdp*)	;&
+			\/\/\ sfdp*)	;&
+			\/\/\ circo*)	;&
+			\/\/\ twopi*)
+				cmd_line=${magic_line:3} ;;
+			*)      cmd_line="dot"           ;;
+		esac
+		cmd_line="$cmd_line -Tpdf \"$1\""
+		echo "$cmd_line"
+
+		mapfile -t -d '' cmd_array < <(printf "%s" "$cmd_line" | xargs printf "%s\0")
+		"${cmd_array[@]}" > "$output_pdf"
+		exit_code=$?
+		if [[ $exit_code == 0 ]]; then
+			evince "$output_pdf" &
+		else
+			exit $exit_code
+		fi
+		: ;;
 esac
