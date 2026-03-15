@@ -187,6 +187,9 @@ command! DiffOrig let my_diff_orig_filetype=&filetype |
 vnoremap > >gv
 vnoremap < <gv
 
+" Select what was just pasted in
+nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
+
 " Uppercase preceding word
 inoremap <A-u> <esc>mzgUiw`za
 
