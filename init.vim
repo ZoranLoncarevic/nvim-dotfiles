@@ -2210,3 +2210,17 @@ auto FileType tex nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper
 " Graphviz support
 let g:MyGraphvizCmd = "graphvizmk -pvc"
 auto FileType dot nnoremap <buffer> <C-C><C-C> :update \| call MyTerminalWrapper(v:false,g:MyGraphvizCmd . " " . shellescape(expand("%")))<CR>
+
+" Toggle author's column in fugitive Git blame view
+autocmd Filetype fugitiveblame nnoremap <buffer> a :call ToggleFugitiveAuthor()<CR>
+
+function! ToggleFugitiveAuthor()
+	if exists('b:author_column_match_id')
+		call matchdelete(b:author_column_match_id)
+		unlet b:author_column_match_id
+		exe 'vertical resize +'.(strlen(matchstr(getline('.'), ' (\zs[^()]* \ze\d\d\d\d-\d\d-\d\d')))
+	else
+		let b:author_column_match_id = matchadd('Conceal', ' (\zs[^()]* \ze\d\d\d\d-\d\d-\d\d')
+		exe 'vertical resize -'.(strlen(matchstr(getline('.'), ' (\zs[^()]* \ze\d\d\d\d-\d\d-\d\d')))
+	endif
+endfunction
