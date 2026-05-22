@@ -2224,3 +2224,37 @@ function! ToggleFugitiveAuthor()
 		exe 'vertical resize -'.(strlen(matchstr(getline('.'), ' (\zs[^()]* \ze\d\d\d\d-\d\d-\d\d')))
 	endif
 endfunction
+
+" Correctly detect filetype for files in chez dot-file repository
+let g:Chez_Repository_Path = $HOME . "/Projects/Chez/Repository"
+if $REPOSITORY_DIR != ""
+	let g:Chez_Repository_Path = $REPOSITORY_DIR
+endif
+
+function! Chez_Repo_to_System(repo_file)
+	let path = fnamemodify(a:repo_file,':p:h')
+	let name = fnamemodify(a:repo_file,':t')
+
+	let system = substitute( path, "^\\V" . g:Chez_Repository_Path . "/Files", "", "" )
+	let system = substitute( system, "^/HOME/", $HOME . "/", "")
+	let system = substitute( system, "^/HOME$", $HOME, "")
+	let system = substitute( system, "/dot_", "/.", "g" )
+
+	let sys_name = substitute( name, "^dot_", ".", "" )
+	let sys_name = substitute( sys_name, "^exec_modify_", "", "" )
+	let sys_name = substitute( sys_name, "^exec_no-output_", "", "" )
+	let sys_name = substitute( sys_name, "^exec_once", "", "" )
+	let sys_name = substitute( sys_name, "^exec_literal_", "", "" )
+	let sys_name = substitute( sys_name, "^exec_", "", "" )
+	let sys_name = substitute( sys_name, "^link_", "", "" )
+	let sys_name = substitute( sys_name, "^template_run_", "", "" )
+	let sys_name = substitute( sys_name, "^template_", "", "" )
+
+	return( system . "/" . sys_name )
+endfunction
+
+function! Chez_Detect_Filetype(repo_file)
+	exe 'doautocmd BufReadPost ' . fnameescape(Chez_Repo_to_System(a:repo_file))
+endfunction
+
+exe "autocmd BufReadPost " . fnameescape(g:Chez_Repository_Path) . "/* call Chez_Detect_Filetype(expand('<amatch>'))"
