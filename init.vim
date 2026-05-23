@@ -2253,8 +2253,26 @@ function! Chez_Repo_to_System(repo_file)
 	return( system . "/" . sys_name )
 endfunction
 
+function! MyHasStringPrefix(str, prefix)
+	if a:str[0 : len(a:prefix)-1] ==# a:prefix
+		return v:true
+	else
+		return v:false
+	endif
+endfunction
+
 function! Chez_Detect_Filetype(repo_file)
-	exe 'doautocmd BufReadPost ' . fnameescape(Chez_Repo_to_System(a:repo_file))
+	let resolved_file = a:repo_file
+	if MyHasStringPrefix(a:repo_file, g:Chez_Repository_Path . "/.git")
+		return
+	elseif MyHasStringPrefix(a:repo_file, g:Chez_Repository_Path . "/Groups")
+		if getftype(a:repo_file) == 'link'
+			let resolved_file = resolve(a:repo_file)
+		else
+			return
+		endif
+	endif
+	exe 'doautocmd BufReadPost ' . fnameescape(Chez_Repo_to_System(resolved_file))
 endfunction
 
 exe "autocmd BufReadPost " . fnameescape(g:Chez_Repository_Path) . "/* call Chez_Detect_Filetype(expand('<amatch>'))"
