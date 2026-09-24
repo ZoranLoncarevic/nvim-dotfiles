@@ -156,6 +156,9 @@ let g:ctrlsf_mapping = {
 " Toggle CtrlSF results pane
 nnoremap \f :CtrlSFToggle<cr>
 
+" In CtrlSF results pane, the ^] does another CtrlSF search on the current word
+autocmd FileType ctrlsf nmap <buffer> <C-]> <Plug>CtrlSFCwordExec
+
 " Enable folding for markdown filetype
 let g:markdown_folding = 1
 
