@@ -73,6 +73,7 @@ if dein#load_state(s:dein_base)
 	call dein#add('nvim-lua/plenary.nvim')
 	call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.4' })
 	call dein#add('nvim-telescope/telescope-fzf-native.nvim', { 'build': 'make' })
+	call dein#add('ThePrimeagen/harpoon', { 'rev': 'harpoon2' })
   endif
 
 " Add Hoc Plugins
@@ -117,6 +118,9 @@ highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 autocmd User GitGutter ++once let g:gitgutter_floating_window_options['border'] = 'single'
+
+" Configure Primeagen's harpoon
+lua require('harpoon_configuration')
 
 " Configure tabline
 lua require('tabline_configuration').setup({})
