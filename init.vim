@@ -74,6 +74,7 @@ if dein#load_state(s:dein_base)
 	call dein#add('nvim-telescope/telescope.nvim', { 'rev': '0.1.4' })
 	call dein#add('nvim-telescope/telescope-fzf-native.nvim', { 'build': 'make' })
 	call dein#add('ThePrimeagen/harpoon', { 'rev': 'harpoon2' })
+	call dein#add('nvim-mini/mini.indentscope')
   endif
 
 " Add Hoc Plugins
@@ -128,6 +129,12 @@ lua require('tabline_configuration').setup({})
 " Configure telescope fuzzy finder
 lua require('telescope').load_extension('fzf')
 lua require('telescope_configuration')
+
+" Configure mini.indentscope
+lua require('mini.indentscope').setup()
+highlight MiniIndentscopeSymbol ctermfg=240
+let g:miniindentscope_disable = v:true
+nnoremap <silent> \ti :let g:miniindentscope_disable = !get(g:, 'miniindentscope_disable', 0)? v:true : v:false<cr>:redraw<cr>
 
 " Vim-move plugin configuration
 let g:move_key_modifier = 'C'
